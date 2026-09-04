@@ -13,6 +13,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "fetch:menu": "node scripts/fetch-menu.ts",
+    "deploy": "./deploy/publish.sh",
     "typecheck": "astro check",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
     "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",

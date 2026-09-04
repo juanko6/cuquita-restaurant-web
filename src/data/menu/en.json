@@ -830,7 +830,10 @@
           "description": "Saffron rice mixted with shrimp, clamb meat, squid rings and tentacles, octopus, mussels, chicken, pork and Colombian chorizo*\n*Served with fried green plantains",
           "details": null,
           "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/dish_20260829194919.jpg",
-          "allergens": ["crustaceans", "fish"],
+          "allergens": [
+            "crustaceans",
+            "fish"
+          ],
           "is_featured": false,
           "featured_size": 1,
           "promo_price": null,
@@ -1450,7 +1453,9 @@
       "featured_size": 1,
       "sort_order": 1,
       "is_active": true,
-      "recurrence_days": [3]
+      "recurrence_days": [
+        3
+      ]
     },
     {
       "id": "95326ecc-765f-4f78-b96b-9ec881900385",
@@ -1465,7 +1470,9 @@
       "featured_size": 2,
       "sort_order": 5,
       "is_active": true,
-      "recurrence_days": [0]
+      "recurrence_days": [
+        0
+      ]
     },
     {
       "id": "2df4d82a-5ed7-411c-9a24-275e05c4a951",
@@ -1480,7 +1487,9 @@
       "featured_size": 2,
       "sort_order": 7,
       "is_active": true,
-      "recurrence_days": [4]
+      "recurrence_days": [
+        4
+      ]
     },
     {
       "id": "3bed8688-09c0-4ad2-81ed-3447899d07e0",
@@ -1495,7 +1504,14 @@
       "featured_size": 1,
       "sort_order": 10,
       "is_active": true,
-      "recurrence_days": [0, 2, 3, 4, 5, 6]
+      "recurrence_days": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
     },
     {
       "id": "ff15dcba-c230-47eb-b8cf-409a6d5fc739",
@@ -1510,7 +1526,9 @@
       "featured_size": 2,
       "sort_order": 11,
       "is_active": true,
-      "recurrence_days": [5]
+      "recurrence_days": [
+        5
+      ]
     },
     {
       "id": "20897bd2-b21f-4888-b6df-2aa3e79fa66f",
@@ -1525,7 +1543,15 @@
       "featured_size": 1,
       "sort_order": 12,
       "is_active": true,
-      "recurrence_days": [0, 1, 2, 3, 4, 5, 6]
+      "recurrence_days": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
     }
   ]
 }
