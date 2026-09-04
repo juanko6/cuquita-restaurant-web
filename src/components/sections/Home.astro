@@ -7,6 +7,7 @@ import Nav from '../layout/Nav.astro';
 import Footer from '../layout/Footer.astro';
 import Button from '../ui/Button.astro';
 import Hero from './Hero.astro';
+import Today from './Today.astro';
 import Carousel from '../ui/Carousel.astro';
 import Marquee from '../ui/Marquee.astro';
 import Section from '../ui/Section.astro';
@@ -39,7 +40,11 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
 >
   <Nav slot="header" locale={locale} here="inicio" />
 
-  <Hero locale={locale} specials={menu.specials} />
+  <Hero locale={locale} />
+
+  <Section tone="wine">
+    <Today locale={locale} specials={menu.specials} />
+  </Section>
 
   <Marquee items={t.inicio.bandaPiezas} />
 

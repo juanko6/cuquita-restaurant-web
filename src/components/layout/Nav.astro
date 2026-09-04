@@ -40,7 +40,7 @@ const entradas = [
 <header class="nav">
   <div class="wrap nav__fila">
     <a class="nav__marca" href={ruta('inicio', locale)}>
-      <img src={logo.src} alt={t.sitio.nombre} width="180" height="78" />
+      <img src={logo.src} alt={t.sitio.nombre} width="392" height="198" />
     </a>
 
     <div class="nav__derecha">
@@ -115,6 +115,7 @@ const entradas = [
 
   .nav__fila {
     display: flex;
+    min-block-size: var(--alto-nav);
     align-items: center;
     justify-content: space-between;
     gap: var(--space-s);
@@ -122,8 +123,9 @@ const entradas = [
   }
 
   .nav__marca img {
-    inline-size: clamp(7rem, 20vw, 10rem);
-    block-size: auto;
+    display: block;
+    inline-size: auto;
+    block-size: clamp(1.9rem, 4.5vw, 2.6rem);
   }
 
   .nav__derecha {

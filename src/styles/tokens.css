@@ -74,6 +74,11 @@
 
     /* --- layout --- */
     --width-max: 78rem;
+
+    /* Alto de la barra. Está aquí y no en el componente porque la portada lo
+       necesita para calcular su propia altura: la primera pantalla es la ventana
+       menos la barra, no la ventana entera. */
+    --alto-nav: 4.5rem;
     --gutter: clamp(1.25rem, 5vw, 2.75rem);
 
     /* --- movimiento (ver dirección de arte §15) --- */
@@ -92,6 +97,11 @@
     --stagger-line: 60ms;
     --stagger-item: 40ms;
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Sobrepasa el destino y vuelve. Medido en Sibuya: su vídeo pasa de 824 a 744,
+       se va hasta 703 y se asienta en 720. Es lo que hace que la reducción se sienta
+       como un gesto y no como un redimensionado. */
+    --ease-rebote: cubic-bezier(0.34, 1.4, 0.64, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   }
 

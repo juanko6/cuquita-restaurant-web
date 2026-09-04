@@ -175,6 +175,47 @@ test.describe('portada', () => {
     await expect(panel).toBeHidden();
   });
 
+  test('el vídeo va a color, sin velo encima', async ({ page }) => {
+    await page.goto('/');
+    const video = page.locator('.hero__video');
+
+    // Fue el fallo de la primera versión: un degradado de vino encima dejaba el
+    // vídeo casi plano. En la referencia va a color vivo, sin filtro ni capa.
+    const estilos = await video.evaluate((el) => {
+      const c = getComputedStyle(el);
+      return { filter: c.filter, opacity: c.opacity };
+    });
+
+    expect(estilos.filter).toBe('none');
+    expect(Number(estilos.opacity)).toBe(1);
+  });
+
+  test('el titular monta sobre el vídeo, no lo roza', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(2600);
+
+    const solapa = await page.evaluate(() => {
+      const linea = document.querySelector('.hero__linea--uno')!.getBoundingClientRect();
+      const marco = document.querySelector('.hero__marco')!.getBoundingClientRect();
+      return linea.bottom - marco.top;
+    });
+
+    expect(solapa).toBeGreaterThan(0);
+  });
+
+  test('la primera pantalla cabe en la pantalla', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForTimeout(2600);
+
+    // El hero es la ventana menos la barra. Si las llamadas a la acción se salen,
+    // la primera pantalla deja de ser una pantalla.
+    const cabe = await page.evaluate(
+      () => document.querySelector('.hero__pie')!.getBoundingClientRect().bottom <= innerHeight + 2,
+    );
+
+    expect(cabe).toBe(true);
+  });
+
   test('el vídeo abre la página, con cartel y sin sonido', async ({ page }) => {
     await page.goto('/');
     const video = page.locator('.hero__video');

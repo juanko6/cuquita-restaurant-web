@@ -1,64 +1,64 @@
 ---
 /**
- * La primera pantalla: el vídeo abre a pantalla completa, se encoge, y encima
- * aparecen el titular por los lados y las llamadas a la acción desde abajo.
+ * La primera pantalla, con la misma mecánica que la de Sibuya —medida, no supuesta—
+ * y en el idioma de Cuquita.
  *
- * Toda la coreografía va dentro de `@media (prefers-reduced-motion: no-preference)`.
- * Fuera de ahí —y si el CSS no llegara— esto es un hero normal con el vídeo ya en
- * su tamaño y el texto en su sitio: nada nace invisible esperando a nada.
+ * Cómo funciona la suya: la sección se queda en 100vh todo el tiempo y lo que encoge
+ * es el vídeo, de pantalla completa a un rectángulo centrado de un 56 % de ancho por
+ * un 53 % de alto. El vídeo va a **color vivo**, sin velo ni filtro encima. Y el
+ * titular no está debajo: son dos líneas que montan sobre el vídeo, la primera arriba
+ * a la izquierda y la segunda abajo a la derecha.
  *
- * Los tiempos están en tokens.css, con nombre, para poder leer el guion entero de
- * un vistazo en vez de ir cazando números por el componente.
+ * La reducción sobrepasa el destino y vuelve: en su web el ancho pasa por 824, 744 y
+ * 703 antes de asentarse en 720. Eso es lo que hace que se sienta como un gesto y no
+ * como un redimensionado. De ahí `--ease-rebote`.
+ *
+ * Todo va dentro de `prefers-reduced-motion: no-preference`. Fuera de ahí el vídeo ya
+ * está en su marco y el texto en su sitio desde el primer fotograma.
  */
 import Button from '../ui/Button.astro';
-import SplitHeading from '../ui/SplitHeading.astro';
-import Today from './Today.astro';
 import { copy, ruta } from '../../lib/i18n.ts';
-import type { Locale, Special } from '../../lib/menu/types.ts';
+import type { Locale } from '../../lib/menu/types.ts';
 
 interface Props {
   locale: Locale;
-  specials: readonly Special[];
 }
 
-const { locale, specials } = Astro.props;
+const { locale } = Astro.props;
 const t = copy(locale);
 const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
+const [primera, segunda] = t.inicio.heroLineas;
 ---
 
 <section class="hero">
-  <div class="hero__fondo">
-    <video
-      class="hero__video"
-      src="/video/parrilla.mp4"
-      poster="/video/parrilla.webp"
-      autoplay
-      muted
-      loop
-      playsinline
-      preload="metadata"
-      aria-hidden="true"
-      tabindex="-1"></video>
-    <div class="hero__velo"></div>
+  <p class="hero__lugar">960 Broadway · Fountain Hill, PA</p>
+
+  <div class="hero__escena">
+    <h1 class="hero__titular">
+      <span class="hero__linea hero__linea--uno">{primera}</span>
+      <span class="hero__linea hero__linea--dos">{segunda}</span>
+    </h1>
+
+    <div class="hero__marco">
+      <video
+        class="hero__video"
+        src="/video/parrilla.mp4"
+        poster="/video/parrilla.webp"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        tabindex="-1"></video>
+    </div>
   </div>
 
-  <div class="wrap hero__contenido">
-    <p class="hero__lugar">960 Broadway · Fountain Hill, PA</p>
-    <SplitHeading
-      as="h1"
-      lines={t.inicio.heroLineas}
-      accent={t.inicio.heroAcento}
-      class="hero__titular"
-    />
+  <div class="hero__pie">
     <p class="hero__entradilla">{t.inicio.heroEntradilla}</p>
-
     <div class="hero__acciones">
       <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
       <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
-    </div>
-
-    <div class="hero__hoy">
-      <Today locale={locale} specials={specials} />
     </div>
   </div>
 </section>
@@ -66,48 +66,19 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
 <style>
   .hero {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-block-size: var(--hero-alto, 78svh);
-    padding-block: var(--space-xl) var(--space-2xl);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    justify-items: center;
+    /* La ventana menos la barra: la primera pantalla es lo que se ve, y la barra
+       ya se está comiendo su parte. */
+    min-block-size: calc(100svh - var(--alto-nav));
+    padding: var(--space-s) var(--gutter) var(--space-l);
     overflow: hidden;
     background: var(--color-bg-alt);
   }
 
-  .hero__fondo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-  }
-
-  .hero__video {
-    inline-size: 100%;
-    block-size: 100%;
-    object-fit: cover;
-  }
-
-  /* El vino por encima del vídeo: sin esto el texto crema no llega a AA sobre las
-     zonas claras de la parrilla. No es decoración, es lo que hace legible el hero. */
-  .hero__velo {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to bottom,
-      color-mix(in srgb, var(--c-wine) 20%, transparent) 0%,
-      color-mix(in srgb, var(--c-wine) 55%, transparent) 40%,
-      color-mix(in srgb, var(--c-wine) 92%, transparent) 72%,
-      var(--color-bg-alt) 100%
-    );
-  }
-
-  .hero__contenido {
-    position: relative;
-    z-index: 1;
-    inline-size: 100%;
-  }
-
   .hero__lugar {
+    justify-self: start;
     color: var(--color-accent-text);
     font-family: var(--font-mono);
     font-size: var(--step--1);
@@ -115,71 +86,157 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     text-transform: uppercase;
   }
 
-  .hero__entradilla {
-    max-inline-size: var(--measure);
+  /* El titular ocupa el ancho de la página y el vídeo va más estrecho y centrado:
+     en la referencia el titular mide 1100 px contra los 720 del vídeo, y esa
+     diferencia es justo lo que hace que las líneas lo desborden por los lados. */
+  /* Una sola columna, declarada: sin ella el titular ocupa la columna 1 entera y
+     el vídeo se va a una columna 2 que el navegador crea solo. */
+  .hero__escena {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    align-self: center;
+    inline-size: 100%;
+    max-inline-size: var(--width-max);
+  }
+
+  /* El titular ocupa las tres filas y el vídeo se mete en la de en medio, así que
+     las líneas quedan una encima y otra debajo sin dejar de ser un <h1> con su caja.
+     Se probó con `display: contents`, que era más corto, pero deja al h1 sin
+     geometría: no se puede comprobar si se ve, y hay lectores que lo pierden. */
+  .hero__titular {
+    z-index: 1;
+    display: grid;
+    grid-row: 1 / -1;
+    grid-column: 1;
+    grid-template-rows: auto 1fr auto;
+    grid-template-rows: subgrid;
+    font-size: clamp(2.4rem, 8.5vw, 6rem);
+    pointer-events: none;
+  }
+
+  .hero__linea {
+    position: relative;
+    z-index: 1;
+    display: block;
+    max-inline-size: 100%;
+    line-height: 0.95;
+    /* Montan sobre el vídeo de verdad, no lo rozan: en la referencia las letras
+       pisan el marco por arriba y por abajo. */
+    margin-block: 0 -0.5em;
+  }
+
+  .hero__linea--uno {
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .hero__linea--dos {
+    grid-row: 3;
+    justify-self: end;
+    margin-block: -0.5em 0;
+    text-align: end;
+    color: var(--color-accent);
+  }
+
+  /* 58 % de ancho por 53 % de alto: las proporciones medidas en la referencia
+     (720x380 sobre 1280x720). Más estrecho que el titular, a propósito. */
+  .hero__marco {
+    grid-row: 2;
+    grid-column: 1;
+    justify-self: center;
+    inline-size: min(58vw, 45rem);
+    block-size: min(42svh, 21rem);
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  @media (width < 48rem) {
+    /* En móvil el vídeo se queda casi a todo el ancho: a 58 vw no se vería nada.
+       Y como el marco de partida es más bajo, hace falta más escala para cubrir. */
+    .hero__marco {
+      inline-size: min(88vw, 45rem);
+      block-size: min(38svh, 18rem);
+      --marco-escala: 3.2;
+    }
+  }
+
+  /* A color vivo: ni filtro ni velo. Era lo que mataba la primera versión. */
+  .hero__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .hero__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    inline-size: 100%;
+    max-inline-size: var(--width-max);
     margin-block-start: var(--space-m);
-    color: var(--color-text);
-    font-size: var(--step-1);
+  }
+
+  .hero__entradilla {
+    max-inline-size: 34ch;
+    color: var(--color-text-muted);
+    font-size: var(--step-0);
   }
 
   .hero__acciones {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
-    margin-block-start: var(--space-m);
-  }
-
-  .hero__hoy {
-    margin-block-start: var(--space-l);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* 1 · El vídeo abre ocupando la pantalla y se encoge hasta su marco.
-       Es una animación de layout, sí, pero es una sola caja y una sola vez. */
-    .hero {
-      animation: encoger 900ms var(--ease-out) var(--intro-encoge) both;
+    /* 1 · El vídeo abre ocupando la pantalla y se reduce hasta su marco.
+       Se hace con `scale` y no animando el ancho: el marco está en el flujo, así que
+       crecer de verdad hasta 100vw empujaba el pie de la portada 350 px hacia abajo y
+       la página entera daba un salto durante la entrada. Con `scale` el hueco que
+       ocupa no cambia nunca y el recorte lo pone el `overflow` de la sección. */
+    .hero__marco {
+      transform-origin: center;
+      animation: reducir 1100ms var(--ease-rebote) var(--intro-encoge) both;
     }
 
-    @keyframes encoger {
+    @keyframes reducir {
       from {
-        min-block-size: 100svh;
+        scale: var(--marco-escala, 2.8);
       }
     }
 
-    /* 2 · El titular entra desde la izquierda y la entradilla desde la derecha:
-       las dos hacia el centro. */
+    /* 2 · Las dos líneas del titular entran por los lados, cada una por el suyo. */
     .hero__lugar,
-    .hero__titular {
+    .hero__linea--uno {
       animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-titular) both;
     }
 
     .hero__lugar {
-      animation-delay: calc(var(--intro-titular) - 100ms);
+      animation-delay: calc(var(--intro-titular) - 150ms);
     }
 
-    .hero__entradilla {
+    .hero__linea--dos {
       animation: desde-la-derecha 700ms var(--ease-out) var(--intro-entradilla) both;
     }
 
-    /* 3 · Y las llamadas a la acción, desde abajo. */
-    .hero__acciones {
+    /* 3 · Y el pie, desde abajo. */
+    .hero__pie {
       animation: desde-abajo 700ms var(--ease-out) var(--intro-acciones) both;
-    }
-
-    .hero__hoy {
-      animation: desde-abajo 700ms var(--ease-out) var(--intro-hoy) both;
     }
 
     @keyframes desde-la-izquierda {
       from {
-        translate: -2.5rem 0;
+        translate: -3rem 0;
         opacity: 0;
       }
     }
 
     @keyframes desde-la-derecha {
       from {
-        translate: 2.5rem 0;
+        translate: 3rem 0;
         opacity: 0;
       }
     }
