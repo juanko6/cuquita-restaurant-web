@@ -93,9 +93,11 @@ const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD
 
   .today__price {
     margin-block-start: var(--space-3xs);
+    /* Arena y no oro: a este tamaño el oro sobre vino da 4,18:1 y no llega a AA.
+       Lo cazó la prueba de accesibilidad. */
+    color: var(--color-accent-text);
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
-    color: var(--color-accent);
   }
 
   .today__also {

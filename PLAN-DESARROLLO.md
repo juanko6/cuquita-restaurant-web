@@ -216,6 +216,24 @@ juego de claves — así no se puede olvidar traducir un bloque.
 Si un PR se pasa del presupuesto, no entra. Es la única forma de que dentro de un año el
 sitio siga siendo rápido.
 
+### Móvil, primero y comprobado
+
+Buena parte del tráfico de un restaurante llega desde un teléfono, muchas veces de alguien
+parado en la puerta mirando si está abierto. Que la página funcione a 360 px no es un
+extra: es el caso principal, y por eso no se deja en una casilla que alguien marca a ojo.
+
+Cada PR corre la misma batería en **tres tamaños** —móvil 360, tableta 768 y escritorio
+1280— y falla si:
+
+- la página **se desplaza en horizontal**, con el nombre del elemento que se sale
+- el titular **no se lee sin desplazar**
+- el salto al contenido **no responde al teclado**
+- **axe** encuentra cualquier fallo de WCAG 2.2 AA
+
+Esa última ya se ganó el sueldo: cazó el precio del especial en oro sobre vino, 4,18:1,
+justo la regla de contraste que habíamos escrito en la dirección de arte y que rompí al
+maquetar.
+
 **Hooks con Husky + lint-staged:** en `pre-commit`, formato y lint solo de lo que cambió.
 En `commit-msg`, commitlint.
 
@@ -323,7 +341,7 @@ construyen contra platos de verdad y no contra ejemplos inventados que luego no 
 Un PR está listo cuando:
 
 - [ ] Los checks del CI están en verde, presupuesto de peso incluido
-- [ ] Funciona en móvil de 360 px y en escritorio
+- [x] Funciona en móvil de 360 px, tableta y escritorio — lo comprueba el CI
 - [ ] Se ve bien en español y en inglés
 - [ ] Es navegable con teclado y el foco se ve
 - [ ] Respeta `prefers-reduced-motion`

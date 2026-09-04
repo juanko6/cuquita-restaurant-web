@@ -33,3 +33,6 @@ docs/
 playwright-report/
 test-results/
 coverage/
+
+# configuración local del entorno
+.claude/
