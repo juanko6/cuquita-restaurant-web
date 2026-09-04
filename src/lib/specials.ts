@@ -8,6 +8,8 @@
  * (ver PENDIENTES.md).
  */
 
+import type { Special } from './menu/types.ts';
+
 export const WEEKDAYS = [
   'lunes',
   'martes',
@@ -20,13 +22,7 @@ export const WEEKDAYS = [
 
 export type Weekday = (typeof WEEKDAYS)[number];
 
-export interface Special {
-  readonly id: string;
-  readonly title: string;
-  readonly price: number;
-  readonly recurrenceDays: readonly number[];
-  readonly isActive: boolean;
-}
+export type { Special };
 
 /** Índice de MenuUnfolded (0 = lunes) a partir de una fecha. */
 export function toMenuDayIndex(date: Date): number {

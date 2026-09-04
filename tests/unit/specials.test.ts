@@ -5,39 +5,35 @@ import {
   toMenuDayIndex,
   weekdayFromIndex,
   type Special,
-} from '../../src/lib/specials';
+} from '../../src/lib/specials.ts';
 
 /** Datos reales de la carta de Cuquita en MenuUnfolded. */
+const base = { description: null, image: null, isActive: true } as const;
+
 const specials: Special[] = [
+  { ...base, id: '1', title: 'Especial del día: Sopa de pollo', price: 14.99, recurrenceDays: [0] },
+  { ...base, id: '2', title: 'Jueves de Lentejas', price: 14.99, recurrenceDays: [3] },
+  { ...base, id: '3', title: 'Sancocho costilla de res', price: 16.99, recurrenceDays: [4] },
   {
-    id: '1',
-    title: 'Especial del día: Sopa de pollo',
-    price: 14.99,
-    recurrenceDays: [0],
-    isActive: true,
-  },
-  { id: '2', title: 'Jueves de Lentejas', price: 14.99, recurrenceDays: [3], isActive: true },
-  { id: '3', title: 'Sancocho costilla de res', price: 16.99, recurrenceDays: [4], isActive: true },
-  {
+    ...base,
     id: '4',
     title: 'Especial del día: sopa de mondongo',
     price: 14.99,
     recurrenceDays: [5],
-    isActive: true,
   },
   {
+    ...base,
     id: '5',
     title: 'Patacones, chicharrón y guacamole',
     price: 12.99,
     recurrenceDays: [0, 2, 3, 4, 5, 6],
-    isActive: true,
   },
   {
+    ...base,
     id: '6',
     title: 'Brazo de reina frío',
     price: 5.99,
     recurrenceDays: [0, 1, 2, 3, 4, 5, 6],
-    isActive: true,
   },
 ];
 
