@@ -1,0 +1,194 @@
+---
+/**
+ * La primera pantalla: el vídeo abre a pantalla completa, se encoge, y encima
+ * aparecen el titular por los lados y las llamadas a la acción desde abajo.
+ *
+ * Toda la coreografía va dentro de `@media (prefers-reduced-motion: no-preference)`.
+ * Fuera de ahí —y si el CSS no llegara— esto es un hero normal con el vídeo ya en
+ * su tamaño y el texto en su sitio: nada nace invisible esperando a nada.
+ *
+ * Los tiempos están en tokens.css, con nombre, para poder leer el guion entero de
+ * un vistazo en vez de ir cazando números por el componente.
+ */
+import Button from '../ui/Button.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import Today from './Today.astro';
+import { copy, ruta } from '../../lib/i18n.ts';
+import type { Locale, Special } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+  specials: readonly Special[];
+}
+
+const { locale, specials } = Astro.props;
+const t = copy(locale);
+const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
+---
+
+<section class="hero">
+  <div class="hero__fondo">
+    <video
+      class="hero__video"
+      src="/video/parrilla.mp4"
+      poster="/video/parrilla.webp"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+      tabindex="-1"></video>
+    <div class="hero__velo"></div>
+  </div>
+
+  <div class="wrap hero__contenido">
+    <p class="hero__lugar">960 Broadway · Fountain Hill, PA</p>
+    <SplitHeading
+      as="h1"
+      lines={t.inicio.heroLineas}
+      accent={t.inicio.heroAcento}
+      class="hero__titular"
+    />
+    <p class="hero__entradilla">{t.inicio.heroEntradilla}</p>
+
+    <div class="hero__acciones">
+      <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
+      <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+    </div>
+
+    <div class="hero__hoy">
+      <Today locale={locale} specials={specials} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-block-size: var(--hero-alto, 78svh);
+    padding-block: var(--space-xl) var(--space-2xl);
+    overflow: hidden;
+    background: var(--color-bg-alt);
+  }
+
+  .hero__fondo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* El vino por encima del vídeo: sin esto el texto crema no llega a AA sobre las
+     zonas claras de la parrilla. No es decoración, es lo que hace legible el hero. */
+  .hero__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--c-wine) 20%, transparent) 0%,
+      color-mix(in srgb, var(--c-wine) 55%, transparent) 40%,
+      color-mix(in srgb, var(--c-wine) 92%, transparent) 72%,
+      var(--color-bg-alt) 100%
+    );
+  }
+
+  .hero__contenido {
+    position: relative;
+    z-index: 1;
+    inline-size: 100%;
+  }
+
+  .hero__lugar {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .hero__entradilla {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text);
+    font-size: var(--step-1);
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .hero__hoy {
+    margin-block-start: var(--space-l);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* 1 · El vídeo abre ocupando la pantalla y se encoge hasta su marco.
+       Es una animación de layout, sí, pero es una sola caja y una sola vez. */
+    .hero {
+      animation: encoger 900ms var(--ease-out) var(--intro-encoge) both;
+    }
+
+    @keyframes encoger {
+      from {
+        min-block-size: 100svh;
+      }
+    }
+
+    /* 2 · El titular entra desde la izquierda y la entradilla desde la derecha:
+       las dos hacia el centro. */
+    .hero__lugar,
+    .hero__titular {
+      animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-titular) both;
+    }
+
+    .hero__lugar {
+      animation-delay: calc(var(--intro-titular) - 100ms);
+    }
+
+    .hero__entradilla {
+      animation: desde-la-derecha 700ms var(--ease-out) var(--intro-entradilla) both;
+    }
+
+    /* 3 · Y las llamadas a la acción, desde abajo. */
+    .hero__acciones {
+      animation: desde-abajo 700ms var(--ease-out) var(--intro-acciones) both;
+    }
+
+    .hero__hoy {
+      animation: desde-abajo 700ms var(--ease-out) var(--intro-hoy) both;
+    }
+
+    @keyframes desde-la-izquierda {
+      from {
+        translate: -2.5rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-la-derecha {
+      from {
+        translate: 2.5rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-abajo {
+      from {
+        translate: 0 2rem;
+        opacity: 0;
+      }
+    }
+  }
+</style>

@@ -77,6 +77,15 @@
     --gutter: clamp(1.25rem, 5vw, 2.75rem);
 
     /* --- movimiento (ver dirección de arte §15) --- */
+
+    /* La coreografía de entrada de la portada. Los retrasos van aquí y no en el
+       componente para que se lea el guion completo de un vistazo. */
+    --intro-boton: 150ms;
+    --intro-encoge: 600ms;
+    --intro-titular: 1150ms;
+    --intro-entradilla: 1300ms;
+    --intro-acciones: 1500ms;
+    --intro-hoy: 1700ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
@@ -89,6 +98,12 @@
   /* Quien pide no moverse, no se mueve. */
   @media (prefers-reduced-motion: reduce) {
     :root {
+      --intro-boton: 0ms;
+      --intro-encoge: 0ms;
+      --intro-titular: 0ms;
+      --intro-entradilla: 0ms;
+      --intro-acciones: 0ms;
+      --intro-hoy: 0ms;
       --dur-fast: 1ms;
       --dur-base: 1ms;
       --dur-slow: 1ms;

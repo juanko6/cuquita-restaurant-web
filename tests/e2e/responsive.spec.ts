@@ -175,6 +175,44 @@ test.describe('portada', () => {
     await expect(panel).toBeHidden();
   });
 
+  test('el vídeo abre la página, con cartel y sin sonido', async ({ page }) => {
+    await page.goto('/');
+    const video = page.locator('.hero__video');
+
+    await expect(video).toHaveAttribute('poster', /parrilla/);
+    await expect(video).toHaveAttribute('muted', '');
+    await expect(video).toHaveAttribute('playsinline', '');
+    // Decorativo: no debe anunciarse ni recibir foco.
+    await expect(video).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  test('el panel del menú es otra superficie, no más vino', async ({ page }) => {
+    await page.goto('/');
+    await page.locator('.nav__boton').click();
+
+    const panel = page.locator('.nav__panel');
+    await expect(panel).toBeVisible();
+
+    const fondos = await page.evaluate(() => ({
+      panel: getComputedStyle(document.querySelector('.nav__panel')!).backgroundColor,
+      barra: getComputedStyle(document.querySelector('.nav')!).backgroundColor,
+    }));
+
+    // El encargo era justo este: abierto tiene que verse que es otra cosa.
+    expect(fondos.panel).not.toBe(fondos.barra);
+  });
+
+  test('el botón del menú es cuadrado y lleva la hamburguesa', async ({ page }) => {
+    await page.goto('/');
+    const boton = page.locator('.nav__boton');
+
+    await expect(page.locator('.nav__hamburguesa span')).toHaveCount(3);
+
+    const caja = await boton.boundingBox();
+    expect(caja).not.toBeNull();
+    expect(Math.abs(caja!.width - caja!.height)).toBeLessThan(2);
+  });
+
   test('la semana tiene los siete días y el martes cerrado', async ({ page }) => {
     await page.goto('/');
 

@@ -1,11 +1,15 @@
 ---
 /**
- * El menú, con su animación de entrada.
+ * El menú.
  *
- * Es un <details>: se abre y se cierra sin JavaScript, se enfoca con el teclado y
- * lo anuncia un lector de pantalla, todo de serie. Las cuatro líneas de script que
- * hay debajo solo añaden cerrar con Escape y al pulsar fuera; sin ellas el menú
- * sigue funcionando.
+ * Sigue siendo un <details>: abre, cierra, se recorre con el teclado y lo anuncia
+ * un lector de pantalla sin una línea de JavaScript. Lo único que añade el script
+ * es cerrar con Escape y al pulsar fuera.
+ *
+ * El panel es **crema sobre vino**, no otro tono de vino: abierto tiene que verse
+ * que es otra superficie y no más de lo mismo. Las entradas convergen hacia el
+ * centro —las acciones desde la izquierda, la navegación desde la derecha— y esa
+ * transición se ve igual al abrir que al cerrar, gracias a `::details-content`.
  */
 import logo from '../../assets/brand/logotipo-oro.svg';
 import { copy, ruta, otroIdioma, type Ruta } from '../../lib/i18n.ts';
@@ -19,6 +23,11 @@ interface Props {
 const { locale, here } = Astro.props;
 const t = copy(locale);
 const otro = otroIdioma(locale);
+
+const acciones = [
+  { texto: t.nav.pedir, href: 'https://cuquita.hrpos.heartland.us/', externo: true },
+  { texto: `${t.nav.llamar} · 610-868-5252`, href: 'tel:+16108685252', externo: false },
+];
 
 const entradas = [
   { texto: t.nav.inicio, href: ruta('inicio', locale) },
@@ -37,34 +46,42 @@ const entradas = [
     <div class="nav__derecha">
       <a class="nav__telefono" href="tel:+16108685252">610-868-5252</a>
 
-      <details class="nav__caja" name="menu-principal">
+      <details class="nav__caja">
         <summary class="nav__boton">
-          <span class="nav__boton-texto" data-abrir>{t.nav.abrir}</span>
-          <span class="nav__boton-texto" data-cerrar>{t.nav.cerrar}</span>
+          <span class="solo-lectores" data-abrir>{t.nav.abrir}</span>
+          <span class="solo-lectores" data-cerrar>{t.nav.cerrar}</span>
+          <span class="nav__hamburguesa" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
         </summary>
 
         <div class="nav__panel">
-          <ul class="nav__acciones" role="list">
-            <li class="entra" style="--indice:0">
-              <a href="https://cuquita.hrpos.heartland.us/" rel="noopener">{t.nav.pedir}</a>
-            </li>
-            <li class="entra" style="--indice:1">
-              <a href="tel:+16108685252">{t.nav.llamar} · 610-868-5252</a>
-            </li>
-          </ul>
+          <div class="wrap">
+            <ul class="nav__acciones" role="list">
+              {
+                acciones.map((accion, index) => (
+                  <li style={`--indice:${index}`}>
+                    <a href={accion.href} rel={accion.externo ? 'noopener' : undefined}>
+                      {accion.texto}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
 
-          <ul class="nav__entradas" role="list">
-            {
-              entradas.map((entrada, index) => (
-                <li class="entra" style={`--indice:${index + 2}`}>
-                  <a href={entrada.href}>{entrada.texto}</a>
-                </li>
-              ))
-            }
-            <li class="entra" style={`--indice:${entradas.length + 2}`}>
-              <a href={ruta(here, otro)} lang={otro} hreflang={otro}>{t.nav.otroIdioma}</a>
-            </li>
-          </ul>
+            <ul class="nav__entradas" role="list">
+              {
+                entradas.map((entrada, index) => (
+                  <li style={`--indice:${index}`}>
+                    <a href={entrada.href}>{entrada.texto}</a>
+                  </li>
+                ))
+              }
+              <li style={`--indice:${entradas.length}`}>
+                <a href={ruta(here, otro)} lang={otro} hreflang={otro}>{t.nav.otroIdioma}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </details>
     </div>
@@ -72,8 +89,8 @@ const entradas = [
 </header>
 
 <script>
-  // Progresivo: el <details> ya abre y cierra solo. Esto solo añade Escape y
-  // pulsar fuera, que es lo que espera cualquiera que use un menú así.
+  // El <details> ya abre y cierra solo. Esto añade Escape y pulsar fuera, que es
+  // lo que espera cualquiera que use un menú así.
   const caja = document.querySelector<HTMLDetailsElement>('.nav__caja');
 
   if (caja) {
@@ -132,24 +149,60 @@ const entradas = [
     text-decoration: underline;
   }
 
+  /* --- El botón: cuadrado, con la hamburguesa --- */
   .nav__boton {
-    display: inline-flex;
-    align-items: center;
-    min-block-size: 2.75rem;
-    padding-inline: var(--space-s);
+    display: grid;
+    place-items: center;
+    inline-size: 2.75rem;
+    block-size: 2.75rem;
     border: 1px solid var(--color-accent);
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: var(--step-0);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
     cursor: pointer;
     list-style: none;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
   }
 
   .nav__boton::-webkit-details-marker {
     display: none;
+  }
+
+  .nav__boton:hover,
+  .nav__caja[open] .nav__boton {
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .nav__hamburguesa {
+    display: grid;
+    gap: 4px;
+    inline-size: 1.125rem;
+  }
+
+  .nav__hamburguesa span {
+    display: block;
+    block-size: 2px;
+    background: currentcolor;
+    transition:
+      translate var(--dur-fast) var(--ease-out),
+      rotate var(--dur-fast) var(--ease-out),
+      opacity var(--dur-fast) var(--ease-out);
+  }
+
+  /* Abierto, las tres barras se cruzan. */
+  .nav__caja[open] .nav__hamburguesa span:first-child {
+    translate: 0 6px;
+    rotate: 45deg;
+  }
+
+  .nav__caja[open] .nav__hamburguesa span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav__caja[open] .nav__hamburguesa span:last-child {
+    translate: 0 -6px;
+    rotate: -45deg;
   }
 
   [data-cerrar],
@@ -161,13 +214,15 @@ const entradas = [
     display: inline;
   }
 
+  /* --- El panel: crema, para que se note que es otra superficie --- */
   .nav__panel {
     position: absolute;
     inset-inline: 0;
     inset-block-start: 100%;
-    padding: var(--space-m) var(--gutter) var(--space-l);
-    border-block-end: 1px solid var(--color-rule);
-    background: var(--color-bg-alt);
+    padding-block: var(--space-l) var(--space-xl);
+    border-block-end: 3px solid var(--c-gold);
+    background: var(--c-cream);
+    color: var(--c-wine);
   }
 
   .nav__acciones,
@@ -178,7 +233,7 @@ const entradas = [
 
   .nav__acciones {
     padding-block-end: var(--space-s);
-    border-block-end: 1px solid var(--color-rule);
+    border-block-end: 1px solid color-mix(in srgb, var(--c-wine) 25%, transparent);
   }
 
   .nav__entradas {
@@ -188,7 +243,7 @@ const entradas = [
   .nav__panel a {
     display: block;
     padding-block: var(--space-2xs);
-    color: var(--color-text);
+    color: var(--c-wine);
     font-family: var(--font-display);
     font-size: var(--step-2);
     font-weight: 700;
@@ -197,11 +252,60 @@ const entradas = [
   }
 
   .nav__acciones a {
-    color: var(--color-accent);
     font-size: var(--step-1);
   }
 
   .nav__panel a:hover {
-    color: var(--color-accent-text);
+    color: color-mix(in srgb, var(--c-wine) 70%, var(--c-gold));
+    text-decoration: underline;
+  }
+
+  /* --- La transición, igual al abrir que al cerrar ---
+     `::details-content` es lo que permite animar el cierre: sin él el navegador
+     quita el contenido de golpe y solo se vería la entrada. Donde no esté
+     soportado, el menú abre y cierra sin animación y no se rompe nada. */
+  @media (prefers-reduced-motion: no-preference) {
+    .nav__caja::details-content {
+      opacity: 0;
+      transition:
+        opacity var(--dur-base) var(--ease-out),
+        content-visibility var(--dur-base) allow-discrete;
+    }
+
+    .nav__caja[open]::details-content {
+      opacity: 1;
+    }
+
+    /* Las acciones llegan desde la izquierda y la navegación desde la derecha:
+       las dos hacia el centro, con 40 ms entre una entrada y la siguiente. */
+    .nav__acciones li,
+    .nav__entradas li {
+      transition:
+        translate var(--dur-base) var(--ease-out),
+        opacity var(--dur-base) var(--ease-out);
+      transition-delay: calc(var(--indice, 0) * var(--stagger-item));
+    }
+
+    .nav__caja:not([open]) .nav__acciones li {
+      translate: -1.5rem 0;
+      opacity: 0;
+    }
+
+    .nav__caja:not([open]) .nav__entradas li {
+      translate: 1.5rem 0;
+      opacity: 0;
+    }
+
+    /* Y el botón baja a su sitio al cargar la página. */
+    .nav__boton {
+      animation: baja-el-boton var(--dur-base) var(--ease-out) var(--intro-boton) both;
+    }
+
+    @keyframes baja-el-boton {
+      from {
+        translate: 0 -1.5rem;
+        opacity: 0;
+      }
+    }
   }
 </style>
