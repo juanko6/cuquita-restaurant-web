@@ -59,3 +59,34 @@ jobs:
       # se pasa del presupuesto, no entra. Ver PLAN-DESARROLLO.md §6.
       - name: Presupuesto de peso
         run: node scripts/check-budget.mjs
+
+  e2e:
+    name: Móvil, tableta y escritorio
+    runs-on: ubuntu-latest
+    needs: verify
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Instalar Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Buena parte del tráfico de un restaurante llega desde un móvil. Que la página
+      # se vea bien a 360 px no es un extra: es el caso principal.
+      - name: Pruebas en los tres tamaños
+        run: pnpm test:e2e
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-playwright
+          path: playwright-report/
+          retention-days: 7

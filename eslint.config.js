@@ -20,7 +20,7 @@ export default ts.config(
     // scripts/ corre en Node, no en el navegador, y sí informa por consola.
     files: ['scripts/**/*.{js,mjs,ts}'],
     languageOptions: {
-      globals: { console: 'readonly', process: 'readonly' },
+      globals: { console: 'readonly', process: 'readonly', URL: 'readonly', Buffer: 'readonly' },
     },
     rules: { 'no-console': 'off' },
   },
