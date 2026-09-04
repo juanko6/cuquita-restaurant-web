@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import { headlineSpecial, specialsForDay, toMenuDayIndex, type Special } from '../lib/specials';
+
+// Provisional: los especiales llegarán de la API de MenuUnfolded en la fase 1.
+// Estos son los datos reales que hay hoy cargados en su panel.
+const specials: Special[] = [
+  { id: '1', title: 'Sopa de pollo', price: 14.99, recurrenceDays: [0], isActive: true },
+  { id: '2', title: 'Jueves de lentejas', price: 14.99, recurrenceDays: [3], isActive: true },
+  { id: '3', title: 'Sancocho de costilla', price: 16.99, recurrenceDays: [4], isActive: true },
+  { id: '4', title: 'Sopa de mondongo', price: 14.99, recurrenceDays: [5], isActive: true },
+  {
+    id: '5',
+    title: 'Patacones, chicharrón y guacamole',
+    price: 12.99,
+    recurrenceDays: [0, 2, 3, 4, 5, 6],
+    isActive: true,
+  },
+];
+
+const today = toMenuDayIndex(new Date());
+const headline = headlineSpecial(specials, today);
+const alsoToday = specialsForDay(specials, today).filter((s) => s.id !== headline?.id);
+const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+---
+
+<Base
+  title="Cuquita Restaurant — Cocina colombiana en Fountain Hill"
+  description="Cocina casera de todas las regiones de Colombia en el corazón de Fountain Hill, Pensilvania. Trae tu botella: nosotros ponemos el carbón."
+>
+  <section class="hero wrap">
+    <p class="eyebrow">960 Broadway · Fountain Hill, PA</p>
+    <h1>A qué sabe <em>Colombia</em></h1>
+    <p class="lede">
+      Cocina casera de todas las regiones, en el corazón de Fountain Hill. Tú traes la botella,
+      nosotros prendemos el carbón.
+    </p>
+
+    {
+      headline && (
+        <div class="today">
+          <p class="today__label">Hoy en Cuquita</p>
+          <p class="today__dish">{headline.title}</p>
+          <p class="today__price">{money.format(headline.price)}</p>
+          {alsoToday.length > 0 && (
+            <p class="today__also">También hoy: {alsoToday.map((s) => s.title).join(' · ')}</p>
+          )}
+        </div>
+      )
+    }
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  h1 {
+    max-width: 14ch;
+    margin-block-start: var(--space-s);
+    font-size: var(--step-5);
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--color-accent);
+  }
+
+  .lede {
+    max-width: 46ch;
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .today {
+    margin-block-start: var(--space-xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .today__label {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  .today__dish {
+    margin-block-start: var(--space-2xs);
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: var(--leading-tight);
+  }
+
+  .today__price {
+    margin-block-start: var(--space-3xs);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-accent);
+  }
+
+  .today__also {
+    margin-block-start: var(--space-xs);
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+</style>

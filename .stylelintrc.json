@@ -1,0 +1,55 @@
+{
+  "extends": "stylelint-config-standard",
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "color-no-hex": [
+      true,
+      { "message": "Usa un token de src/styles/tokens.css, no un hex suelto." }
+    ],
+    "custom-property-pattern": null,
+    "order/properties-order": [
+      "position",
+      "inset",
+      "z-index",
+      "display",
+      "grid-template-columns",
+      "flex-direction",
+      "align-items",
+      "justify-content",
+      "gap",
+      "inline-size",
+      "block-size",
+      "max-inline-size",
+      "min-block-size",
+      "margin",
+      "margin-block",
+      "margin-block-start",
+      "margin-inline",
+      "padding",
+      "padding-block",
+      "padding-inline",
+      "background",
+      "border",
+      "border-block-start",
+      "border-radius",
+      "color",
+      "font-family",
+      "font-size",
+      "font-weight",
+      "font-variant-numeric",
+      "line-height",
+      "letter-spacing",
+      "text-transform",
+      "text-align",
+      "transform",
+      "transition",
+      "animation"
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["src/styles/tokens.css"],
+      "rules": { "color-no-hex": null }
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+/**
+ * Fuente única de verdad del diseño.
+ * Los colores salen del logo de la marca, muestreados del original:
+ * vino #920526, vino hondo #76041E, oro #D8A84E, franja de bandera.
+ * Ningún componente escribe un hex a mano. Si un valor no está aquí, no se usa.
+ */
+@layer tokens {
+  :root {
+    /* --- color de marca --- */
+    --c-wine: #920526;
+    --c-wine-deep: #76041e;
+    --c-gold: #d8a84e;
+
+    /* Oro aclarado para texto pequeño: el oro de marca sobre vino da 4,24:1,
+       insuficiente para AA en cuerpo de texto. Este da 5,75:1. */
+    --c-gold-soft: #e8c88a;
+    --c-cream: #f4efe3;
+    --c-flag-yellow: #f3ca02;
+    --c-flag-blue: #2a3498;
+    --c-flag-red: #f7171d;
+
+    /* --- roles --- */
+    --color-bg: var(--c-wine);
+    --color-bg-alt: var(--c-wine-deep);
+    --color-text: var(--c-cream);
+    --color-text-muted: color-mix(in srgb, var(--c-cream) 72%, var(--c-wine));
+    --color-accent: var(--c-gold);
+    --color-accent-text: var(--c-gold-soft);
+    --color-on-accent: #2a1004;
+    --color-rule: color-mix(in srgb, var(--c-cream) 18%, transparent);
+    --color-focus: var(--c-gold-soft);
+
+    /* --- tipografía --- */
+    --font-display: 'Archivo', 'Helvetica Neue', arial, sans-serif;
+    --font-body: 'Source Serif 4', georgia, 'Times New Roman', serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, menlo, monospace;
+    --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.09rem);
+    --step-1: clamp(1.2rem, 1.13rem + 0.36vw, 1.42rem);
+    --step-2: clamp(1.44rem, 1.32rem + 0.6vw, 1.84rem);
+    --step-3: clamp(1.73rem, 1.54rem + 0.96vw, 2.39rem);
+    --step-4: clamp(2.07rem, 1.78rem + 1.47vw, 3.11rem);
+    --step-5: clamp(2.49rem, 2.05rem + 2.2vw, 4.04rem);
+    --leading-tight: 1.05;
+    --leading-body: 1.6;
+    --tracking-caps: 0.09em;
+    --measure: 68ch;
+
+    /* --- espacio --- */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 0.75rem;
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 2.25rem;
+    --space-xl: 3.5rem;
+    --space-2xl: 5.5rem;
+    --space-3xl: 8rem;
+
+    /* --- layout --- */
+    --width-max: 78rem;
+    --gutter: clamp(1.25rem, 5vw, 2.75rem);
+
+    /* --- movimiento (ver dirección de arte §15) --- */
+    --dur-fast: 180ms;
+    --dur-base: 400ms;
+    --dur-slow: 700ms;
+    --stagger-line: 60ms;
+    --stagger-item: 40ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* Quien pide no moverse, no se mueve. */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --dur-fast: 1ms;
+      --dur-base: 1ms;
+      --dur-slow: 1ms;
+      --stagger-line: 0ms;
+      --stagger-item: 0ms;
+    }
+  }
+}
