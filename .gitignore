@@ -23,9 +23,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
-# material de referencia de terceros — no va al repo público
-docs/*.png
-docs/*.ai
+# docs/ es material de trabajo local: el manual de marca en .ai, las capturas de
+# Sibuya y el cuestionario de la historia. Nada de eso va al repositorio público.
+# Lo que el sitio usa de verdad está extraído en src/assets/brand/.
+docs/
 
 # artefactos de herramientas
 .lighthouseci/
