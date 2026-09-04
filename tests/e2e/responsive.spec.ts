@@ -5,6 +5,13 @@ import { expect, test, type Page } from '@playwright/test';
 const PAGINAS = ['/'];
 
 /**
+ * Un píxel de margen. Los anchos se calculan en subpíxeles y un 0,4 de redondeo no
+ * es un desbordamiento real. La misma tolerancia se usa para buscar culpables y para
+ * decidir si falla: si no, la prueba puede fallar sin señalar a nadie.
+ */
+const TOLERANCIA = 1;
+
+/**
  * Qué se sale del ancho de la ventana.
  *
  * El desbordamiento horizontal es el fallo más común y más molesto en móvil: la
@@ -12,9 +19,9 @@ const PAGINAS = ['/'];
  * Devuelve también los culpables para no tener que buscarlos a mano.
  */
 async function desbordamiento(page: Page) {
-  return page.evaluate(() => {
+  return page.evaluate((tolerancia) => {
     const raiz = document.documentElement;
-    const limite = raiz.clientWidth + 1;
+    const limite = raiz.clientWidth + tolerancia;
 
     return {
       anchoDeScroll: raiz.scrollWidth,
@@ -27,7 +34,7 @@ async function desbordamiento(page: Page) {
           return `${el.tagName.toLowerCase()}${clase}`;
         }),
     };
-  });
+  }, TOLERANCIA);
 }
 
 for (const ruta of PAGINAS) {
@@ -39,7 +46,7 @@ for (const ruta of PAGINAS) {
       expect(
         anchoDeScroll,
         culpables.length > 0 ? `Se salen del ancho: ${culpables.join(', ')}` : 'Algo desborda',
-      ).toBeLessThanOrEqual(anchoDeVentana);
+      ).toBeLessThanOrEqual(anchoDeVentana + TOLERANCIA);
     });
 
     test('el titular se lee sin tener que desplazar', async ({ page }) => {

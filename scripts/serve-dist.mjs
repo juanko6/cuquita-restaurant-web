@@ -29,11 +29,23 @@ const TIPOS = {
   '.xml': 'application/xml; charset=utf-8',
 };
 
-/** Resuelve una ruta a un archivo, probando también /ruta/index.html y /ruta.html. */
+/**
+ * Resuelve una ruta a un archivo, probando también /ruta/index.html y /ruta.html.
+ *
+ * Devuelve null si no existe y `false` si la ruta ni siquiera se puede descifrar:
+ * `decodeURIComponent` lanza con secuencias inválidas como `%ZZ`, y una excepción
+ * dentro del manejador tumbaría el servidor entero.
+ */
 function resolver(pathname) {
-  // normalize + el prefijo obligatorio evitan que un ../ se salga de dist/.
-  const limpio = normalize(decodeURIComponent(pathname)).replace(/^(\.\.[/\\])+/, '');
-  const base = join(ROOT, limpio);
+  let descifrado;
+  try {
+    descifrado = decodeURIComponent(pathname);
+  } catch {
+    return false;
+  }
+
+  // normalize resuelve los ../ antes de unir, así que no se puede salir de dist/.
+  const base = join(ROOT, normalize(descifrado));
   if (!base.startsWith(ROOT)) return null;
 
   for (const candidato of [base, join(base, 'index.html'), `${base}.html`]) {
@@ -45,6 +57,12 @@ function resolver(pathname) {
 createServer((request, response) => {
   const { pathname } = new URL(request.url ?? '/', `http://localhost:${PORT}`);
   const archivo = resolver(pathname);
+
+  if (archivo === false) {
+    response.writeHead(400, { 'content-type': TIPOS['.txt'] });
+    response.end('Ruta mal codificada\n');
+    return;
+  }
 
   if (!archivo) {
     const noEncontrado = join(ROOT, '404.html');
