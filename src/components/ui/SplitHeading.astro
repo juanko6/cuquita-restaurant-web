@@ -1,0 +1,41 @@
+---
+/**
+ * Titular que entra línea a línea desde detrás de una máscara.
+ *
+ * Las líneas se pasan como array en vez de partirse en el navegador: Sibuya usa
+ * Splitting.js para esto y son 4 KB de JavaScript que aquí no hacen falta. Además,
+ * partir a mano da control real sobre dónde corta el titular, que en tipografía de
+ * cartel importa.
+ */
+interface Props {
+  lines: readonly string[];
+  as?: 'h1' | 'h2' | 'h3';
+  accent?: number;
+  id?: string;
+  class?: string;
+}
+
+const { lines, as: Etiqueta = 'h2', accent, id, class: extra } = Astro.props;
+---
+
+<Etiqueta class:list={['titular', extra]} id={id}>
+  {
+    lines.map((line: string, index: number) => (
+      <span class="linea">
+        <span class:list={{ titular__oro: index === accent }} style={`--indice:${index}`}>
+          {line}
+        </span>
+      </span>
+    ))
+  }
+</Etiqueta>
+
+<style>
+  .titular {
+    font-size: var(--step-4);
+  }
+
+  .titular__oro {
+    color: var(--color-accent);
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+/**
+ * Una categoría de la carta: su nombre y sus platos en un carrusel.
+ */
+import Carousel from '../ui/Carousel.astro';
+import DishCard from './DishCard.astro';
+import type { Category } from '../../lib/menu/types.ts';
+
+interface Props {
+  category: Category;
+  loading?: 'lazy' | 'eager';
+}
+
+const { category, loading = 'lazy' } = Astro.props;
+const id = `categoria-${category.id}`;
+---
+
+<section class="categoria" aria-labelledby={id}>
+  <h2 class="categoria__nombre" id={id}>{category.name}</h2>
+  <Carousel label={category.name}>
+    {category.dishes.map((dish) => <DishCard dish={dish} loading={loading} />)}
+  </Carousel>
+</section>
+
+<style>
+  .categoria {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  .categoria__nombre {
+    font-size: var(--step-2);
+  }
+</style>

@@ -1,0 +1,95 @@
+/**
+ * El sistema de movimiento.
+ *
+ * Seis piezas, todas en CSS. Sibuya consigue esto con GSAP, ScrollTrigger,
+ * Locomotive y Splitting: más de 150 KB de JavaScript. Aquí el presupuesto entero
+ * son 15 KB y de momento vamos a cero.
+ *
+ * Dos reglas que no se rompen: nada nace invisible esperando a un observador, y
+ * quien pide no moverse no se mueve. Los tokens de duración ya valen 1 ms con
+ * `prefers-reduced-motion`, así que basta con no dar por hecho el movimiento.
+ */
+@layer components {
+  /* --- 01 · Titulares que entran por líneas --- */
+  .linea {
+    display: block;
+    overflow: hidden;
+  }
+
+  .linea > span {
+    display: block;
+    animation: subir var(--dur-slow) var(--ease-out) both;
+    animation-delay: calc(var(--indice, 0) * var(--stagger-line));
+  }
+
+  @keyframes subir {
+    from {
+      transform: translateY(100%);
+    }
+  }
+
+  /* --- 02 · Imágenes que flotan ---
+     Sibuya usa data-scroll-speed de −1,5 a −2,2: la imagen se mueve entre un 8 % y
+     un 15 % más despacio que la página. Aquí lo hace el navegador, ligado al scroll,
+     y donde no esté soportado la imagen se queda quieta y no se rompe nada. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .flota {
+        animation: deriva linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+      }
+
+      @keyframes deriva {
+        from {
+          transform: translateY(calc(var(--deriva, 8%) * -1));
+        }
+
+        to {
+          transform: translateY(var(--deriva, 8%));
+        }
+      }
+    }
+  }
+
+  /* --- 04 · Bandas horizontales --- */
+  .marquesina {
+    display: flex;
+    overflow: hidden;
+    inline-size: 100%;
+    user-select: none;
+  }
+
+  .marquesina__pista {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--space-l);
+    padding-inline-end: var(--space-l);
+    animation: desfilar var(--marquesina-duracion, 40s) linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquesina__pista {
+      animation: none;
+    }
+  }
+
+  @keyframes desfilar {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* --- 05 · Entradas escalonadas, para el menú y las listas --- */
+  .entra {
+    animation: aparecer var(--dur-base) var(--ease-out) both;
+    animation-delay: calc(var(--indice, 0) * var(--stagger-item));
+  }
+
+  @keyframes aparecer {
+    from {
+      transform: translateY(0.5rem);
+      opacity: 0;
+    }
+  }
+}

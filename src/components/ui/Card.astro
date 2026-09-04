@@ -1,0 +1,30 @@
+---
+/**
+ * Contenedor neutro. No sabe si dentro va un plato, una reseña o un especial:
+ * eso lo decide quien lo usa, por slot.
+ */
+interface Props {
+  as?: 'article' | 'div' | 'li';
+  tone?: 'plain' | 'raised';
+  class?: string;
+}
+
+const { as: Etiqueta = 'div', tone = 'plain', class: extra } = Astro.props;
+---
+
+<Etiqueta class:list={['tarjeta', `tarjeta--${tone}`, extra]}>
+  <slot />
+</Etiqueta>
+
+<style>
+  .tarjeta {
+    display: flex;
+    flex-direction: column;
+    block-size: 100%;
+  }
+
+  .tarjeta--raised {
+    background: var(--color-bg-alt);
+    border: 1px solid var(--color-rule);
+  }
+</style>
