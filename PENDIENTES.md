@@ -1,6 +1,8 @@
 # Cuquita Web 2026 — pendientes
 
 Documento de análisis: https://claude.ai/code/artifact/56576e41-37aa-47a4-a296-c12218bcea65
+Plan de desarrollo: [PLAN-DESARROLLO.md](PLAN-DESARROLLO.md)
+Repositorio: https://github.com/juanko6/cuquita-restaurant-web
 
 Estado a 4 de septiembre de 2026. El análisis está cerrado y la dirección de arte definida.
 Lo que queda son estas tareas.
@@ -89,6 +91,14 @@ no discutir y ofrecer volver. Arrancar por los últimos seis meses.
 - **Movimiento:** presupuesto de 15 KB de JS para todo. Sin scroll suave tipo Locomotive.
   Todo respeta `prefers-reduced-motion` y nada nace en opacidad cero.
 - **Despliegue:** sitio estático en la instancia de Oracle. Analítica sin cookies.
+
+---
+
+## Aviso sobre este archivo
+
+El repositorio es **público**. Este documento incluye notas internas del proyecto y el
+teléfono del restaurante (que ya es público). Si prefieres que las notas de cliente no se
+vean, se saca del repo y se guarda aparte.
 
 ---
 

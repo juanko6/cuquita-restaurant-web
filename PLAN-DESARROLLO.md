@@ -3,6 +3,8 @@
 Documento técnico. El de contenido y dirección de arte está aparte:
 https://claude.ai/code/artifact/56576e41-37aa-47a4-a296-c12218bcea65
 
+Repositorio: https://github.com/juanko6/cuquita-restaurant-web
+
 ---
 
 ## 1. Stack
@@ -29,7 +31,7 @@ Splitting.js (lo que usa Sibuya: más de 150 KB para hacer lo que aquí hacemos 
 ## 2. Estructura del proyecto
 
 ```
-cuquita-web/
+cuquita-restaurant-web/
 ├── src/
 │   ├── components/
 │   │   ├── ui/              # piezas reutilizables, sin saber de negocio
@@ -301,15 +303,15 @@ carta y los especiales. Si la API falla, el job avisa y no despliega.
 
 ## 10. Fases
 
-| Fase               | Entregable                                                                 | Cómo se sabe que está                                                |
-| ------------------ | -------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| **0 · Base**       | Repo, protección de `main`, CI en verde, Astro arrancando, tokens y reset  | Un PR de prueba pasa todos los checks y no se puede empujar a `main` |
-| **1 · Datos**      | `lib/menu` completo: cliente, zod, mapper, caché, descarga de las 88 fotos | `getMenu('es')` devuelve 74 platos tipados y los tests pasan sin red |
-| **2 · Sistema**    | `ui/` y `menu/` con su página de muestra interna                           | Todos los componentes se ven juntos en `/_dev/componentes`           |
-| **3 · Carta**      | `/carta` en los dos idiomas, con las 13 categorías                         | Precios y fotos coinciden con MenuUnfolded; dentro de presupuesto    |
-| **4 · Home**       | Las nueve secciones, con las seis animaciones                              | Pasa Lighthouse y funciona con `prefers-reduced-motion`              |
-| **5 · Resto**      | `/nuestra-experiencia`, `/visitanos`, legales, 404                         | Todas las páginas con su schema y su hreflang                        |
-| **6 · Producción** | Caddy, DNS, 301, `noindex` del subdominio, analítica                       | El sitio viejo redirige y el nuevo mide                              |
+| Fase               | Entregable                                                                    | Cómo se sabe que está                                                    |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| ~~**0 · Base**~~   | ~~Repo, protección de `main`, CI en verde, Astro arrancando, tokens y reset~~ | **Hecho.** Push directo a `main` rechazado por el servidor y CI en verde |
+| **1 · Datos**      | `lib/menu` completo: cliente, zod, mapper, caché, descarga de las 88 fotos    | `getMenu('es')` devuelve 74 platos tipados y los tests pasan sin red     |
+| **2 · Sistema**    | `ui/` y `menu/` con su página de muestra interna                              | Todos los componentes se ven juntos en `/_dev/componentes`               |
+| **3 · Carta**      | `/carta` en los dos idiomas, con las 13 categorías                            | Precios y fotos coinciden con MenuUnfolded; dentro de presupuesto        |
+| **4 · Home**       | Las nueve secciones, con las seis animaciones                                 | Pasa Lighthouse y funciona con `prefers-reduced-motion`                  |
+| **5 · Resto**      | `/nuestra-experiencia`, `/visitanos`, legales, 404                            | Todas las páginas con su schema y su hreflang                            |
+| **6 · Producción** | Caddy, DNS, 301, `noindex` del subdominio, analítica                          | El sitio viejo redirige y el nuevo mide                                  |
 
 La fase 1 va antes que la 2 a propósito: con los datos reales tipados, los componentes se
 construyen contra platos de verdad y no contra ejemplos inventados que luego no encajan.
