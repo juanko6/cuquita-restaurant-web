@@ -11,73 +11,48 @@ Lo que queda son estas tareas.
 
 ## Abiertas
 
-### ~~#1 · Historia real para /nuestra-experiencia~~ — **hecha**
+### #1 · Sacar el correo del hosting — **bloquea el lanzamiento**
 
-El cuestionario está rellenado y la página escrita: Don Andy y Andrés en la cocina, la
-familia en la sala, La Paila (Valle del Cauca), 1999 a Pensilvania, 2015 la apertura, los
-cuadros del Eje Cafetero y las lámparas de guadua del Valle del Cocora.
+Se mantiene `info@cuquitarestaurant.co` en un proveedor externo (Zoho tiene plan gratuito
+para un dominio; Workspace cobra por usuario/mes), con los MX fuera del alojamiento y una
+cuenta de Gmail solo como respaldo y recuperación del perfil de Google.
 
-Trajo además una corrección importante: **la parrilla es de gas, no de carbón.** La
-portada prometía carbón y ya no.
+**Hay que hacerlo ANTES de mover los DNS.** Es el único pendiente que puede romper algo
+que hoy funciona.
 
-Sigue sin usarse, por no estar confirmado: qué había en el 960 de Broadway antes de 2015.
-Si alguna vez interesa, está en las licencias municipales de Fountain Hill o en la
-hemeroteca de The Morning Call.
+### #2 · Fotos del local, de la sala y del equipo
 
-### #2 · Correo separado del hosting
+Media jornada en servicio. Ahora hay tres cosas concretas que fotografiar, que salieron
+del cuestionario: los cuadros del Eje Cafetero, las lámparas de guadua del Valle del
+Cocora y las bandejas parrilleras fundidas por caldereros colombianos. Más la sala llena
+y un retrato de Don Andy y Andrés.
 
-Se mantiene `info@cuquitarestaurant.co` en un proveedor externo (Zoho Mail tiene plan
-gratuito para un dominio; Google Workspace cobra por usuario/mes). Los MX apuntan fuera
-del alojamiento. Una cuenta de Gmail queda solo como respaldo y recuperación del perfil
-de Google Business.
+Sin ellas el sitio funciona —lo sostienen los 88 platos—, pero pierde justo lo que las
+reseñas más elogian: la gente.
 
-- **Hay que hacerlo ANTES de mover los DNS a Oracle.**
-- **Bloquea:** migración
+### #3 · Aprobar las reseñas que se publican
 
-### #8 · El carrusel de redes se queda esperando fotos
-
-La portada enlaza a Instagram, pero el carrusel de fotos no se puede montar: haría falta
-una selección de imágenes descargadas y aprobadas. No se incrusta el feed en vivo (cookies
-de terceros y banner de consentimiento). Ver también #6.
-
-### #9 · La historia del chef todavía no se puede escribir
-
-La portada no lleva bloque de historia a propósito: sin los datos de
-`docs/historia-cuquita.md` habría que inventarlos. Es lo que bloquea también
-`/nuestra-experiencia`. Ver #1.
-
-### #3 · Fotos del local, del equipo y del carbón
-
-Media jornada en servicio. Es lo único que le falta al proyecto.
-
-- **Plan B:** diseño que se sostiene con los 88 platos + tipografía + color.
-- **Plan C:** fotos propias ya publicadas en el Facebook y en el perfil de Google del
-  restaurante (son del negocio, se pueden reutilizar) + stock con licencia solo para
-  textura y ambiente abstracto. **Nunca** una foto de internet haciendo pasar otro local
-  por la sala de Cuquita.
+En la portada salen cuatro, citadas y atribuidas tal cual las escribieron en Google. Son
+palabras de clientes reales con su nombre: el restaurante tiene que dar el visto bueno
+antes de publicar.
 
 ### #4 · Confirmar la página de Facebook viva
 
-El sitio actual enlaza a `facebook.com/Cuquita-Restaurant-115248308497887/` y la referencia
-nueva es `facebook.com/cuquitarestaurant`. Hay que saber cuál es la buena antes de enlazarla.
-Instagram sí está confirmado: `instagram.com/cuquitarestaurant`.
+El sitio antiguo enlaza a `facebook.com/Cuquita-Restaurant-115248308497887/` y la
+referencia nueva es `facebook.com/cuquitarestaurant`. Hasta saber cuál es la buena, la web
+solo enlaza a Instagram, que sí está confirmado.
 
-### #5 · Elegir la tipografía de titulares
+### #5 · Acordar con el cliente reactivar las redes
 
-El manual es una referencia, no una especificación: la web va en dirección nueva, estilo
-Sibuya. La letra de titulares se elige por esa dirección y no por herencia. El logotipo y
-la C sí se quedan tal cual.
+El carrusel de fotos de Instagram no se puede montar sin una selección de imágenes
+descargadas y aprobadas. No se incrusta el feed en vivo: mete cookies de terceros y
+obligaría a poner banner de consentimiento. De momento la web enlaza al perfil.
 
-### #6 · Acordar con el cliente reactivar las redes
+### #6 · Empezar a responder reseñas de Google
 
-El carrusel se monta igual con el contenido que ya hay (los platos no han cambiado). El día
-que vuelvan a publicar, solo hay que refrescar la selección de fotos.
-
-### #7 · Empezar a responder reseñas de Google
-
-Nunca se ha hecho y hay acceso al perfil. No depende del sitio: se puede empezar hoy.
-Guion: agradecer las buenas en el idioma en que estén escritas; en las malas reconocer,
-no discutir y ofrecer volver. Arrancar por los últimos seis meses.
+No depende del sitio y se puede empezar hoy. Guion: agradecer las buenas en el idioma en
+que estén escritas; en las malas reconocer, no discutir y ofrecer volver. Arrancar por los
+últimos seis meses.
 
 ---
 
@@ -122,19 +97,19 @@ de trabajo local.
 
 ## Comprobaciones técnicas para el desarrollo
 
-- [x] ~~Validar el índice de días de los especiales de MenuUnfolded (0 = lunes).~~
-      Comprobado un viernes: la home saca "Sancocho costilla de res" y los dos diarios.
-      Queda confirmar con el restaurante que el viernes es de verdad el día del sancocho.
-- [x] ~~Caché del último JSON bueno de la carta.~~ Hecho al revés y mejor: la caché es
-      la fuente del build y `pnpm fetch:menu` la refresca, así que el build nunca toca
-      la red y un fallo de MenuUnfolded no puede publicar una carta vacía.
+Hechas en las fases 1 a 5:
+
+- [x] Índice de días de los especiales de MenuUnfolded (0 = lunes). Comprobado un viernes.
+- [x] Caché del último JSON bueno: es la fuente del build, así que el CI construye sin red.
+- [x] Titulares partidos en el build, no con Splitting.js en el navegador.
+- [x] Carruseles con `scroll-snap` nativo, sin librería.
+
+Pendientes, todas de la fase 6:
+
+- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de peso se
+      mide comprimido porque es lo que viaja; sin compresión en el servidor la carta pasa
+      de 12 KB a 90 KB y el número deja de significar nada.
 - [ ] Redirecciones 301 desde `/menus/*` y `/contact-us/`.
-- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de peso
-      se mide comprimido porque es lo que viaja; sin compresión en el servidor la carta
-      pasa de 11 KB a 87 KB y el número deja de significar nada.
-- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de
-      peso se mide comprimido porque es lo que viaja; sin compresión en el servidor,
-      la carta pasa de 11 KB a 87 KB y el número deja de significar nada.
-- [ ] Revisar dónde sale hoy el correo del dominio antes de tocar los DNS.
-- [ ] Partir los titulares en líneas durante el build, no con Splitting.js en el navegador.
-- [ ] Carruseles con `scroll-snap` nativo, sin librería.
+- [ ] `noindex` y `rel=canonical` en `menu.cuquitarestaurant.co`, que se queda como
+      respaldo pero no debe competir en Google con `/carta`.
+- [ ] Revisar dónde sale hoy el correo del dominio antes de tocar los DNS (ver #1).
