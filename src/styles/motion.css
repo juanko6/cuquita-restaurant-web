@@ -1,9 +1,18 @@
 /**
  * El sistema de movimiento.
  *
- * Seis piezas, todas en CSS. Sibuya consigue esto con GSAP, ScrollTrigger,
- * Locomotive y Splitting: más de 150 KB de JavaScript. Aquí el presupuesto entero
- * son 15 KB y de momento vamos a cero.
+ * Son seis piezas y aquí están cuatro: las que se comparten. Las otras dos viven
+ * pegadas al componente que las usa, porque fuera de él no significan nada.
+ *
+ *   01 · Titulares que entran por líneas ......... aquí
+ *   02 · Imágenes que flotan ..................... aquí
+ *   03 · El fondo de marca, más lento aún ........ Section.astro (usa .flota de 02)
+ *   04 · Bandas horizontales ..................... aquí
+ *   05 · Entradas escalonadas .................... aquí
+ *   06 · Carruseles arrastrables ................. Carousel.astro (scroll-snap, sin animación)
+ *
+ * Sibuya consigue todo esto con GSAP, ScrollTrigger, Locomotive y Splitting: más de
+ * 150 KB de JavaScript. Aquí el presupuesto entero son 15 KB y vamos a cero.
  *
  * Dos reglas que no se rompen: nada nace invisible esperando a un observador, y
  * quien pide no moverse no se mueve. Los tokens de duración ya valen 1 ms con
