@@ -1,21 +1,27 @@
 /**
  * Fuente única de verdad del diseño.
- * Los colores salen del logo de la marca, muestreados del original:
- * vino #920526, vino hondo #76041E, oro #D8A84E, franja de bandera.
- * Ningún componente escribe un hex a mano. Si un valor no está aquí, no se usa.
+ *
+ * Los colores no están muestreados de un JPG: salen del vectorial del manual de
+ * marca, que es donde están definidos de verdad. Ningún componente escribe un hex
+ * a mano. Si un valor no está aquí, no se usa.
  */
 @layer tokens {
   :root {
     /* --- color de marca --- */
-    --c-wine: #920526;
-    --c-wine-deep: #76041e;
-    --c-gold: #d8a84e;
+    --c-wine: #950526;
 
-    /* Oro aclarado para texto pequeño: el oro de marca sobre vino da 4,24:1,
-       insuficiente para AA en cuerpo de texto. Este da 5,75:1. */
-    --c-gold-soft: #e8c88a;
+    /* Vino oscurecido para secciones alternas. No está en el manual: es el vino de
+       marca bajado en luminosidad, y sube el oro a 5,22:1. */
+    --c-wine-deep: #7a0420;
+    --c-gold: #dba853;
+
+    /* El oro de marca sobre vino da 4,18:1: vale para titulares grandes y se queda
+       corto para texto pequeño. La arena sí es color de manual y da 6,77:1, así que
+       el texto pequeño va en arena y no en un oro inventado. */
+    --c-sand: #f4df87;
     --c-cream: #f4efe3;
-    --c-flag-yellow: #f3ca02;
+    --c-ink: #222221;
+    --c-flag-yellow: #f5cb01;
     --c-flag-blue: #2a3498;
     --c-flag-red: #f7171d;
 
@@ -25,13 +31,17 @@
     --color-text: var(--c-cream);
     --color-text-muted: color-mix(in srgb, var(--c-cream) 72%, var(--c-wine));
     --color-accent: var(--c-gold);
-    --color-accent-text: var(--c-gold-soft);
-    --color-on-accent: #2a1004;
+    --color-accent-text: var(--c-sand);
+    --color-on-accent: var(--c-ink);
     --color-rule: color-mix(in srgb, var(--c-cream) 18%, transparent);
-    --color-focus: var(--c-gold-soft);
+    --color-focus: var(--c-sand);
 
     /* --- tipografía --- */
-    --font-display: 'Archivo', 'Helvetica Neue', arial, sans-serif;
+
+    /* Condensada de cartel: da el golpe de Sibuya y su geometría seca contrasta
+       con las curvas caligráficas de la C. El manual proponía Passion One, pero
+       es redondeada y blanda; el manual es referencia, no especificación. */
+    --font-display: 'Big Shoulders', 'Arial Narrow', arial, sans-serif;
     --font-body: 'Source Serif 4', georgia, 'Times New Roman', serif;
     --font-mono: 'IBM Plex Mono', ui-monospace, menlo, monospace;
     --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);

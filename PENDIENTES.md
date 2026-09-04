@@ -13,8 +13,9 @@ Lo que queda son estas tareas.
 
 ### #1 · Historia real para /nosotros — **bloqueante de contenido**
 
-Rellenar [`docs/historia-cuquita.md`](docs/historia-cuquita.md) con datos reales del
-restaurante. Sin eso, la página "Nosotros" no se puede escribir sin inventar.
+Rellenar `docs/historia-cuquita.md` —está en la carpeta de trabajo local, fuera del
+repositorio— con datos reales del restaurante. Sin eso, la página "Nosotros" no se puede
+escribir sin inventar.
 
 - **Responsable:** cliente + Juanko
 - **Bloquea:** página /nosotros, bloque de historia de la home
@@ -45,11 +46,11 @@ El sitio actual enlaza a `facebook.com/Cuquita-Restaurant-115248308497887/` y la
 nueva es `facebook.com/cuquitarestaurant`. Hay que saber cuál es la buena antes de enlazarla.
 Instagram sí está confirmado: `instagram.com/cuquitarestaurant`.
 
-### #5 · Extraer los recursos de marca del vectorial
+### #5 · Elegir la tipografía de titulares
 
-Del logo hacen falta sueltos: la **C decorativa** y las **ilustraciones de línea** de verduras
-del fondo. Son la capa que hace flotar el contenido. También la versión del logotipo en
-negativo para el fondo vino.
+El manual es una referencia, no una especificación: la web va en dirección nueva, estilo
+Sibuya. La letra de titulares se elige por esa dirección y no por herencia. El logotipo y
+la C sí se quedan tal cual.
 
 ### #6 · Acordar con el cliente reactivar las redes
 
@@ -97,8 +98,9 @@ no discutir y ofrecer volver. Arrancar por los últimos seis meses.
 ## Aviso sobre este archivo
 
 El repositorio es **público**. Este documento incluye notas internas del proyecto y el
-teléfono del restaurante (que ya es público). Si prefieres que las notas de cliente no se
-vean, se saca del repo y se guarda aparte.
+teléfono del restaurante (que ya es público). `docs/` sí quedó fuera del repositorio: el
+manual de marca, las capturas de referencia y el cuestionario de la historia son material
+de trabajo local.
 
 ---
 
