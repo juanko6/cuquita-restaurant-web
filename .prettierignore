@@ -3,3 +3,7 @@ dist
 node_modules
 pnpm-lock.yaml
 public
+
+# La caché de la carta la escribe scripts/fetch-menu.ts, no una persona. Formatearla
+# hacía que cada `pnpm fetch:menu` dejara el repositorio en rojo para el CI.
+src/data

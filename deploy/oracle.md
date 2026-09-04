@@ -1,6 +1,7 @@
 # Despliegue en Oracle Cloud
 
-Runbook del sitio de pruebas en `cuquita.juanko.com`. El sitio es estático: Astro compila
+Runbook del sitio de pruebas en **https://cuquita.juanko.com** — publicado y funcionando
+desde el 4 de septiembre de 2026. El sitio es estático: Astro compila
 en local y `rsync` sube el resultado. En el servidor no hay build, ni Node, ni contenedores.
 
 Comparte instancia con el portafolio de `juanko.com`, así que **cada cambio de nginx puede
@@ -34,6 +35,8 @@ Por eso este fichero declara `listen 443 ssl;` a secas. El sitio va por HTTP/2 i
 ---
 
 ## Alta inicial
+
+Ya está hecha. Queda aquí por si hay que rehacerla o montar el dominio real.
 
 **1. El DNS.** Un registro `A` de `cuquita.juanko.com` a la IP de la instancia. Tiene que
 resolver **antes** de pedir el certificado: certbot valida por HTTP.

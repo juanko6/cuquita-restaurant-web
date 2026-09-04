@@ -75,7 +75,10 @@ for f in index.html 404.html carta/index.html nuestra-experiencia/index.html \
 done
 [ -d dist/_astro ] || fail "falta dist/_astro — el build no está completo, no publico"
 
-platos=$(grep -c 'class="plato ' dist/carta/index.html || true)
+# Se cuenta por plato__nombre y no por la clase de la tarjeta: Card compone las
+# clases, así que el atributo acaba siendo "tarjeta tarjeta--raised plato" y un
+# grep por 'class="plato' no encuentra nada. Ya pasó una vez.
+platos=$(grep -o 'plato__nombre' dist/carta/index.html | wc -l | tr -d ' ')
 [ "$platos" -ge 80 ] || fail "la carta solo trae $platos platos — algo pasó con MenuUnfolded"
 echo "  las 11 páginas, _astro/ y $platos platos en la carta"
 
