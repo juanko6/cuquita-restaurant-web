@@ -18,9 +18,15 @@ import type { Locale } from '../../lib/menu/types.ts';
 interface Props {
   locale: Locale;
   here: Ruta;
+  /**
+   * `sobre-video` la deja flotando y sin fondo, para que el vídeo de la portada
+   * pase por debajo de la barra y solo el logotipo y el botón queden por delante.
+   * Al bajar recupera el fondo con una animación ligada al scroll, sin JavaScript.
+   */
+  variante?: 'solida' | 'sobre-video';
 }
 
-const { locale, here } = Astro.props;
+const { locale, here, variante = 'solida' } = Astro.props;
 const t = copy(locale);
 const otro = otroIdioma(locale);
 
@@ -37,7 +43,7 @@ const entradas = [
 ];
 ---
 
-<header class="nav">
+<header class:list={['nav', `nav--${variante}`]}>
   <div class="wrap nav__fila">
     <a class="nav__marca" href={ruta('inicio', locale)}>
       <img src={logo.src} alt={t.sitio.nombre} width="392" height="198" />
@@ -93,6 +99,21 @@ const entradas = [
   // lo que espera cualquiera que use un menú así.
   const caja = document.querySelector<HTMLDetailsElement>('.nav__caja');
 
+  // Y la barra flotante de la portada recupera su fondo en cuanto se deja atrás lo
+  // alto de la página. Se intentó con `animation-timeline: scroll()`, que no habría
+  // costado JavaScript, pero el minificador pliega la propiedad dentro del atajo
+  // `animation` y la animación se queda en cero segundos. Un observador de doce
+  // líneas es más aburrido y funciona en todas partes.
+  const barra = document.querySelector('.nav--sobre-video');
+  const centinela = document.querySelector('.hero__centinela');
+
+  if (barra && centinela) {
+    new IntersectionObserver(
+      ([entrada]) => barra.classList.toggle('nav--posada', !entrada.isIntersecting),
+      { threshold: 0 },
+    ).observe(centinela);
+  }
+
   if (caja) {
     document.addEventListener('keydown', (evento) => {
       if (evento.key === 'Escape') caja.open = false;
@@ -113,12 +134,33 @@ const entradas = [
     background: var(--color-bg-alt);
   }
 
+  /* Flota sobre la portada: el vídeo pasa por debajo de la barra porque la barra
+     no tiene fondo, y el logotipo y el botón —que sí son opacos— quedan delante. */
+  .nav--sobre-video {
+    position: fixed;
+    inset-inline: 0;
+    z-index: 20;
+    border-block-end-color: transparent;
+    background: transparent;
+  }
+
+  /* Al alejarse de lo alto, el fondo vuelve. Sin esto la barra flotante se queda
+     transparente sobre el texto de la página y no se lee ni una cosa ni la otra.
+     Lo pone y lo quita el script de abajo. */
+  .nav--sobre-video.nav--posada {
+    border-block-end-color: var(--color-rule);
+    background: var(--color-bg-alt);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out);
+  }
+
   .nav__fila {
     display: flex;
-    min-block-size: var(--alto-nav);
     align-items: center;
     justify-content: space-between;
     gap: var(--space-s);
+    min-block-size: var(--alto-nav);
     padding-block: var(--space-2xs);
   }
 

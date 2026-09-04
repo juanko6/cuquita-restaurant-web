@@ -23,6 +23,28 @@ const PAGINAS = [
 const TOLERANCIA = 1;
 
 /**
+ * Espera a que termine la coreografía de entrada.
+ *
+ * Sin esto, axe auditaba la portada con los elementos todavía a medio camino
+ * —desplazados y translúcidos— y cantaba objetivos táctiles demasiado pequeños que
+ * en reposo no lo son. Se espera a las animaciones reales, no a un número de
+ * milisegundos a ojo; las infinitas, como la banda que cruza la pantalla, se dejan
+ * fuera porque nunca terminan.
+ */
+async function asentarse(page: Page) {
+  await page.evaluate(async () => {
+    const acaban = document
+      .getAnimations()
+      .filter((a) => {
+        const iteraciones = (a.effect?.getTiming().iterations ?? 1) as number;
+        return Number.isFinite(iteraciones);
+      })
+      .map((a) => a.finished.catch(() => undefined));
+    await Promise.all(acaban);
+  });
+}
+
+/**
  * Qué se sale del ancho de la ventana.
  *
  * El desbordamiento horizontal es el fallo más común y más molesto en móvil: la
@@ -77,6 +99,7 @@ for (const ruta of PAGINAS) {
 
     test('sin fallos de accesibilidad', async ({ page }) => {
       await page.goto(ruta);
+      await asentarse(page);
       const { violations } = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze();
@@ -175,6 +198,22 @@ test.describe('portada', () => {
     await expect(panel).toBeHidden();
   });
 
+  test('la barra no se descuelga: logotipo, teléfono y botón en una fila', async ({ page }) => {
+    await page.goto('/');
+    await asentarse(page);
+
+    // Se borraron sin querer cuatro reglas del Nav al editar y la barra pasó a
+    // ocupar 271 px con el logotipo a tamaño de cartel. Esto lo caza.
+    const barra = await page.evaluate(() => {
+      const nav = document.querySelector('.nav')!.getBoundingClientRect();
+      const logo = document.querySelector('.nav__marca img')!.getBoundingClientRect();
+      return { alto: nav.height, logoAlto: logo.height };
+    });
+
+    expect(barra.alto).toBeLessThan(110);
+    expect(barra.logoAlto).toBeLessThan(60);
+  });
+
   test('el vídeo va a color, sin velo encima', async ({ page }) => {
     await page.goto('/');
     const video = page.locator('.hero__video');
@@ -190,22 +229,40 @@ test.describe('portada', () => {
     expect(Number(estilos.opacity)).toBe(1);
   });
 
-  test('el titular monta sobre el vídeo, no lo roza', async ({ page }) => {
+  test('el vídeo arranca tapando la barra y solo el logotipo queda delante', async ({ page }) => {
     await page.goto('/');
-    await page.waitForTimeout(2600);
 
-    const solapa = await page.evaluate(() => {
-      const linea = document.querySelector('.hero__linea--uno')!.getBoundingClientRect();
-      const marco = document.querySelector('.hero__marco')!.getBoundingClientRect();
-      return linea.bottom - marco.top;
+    // Al principio el marco cubre la ventana entera, barra incluida.
+    const tapa = await page.evaluate(() => {
+      const m = document.querySelector('.hero__marco')!.getBoundingClientRect();
+      return m.top <= 1 && m.bottom >= innerHeight - 1;
     });
+    expect(tapa).toBe(true);
 
-    expect(solapa).toBeGreaterThan(0);
+    // Y la barra no tiene fondo, así que el vídeo se ve por debajo de ella.
+    const fondo = await page.evaluate(
+      () => getComputedStyle(document.querySelector('.nav')!).backgroundColor,
+    );
+    expect(fondo).toBe('rgba(0, 0, 0, 0)');
+  });
+
+  test('la barra recupera el fondo al bajar, y lo suelta al volver', async ({ page }) => {
+    await page.goto('/');
+    const fondo = () =>
+      page.evaluate(() => getComputedStyle(document.querySelector('.nav')!).backgroundColor);
+
+    const arriba = await fondo();
+    await page.evaluate(() => window.scrollTo(0, 500));
+    await page.waitForTimeout(500);
+    const abajo = await fondo();
+
+    // Sin esto la barra flotante se queda transparente sobre el texto de la página.
+    expect(abajo).not.toBe(arriba);
   });
 
   test('la primera pantalla cabe en la pantalla', async ({ page }) => {
     await page.goto('/');
-    await page.waitForTimeout(2600);
+    await asentarse(page);
 
     // El hero es la ventana menos la barra. Si las llamadas a la acción se salen,
     // la primera pantalla deja de ser una pantalla.

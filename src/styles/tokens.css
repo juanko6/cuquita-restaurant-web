@@ -86,11 +86,15 @@
     /* La coreografía de entrada de la portada. Los retrasos van aquí y no en el
        componente para que se lea el guion completo de un vistazo. */
     --intro-boton: 150ms;
-    --intro-encoge: 600ms;
-    --intro-titular: 1150ms;
-    --intro-entradilla: 1300ms;
-    --intro-acciones: 1500ms;
-    --intro-hoy: 1700ms;
+    --intro-encoge: 400ms;
+
+    /* Los textos entran cuando el vídeo ya está en su marco, no mientras encoge:
+       la reducción arranca a los 400 ms y dura 900, así que nada de texto antes
+       de 1300. */
+    --intro-lugar: 1350ms;
+    --intro-titular: 1450ms;
+    --intro-entradilla: 1700ms;
+    --intro-acciones: 1950ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
@@ -110,10 +114,10 @@
     :root {
       --intro-boton: 0ms;
       --intro-encoge: 0ms;
+      --intro-lugar: 0ms;
       --intro-titular: 0ms;
       --intro-entradilla: 0ms;
       --intro-acciones: 0ms;
-      --intro-hoy: 0ms;
       --dur-fast: 1ms;
       --dur-base: 1ms;
       --dur-slow: 1ms;
