@@ -1,23 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import { headlineSpecial, specialsForDay, toMenuDayIndex, type Special } from '../lib/specials';
+import { getMenu } from '../lib/menu/index.ts';
+import { headlineSpecial, specialsForDay, toMenuDayIndex } from '../lib/specials.ts';
 
-// Provisional: los especiales llegarán de la API de MenuUnfolded en la fase 1.
-// Estos son los datos reales que hay hoy cargados en su panel.
-const specials: Special[] = [
-  { id: '1', title: 'Sopa de pollo', price: 14.99, recurrenceDays: [0], isActive: true },
-  { id: '2', title: 'Jueves de lentejas', price: 14.99, recurrenceDays: [3], isActive: true },
-  { id: '3', title: 'Sancocho de costilla', price: 16.99, recurrenceDays: [4], isActive: true },
-  { id: '4', title: 'Sopa de mondongo', price: 14.99, recurrenceDays: [5], isActive: true },
-  {
-    id: '5',
-    title: 'Patacones, chicharrón y guacamole',
-    price: 12.99,
-    recurrenceDays: [0, 2, 3, 4, 5, 6],
-    isActive: true,
-  },
-];
-
+const { specials } = getMenu('es');
 const today = toMenuDayIndex(new Date());
 const headline = headlineSpecial(specials, today);
 const alsoToday = specialsForDay(specials, today).filter((s) => s.id !== headline?.id);

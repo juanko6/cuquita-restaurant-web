@@ -106,10 +106,12 @@ de trabajo local.
 
 ## Comprobaciones técnicas para el desarrollo
 
-- [ ] Validar el índice de días de los especiales de MenuUnfolded (0 = lunes, según
-      "Jueves de Lentejas" = 3). Que el sitio no anuncie mondongo un sábado que no hay.
-- [ ] Caché del último JSON bueno de la carta: si la API falla en el build, se publica la
-      última versión válida, nunca una carta vacía.
+- [x] ~~Validar el índice de días de los especiales de MenuUnfolded (0 = lunes).~~
+      Comprobado un viernes: la home saca "Sancocho costilla de res" y los dos diarios.
+      Queda confirmar con el restaurante que el viernes es de verdad el día del sancocho.
+- [x] ~~Caché del último JSON bueno de la carta.~~ Hecho al revés y mejor: la caché es
+      la fuente del build y `pnpm fetch:menu` la refresca, así que el build nunca toca
+      la red y un fallo de MenuUnfolded no puede publicar una carta vacía.
 - [ ] Redirecciones 301 desde `/menus/*` y `/contact-us/`.
 - [ ] Revisar dónde sale hoy el correo del dominio antes de tocar los DNS.
 - [ ] Partir los titulares en líneas durante el build, no con Splitting.js en el navegador.
