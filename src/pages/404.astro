@@ -1,0 +1,48 @@
+---
+/**
+ * Una sola 404 para todo el sitio, en español y con las salidas en los dos idiomas:
+ * cuando alguien llega aquí no sabemos en qué idioma venía.
+ */
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Button from '../components/ui/Button.astro';
+import Section from '../components/ui/Section.astro';
+import SplitHeading from '../components/ui/SplitHeading.astro';
+import { copy, ruta } from '../lib/i18n.ts';
+
+const t = copy('es');
+---
+
+<Base title={`${t.error404.titulo} · ${t.sitio.nombre}`} description={t.error404.texto} lang="es">
+  <Nav slot="header" locale="es" here="inicio" />
+
+  <Section tone="deep" glyph>
+    <SplitHeading as="h1" lines={t.error404.lineas} accent={2} />
+    <p class="lede">{t.error404.texto}</p>
+
+    <div class="acciones">
+      <Button variant="solid" href={ruta('carta', 'es')}>{t.nav.carta}</Button>
+      <Button variant="outline" href={ruta('inicio', 'es')}>{t.nav.inicio}</Button>
+      <Button variant="ghost" href={ruta('inicio', 'en')} lang="en">English</Button>
+    </div>
+  </Section>
+
+  <Footer slot="footer" locale="es" />
+</Base>
+
+<style>
+  .lede {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-block-start: var(--space-l);
+  }
+</style>

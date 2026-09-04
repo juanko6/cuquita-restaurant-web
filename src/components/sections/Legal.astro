@@ -1,0 +1,77 @@
+---
+/**
+ * Privacidad y accesibilidad en una sola página.
+ *
+ * Está escrita, no copiada de una plantilla, y dice lo que de verdad pasa: esta web
+ * no pone cookies ni tiene formularios. Cuando la analítica entre en el despliegue,
+ * el apartado de medición ya describe cómo va a funcionar.
+ */
+import Base from '../../layouts/Base.astro';
+import Nav from '../layout/Nav.astro';
+import Footer from '../layout/Footer.astro';
+import Section from '../ui/Section.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import { copy } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+
+const apartados = [
+  { titulo: t.legal.privacidadTitulo, texto: t.legal.privacidadTexto },
+  { titulo: t.legal.medicionTitulo, texto: t.legal.medicionTexto },
+  { titulo: t.legal.tercerosTitulo, texto: t.legal.tercerosTexto },
+  { titulo: t.legal.accesibilidadTitulo, texto: t.legal.accesibilidadTexto },
+  { titulo: t.legal.avisoTitulo, texto: t.legal.avisoTexto },
+];
+---
+
+<Base
+  title={`${t.legal.titulo} · ${t.sitio.nombre}`}
+  description={t.legal.descripcion}
+  lang={locale}
+  alternate="legal"
+>
+  <Nav slot="header" locale={locale} here="legal" />
+
+  <Section tone="deep">
+    <SplitHeading as="h1" lines={t.legal.lineas} accent={1} />
+  </Section>
+
+  <Section>
+    <div class="texto">
+      {
+        apartados.map(({ titulo, texto }) => (
+          <section class="apartado">
+            <h2 class="apartado__titulo">{titulo}</h2>
+            <p class="apartado__texto">{texto}</p>
+          </section>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Footer slot="footer" locale={locale} />
+</Base>
+
+<style>
+  .texto {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+    max-inline-size: var(--measure);
+  }
+
+  .apartado__titulo {
+    font-size: var(--step-1);
+  }
+
+  .apartado__texto {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+</style>

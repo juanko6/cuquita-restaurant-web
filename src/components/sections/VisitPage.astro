@@ -1,0 +1,121 @@
+---
+/**
+ * "Visítanos": lo que necesita quien está decidiendo si viene.
+ *
+ * Horario, parqueadero, distancia al hospital y cómo pedir. Nada de reservas:
+ * el restaurante no las acepta.
+ */
+import Base from '../../layouts/Base.astro';
+import Nav from '../layout/Nav.astro';
+import Footer from '../layout/Footer.astro';
+import Button from '../ui/Button.astro';
+import Section from '../ui/Section.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import Visit from './Visit.astro';
+import { copy } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const MAPA =
+  'https://www.google.com/maps/dir/?api=1&destination=Cuquita+Restaurant,960+Broadway,Fountain+Hill,PA+18015';
+const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
+
+const bloques = [
+  { titulo: t.visita.parqueaderoTitulo, texto: t.visita.parqueaderoTexto },
+  { titulo: t.visita.hospitalTitulo, texto: t.visita.hospitalTexto },
+];
+---
+
+<Base
+  title={`${t.visita.tituloPagina} · ${t.sitio.nombre}`}
+  description={t.visita.descripcion}
+  lang={locale}
+  alternate="visita"
+>
+  <Nav slot="header" locale={locale} here="visita" />
+
+  <Section tone="deep" glyph>
+    <SplitHeading as="h1" lines={t.visita.tituloLineas} accent={1} />
+    <p class="lede">{t.visita.entradilla}</p>
+    <Visit locale={locale} />
+  </Section>
+
+  <Section>
+    <div class="bloques">
+      {
+        bloques.map(({ titulo, texto }) => (
+          <div class="bloque">
+            <h2 class="bloque__titulo">{titulo}</h2>
+            <p class="bloque__texto">{texto}</p>
+          </div>
+        ))
+      }
+
+      <div class="bloque">
+        <h2 class="bloque__titulo">{t.visita.pedidoTitulo}</h2>
+        <p class="bloque__texto">{t.visita.pedidoTexto}</p>
+        <p class="bloque__aviso">{t.visita.avisoPedido}</p>
+        <p class="acciones">
+          <Button variant="solid" size="sm" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+        </p>
+      </div>
+
+      <div class="bloque">
+        <h2 class="bloque__titulo">{t.visita.comoLlegarTitulo}</h2>
+        <p class="bloque__texto">960 Broadway, Fountain Hill, PA 18015</p>
+        <p class="acciones">
+          <Button variant="outline" size="sm" href={MAPA} rel="noopener">
+            {t.visita.mapaTexto}
+          </Button>
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Footer slot="footer" locale={locale} />
+</Base>
+
+<style>
+  .lede {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .bloques {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--space-l);
+  }
+
+  .bloque {
+    padding-block-start: var(--space-s);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .bloque__titulo {
+    font-size: var(--step-1);
+  }
+
+  .bloque__texto {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .bloque__aviso {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .acciones {
+    margin-block-start: var(--space-s);
+  }
+</style>

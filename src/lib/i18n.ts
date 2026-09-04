@@ -21,6 +21,9 @@ export function copy(locale: Locale): Copy {
 export const RUTAS = {
   inicio: { es: '/', en: '/en/' },
   carta: { es: '/carta', en: '/en/menu' },
+  experiencia: { es: '/nuestra-experiencia', en: '/en/our-experience' },
+  visita: { es: '/visitanos', en: '/en/find-us' },
+  legal: { es: '/legal', en: '/en/legal' },
 } as const;
 
 export type Ruta = keyof typeof RUTAS;

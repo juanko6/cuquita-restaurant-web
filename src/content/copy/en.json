@@ -1,7 +1,7 @@
 {
   "sitio": {
     "nombre": "Cuquita Restaurant",
-    "descripcionInicio": "Home cooking from every region of Colombia, right on Broadway in Fountain Hill, PA. Bring your own bottle — we'll handle the charcoal.",
+    "descripcionInicio": "Home cooking from every region of Colombia, right on Broadway in Fountain Hill, PA. Bring your own bottle — the table is already set.",
     "irAlContenido": "Skip to content"
   },
   "nav": {
@@ -15,7 +15,8 @@
     "otroIdioma": "Español",
     "irAOtroIdioma": "Ver esta página en español",
     "abrir": "Menu",
-    "cerrar": "Close"
+    "cerrar": "Close",
+    "legal": "Privacy"
   },
   "carta": {
     "titulo": "Menu",
@@ -36,7 +37,7 @@
     "tituloPagina": "Colombian food in Fountain Hill",
     "heroLineas": ["This is what", "Colombia tastes like"],
     "heroAcento": 1,
-    "heroEntradilla": "Home cooking from every region of Colombia, right on Broadway. Bring your own bottle — we’ll handle the charcoal.",
+    "heroEntradilla": "Home cooking from every region of Colombia, right on Broadway. Bring your own bottle — we’ll set the table.",
     "bandaPiezas": [
       "This is what Colombia tastes like",
       "Cuquita",
@@ -72,5 +73,64 @@
     ],
     "byob": "BYOB · Bring your wine or beer, no corkage fee",
     "semanaSiempre": "Every day we’re open, plus:"
+  },
+  "experiencia": {
+    "tituloPagina": "Our experience",
+    "descripcion": "What it feels like to walk into Cuquita: the family in the kitchen, the dining room they brought from Colombia, and why the menu covers the whole country.",
+    "manifiestoLineas": ["You come in hungry,", "you leave part", "of the family"],
+    "manifiestoTexto": "Cuquita opened in 2015 at 960 Broadway and has never been anywhere else. The name came with the place: they didn’t choose it, they inherited it and decided to keep it — out of respect for what was here, and so the neighbourhood wouldn’t have to relearn it. There are Cuquitas all over Colombia; it’s an affectionate nickname, not a brand.",
+    "detallesLineas": ["The details", "the menu", "doesn’t show"],
+    "detallesTexto": "Cooked the same day. Served big. And if you don’t know what to order, we’ll walk you through it dish by dish — nobody is born knowing what a calentado is.",
+    "secretoTitulo": "The secret ingredient",
+    "secretoTexto": "The family talked about the secret ingredient for years, until it was finally revealed: the food is made with love. It comes from the grandmother, Don Andy’s mother.",
+    "orgulloTitulo": "The dish we’re proudest of",
+    "orgulloTexto": "The arroz mixto Cuquita, which is Colombian-Japanese. It comes from the years Don Andy spent working in a Japanese restaurant before opening this one.",
+    "regionesTitulo": "Why the whole country is here",
+    "regionesTexto": "Because Valle del Cauca already holds it: mountain, coast, sea and plains in a single region. The menu cooks that same range.",
+    "casaLineas": ["The dining room", "came from Colombia", "in the luggage"],
+    "casaTexto": "Nothing was bought here. The paintings were made by artisans from the Eje Cafetero. The lamps are guadua bamboo, made by artisans from the Cocora Valley. And the grilling trays the hot meat arrives on were cast by Colombian metalworkers.",
+    "casaMesa": "Whole families come in and we pull the tables together. Nobody rushes you. And we’re BYOB: bring your wine or beer, no corkage fee.",
+    "fraseLineas": ["Colombia is closer", "than you", "think"],
+    "familiaLineas": ["Three generations,", "one kitchen"],
+    "familiaTexto": "Don Andy and his son Andrés are in the kitchen, father and son. The rest of the family runs the dining room, and they work alongside hired servers and cooks: the restaurant is also a job in this neighbourhood.",
+    "origenTitulo": "Where they come from",
+    "origenTexto": "From La Paila, Valle del Cauca: a small town surrounded by sugar cane, full of hard-working people. They came to Pennsylvania in 1999 and opened Cuquita in 2015.",
+    "porQueAquiTitulo": "Why Fountain Hill",
+    "porQueAquiTexto": "Because it sits right between Allentown and Bethlehem. You can get here from both sides."
+  },
+  "visita": {
+    "tituloPagina": "Find us",
+    "descripcion": "How to get to Cuquita Restaurant: 960 Broadway, Fountain Hill, PA. Hours, parking and phone.",
+    "tituloLineas": ["960 Broadway,", "Fountain Hill"],
+    "entradilla": "Two blocks from St. Luke’s hospital, right between Allentown and Bethlehem. Plenty of parking at the door.",
+    "comoLlegarTitulo": "Getting here",
+    "parqueaderoTitulo": "Parking",
+    "parqueaderoTexto": "We’re in a shopping plaza with a large free lot right outside. No hunting for street parking.",
+    "hospitalTitulo": "From St. Luke’s",
+    "hospitalTexto": "Two blocks away. You can eat and be back within a lunch hour, and you can call ahead so it’s ready when you arrive.",
+    "pedidoTitulo": "Order and pick up",
+    "pedidoTexto": "You can order by phone and pick it up here, or use our online ordering system. We don’t do our own delivery.",
+    "avisoPedido": "Online ordering happens on a separate page, run by our point-of-sale system. You pay there and pick up here.",
+    "mapaTexto": "Open in Google Maps"
+  },
+  "error404": {
+    "titulo": "Page not found",
+    "lineas": ["This page", "isn’t on", "the menu"],
+    "texto": "The link may be old, or we may have moved something. The full menu is right where it always is."
+  },
+  "legal": {
+    "titulo": "Privacy and accessibility",
+    "descripcion": "What this site collects (nothing that identifies you) and how it is built so everyone can use it.",
+    "lineas": ["Privacy", "and accessibility"],
+    "privacidadTitulo": "What we collect",
+    "privacidadTexto": "Nothing that identifies you. This site uses no cookies, has no forms, and shares nothing with third parties for advertising. There are no social buttons tracking you across the web: the Instagram links are ordinary links.",
+    "medicionTitulo": "Measurement",
+    "medicionTexto": "We count visits anonymously and in aggregate, without cookies and without storing full IP addresses. It tells us which pages get read and on what kind of device. It cannot identify anyone or follow them between sites.",
+    "tercerosTitulo": "When you leave this site",
+    "tercerosTexto": "Ordering online takes you to our point-of-sale system, and viewing the menu on your phone may take you to MenuUnfolded. Those are other companies’ sites, with their own policies. The same goes for Google Maps and Instagram.",
+    "accesibilidadTitulo": "Accessibility",
+    "accesibilidadTexto": "This site is built to meet WCAG 2.2 level AA. It is checked automatically on every change, on phone, tablet and desktop: contrast, keyboard navigation, alt text on every photo, and respect for anyone who has asked for reduced motion.",
+    "avisoTitulo": "Something not working?",
+    "avisoTexto": "If anything on this site stops you doing what you came to do, call us at 610-868-5252 and we’ll fix it."
   }
 }

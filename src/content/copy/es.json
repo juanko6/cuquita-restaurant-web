@@ -1,7 +1,7 @@
 {
   "sitio": {
     "nombre": "Cuquita Restaurant",
-    "descripcionInicio": "Cocina casera de todas las regiones de Colombia en el corazón de Fountain Hill, Pensilvania. Trae tu botella: nosotros ponemos el carbón.",
+    "descripcionInicio": "Cocina casera de todas las regiones de Colombia en el corazón de Fountain Hill, Pensilvania. Trae tu botella: la mesa ya está puesta.",
     "irAlContenido": "Saltar al contenido"
   },
   "nav": {
@@ -15,7 +15,8 @@
     "otroIdioma": "English",
     "irAOtroIdioma": "Ver esta página en inglés",
     "abrir": "Menú",
-    "cerrar": "Cerrar"
+    "cerrar": "Cerrar",
+    "legal": "Privacidad"
   },
   "carta": {
     "titulo": "Carta",
@@ -36,7 +37,7 @@
     "tituloPagina": "Cocina colombiana en Fountain Hill",
     "heroLineas": ["A qué sabe", "Colombia"],
     "heroAcento": 1,
-    "heroEntradilla": "Cocina casera de todas las regiones, en el corazón de Fountain Hill. Tú traes la botella, nosotros prendemos el carbón.",
+    "heroEntradilla": "Cocina casera de todas las regiones, en el corazón de Fountain Hill. Tú traes la botella, nosotros ponemos la mesa.",
     "bandaPiezas": ["A qué sabe Colombia", "Cuquita", "Fountain Hill", "Desde Colombia"],
     "conceptoLineas": ["Un país entero", "en una carta"],
     "conceptoTexto": "Colombia no cocina igual en la costa que en la montaña. Por eso aquí conviven la bandeja paisa, el pargo rojo frito, la papa rellena y el calentado de las siete de la mañana. Setenta y cuatro platos de comida, hechos el mismo día, como en casa.",
@@ -67,5 +68,64 @@
     ],
     "byob": "BYOB · Trae tu vino o tu cerveza, no cobramos descorche",
     "semanaSiempre": "Todos los días abiertos, además:"
+  },
+  "experiencia": {
+    "tituloPagina": "Nuestra experiencia",
+    "descripcion": "Qué se siente al entrar en Cuquita: la familia que cocina, la sala que trajeron de Colombia y por qué la carta cubre el país entero.",
+    "manifiestoLineas": ["Se entra con hambre", "y sales parte", "de la familia"],
+    "manifiestoTexto": "Cuquita abrió en 2015 en el 960 de Broadway y nunca ha estado en otra dirección. El nombre ya venía con el local: no lo pusieron ellos, lo heredaron y decidieron no cambiarlo, por respeto a lo que había y para no romperle la costumbre al barrio. Cuquitas hay en medio Colombia; es un apodo cariñoso, no una marca.",
+    "detallesLineas": ["Los detalles", "que no se ven", "en la carta"],
+    "detallesTexto": "Se cocina el mismo día. Se sirve grande. Y si no sabes qué pedir, te lo explicamos plato por plato: aquí nadie nace sabiendo qué es un calentado.",
+    "secretoTitulo": "El ingrediente secreto",
+    "secretoTexto": "En la familia se habló durante años del ingrediente secreto, hasta que se reveló cuál era: que la comida se hace con amor. Viene de la abuela, la madre de Don Andy.",
+    "orgulloTitulo": "El plato del que más orgullo da",
+    "orgulloTexto": "El arroz mixto Cuquita, que es colombo-japonés. Sale de los años que Don Andy trabajó en un restaurante japonés antes de abrir este.",
+    "regionesTitulo": "Por qué está Colombia entera",
+    "regionesTexto": "Porque el Valle del Cauca ya la tiene dentro: montaña, costa, mar y llano en un solo departamento. La carta cocina esa misma diversidad.",
+    "casaLineas": ["La sala vino", "de Colombia", "en el equipaje"],
+    "casaTexto": "No se compró nada aquí. Los cuadros los pintaron artesanos del Eje Cafetero. Las lámparas son de guadua, hechas por artesanos del Valle del Cocora. Y las bandejas parrilleras en las que llega la carne caliente a la mesa las fundieron caldereros colombianos.",
+    "casaMesa": "Vienen familias enteras y les armamos la mesa larga. Nadie te va a apurar. Y somos BYOB: trae tu vino o tu cerveza, aquí no se cobra descorche.",
+    "fraseLineas": ["Colombia queda", "más cerca", "de lo que crees"],
+    "familiaLineas": ["Tres generaciones", "y una cocina"],
+    "familiaTexto": "Don Andy y su hijo Andrés están en la cocina, padre e hijo. El frente de sala lo lleva el resto de la familia, y con ellos trabajan meseros y cocineros contratados: el restaurante también da empleo en el barrio.",
+    "origenTitulo": "De dónde vienen",
+    "origenTexto": "De La Paila, Valle del Cauca: un pueblo pequeño rodeado de caña de azúcar, de gente trabajadora. Llegaron a Pensilvania en 1999 y abrieron Cuquita en 2015.",
+    "porQueAquiTitulo": "Por qué Fountain Hill",
+    "porQueAquiTexto": "Porque queda justo en medio de Allentown y Bethlehem. Se llega desde los dos lados."
+  },
+  "visita": {
+    "tituloPagina": "Visítanos",
+    "descripcion": "Cómo llegar a Cuquita Restaurant: 960 Broadway, Fountain Hill, PA. Horario, parqueadero y teléfono.",
+    "tituloLineas": ["960 Broadway,", "Fountain Hill"],
+    "entradilla": "A dos cuadras del hospital St. Luke’s, justo entre Allentown y Bethlehem. Parqueadero amplio a la puerta.",
+    "comoLlegarTitulo": "Cómo llegar",
+    "parqueaderoTitulo": "Parqueadero",
+    "parqueaderoTexto": "El local está en un centro comercial con parqueadero amplio y gratuito a la puerta. No hace falta buscar sitio en la calle.",
+    "hospitalTitulo": "Desde St. Luke’s",
+    "hospitalTexto": "A dos cuadras. Da tiempo a comer y volver en una hora de almuerzo, y se puede llamar antes para que esté listo al llegar.",
+    "pedidoTitulo": "Pedir y recoger",
+    "pedidoTexto": "Se puede pedir por teléfono y recoger en el local, o hacerlo por el sistema de pedidos online. No hacemos reparto propio.",
+    "avisoPedido": "El pedido online se hace en otra página, la de nuestro sistema de caja. Pagas ahí y recoges aquí.",
+    "mapaTexto": "Abrir en Google Maps"
+  },
+  "error404": {
+    "titulo": "Esta página no existe",
+    "lineas": ["Esta página", "no está en", "la carta"],
+    "texto": "Puede que el enlace esté viejo o que hayamos movido algo de sitio. La carta completa sigue donde siempre."
+  },
+  "legal": {
+    "titulo": "Privacidad y accesibilidad",
+    "descripcion": "Qué datos recoge esta web (ninguno que te identifique) y cómo está hecha para que la pueda usar todo el mundo.",
+    "lineas": ["Privacidad", "y accesibilidad"],
+    "privacidadTitulo": "Qué datos recogemos",
+    "privacidadTexto": "Ninguno que te identifique. Esta web no usa cookies, no tiene formularios y no comparte nada con terceros con fines publicitarios. No hay botones de redes que te sigan por otras páginas: los enlaces a Instagram son enlaces normales.",
+    "medicionTitulo": "Medición",
+    "medicionTexto": "Contamos visitas de forma anónima y agregada, sin cookies y sin guardar direcciones IP completas. Sirve para saber qué páginas se ven y desde qué tipo de dispositivo. No permite reconocer a nadie ni seguirle el rastro entre sitios.",
+    "tercerosTitulo": "Cuando sales de esta web",
+    "tercerosTexto": "Al pedir online te llevamos al sistema de nuestra caja registradora, y al ver la carta en el móvil puedes acabar en MenuUnfolded. Son páginas de otras empresas, con sus propias políticas. Lo mismo con Google Maps e Instagram.",
+    "accesibilidadTitulo": "Accesibilidad",
+    "accesibilidadTexto": "Esta web se construye para cumplir el nivel AA de las WCAG 2.2. Se comprueba de forma automática en cada cambio, en móvil, tableta y escritorio: contraste, navegación con teclado, texto alternativo en todas las fotos y respeto por quien ha pedido que no haya animaciones.",
+    "avisoTitulo": "¿Algo no funciona?",
+    "avisoTexto": "Si algo de esta web no te deja hacer lo que venías a hacer, llámanos al 610-868-5252 y lo arreglamos."
   }
 }

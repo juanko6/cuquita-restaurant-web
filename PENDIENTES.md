@@ -11,14 +11,18 @@ Lo que queda son estas tareas.
 
 ## Abiertas
 
-### #1 · Historia real para /nosotros — **bloqueante de contenido**
+### ~~#1 · Historia real para /nuestra-experiencia~~ — **hecha**
 
-Rellenar `docs/historia-cuquita.md` —está en la carpeta de trabajo local, fuera del
-repositorio— con datos reales del restaurante. Sin eso, la página "Nosotros" no se puede
-escribir sin inventar.
+El cuestionario está rellenado y la página escrita: Don Andy y Andrés en la cocina, la
+familia en la sala, La Paila (Valle del Cauca), 1999 a Pensilvania, 2015 la apertura, los
+cuadros del Eje Cafetero y las lámparas de guadua del Valle del Cocora.
 
-- **Responsable:** cliente + Juanko
-- **Bloquea:** página /nosotros, bloque de historia de la home
+Trajo además una corrección importante: **la parrilla es de gas, no de carbón.** La
+portada prometía carbón y ya no.
+
+Sigue sin usarse, por no estar confirmado: qué había en el 960 de Broadway antes de 2015.
+Si alguna vez interesa, está en las licencias municipales de Fountain Hill o en la
+hemeroteca de The Morning Call.
 
 ### #2 · Correo separado del hosting
 

@@ -333,7 +333,7 @@ carta y los especiales. Si la API falla, el job avisa y no despliega.
 | ~~**2 · Sistema**~~ | ~~`ui/` y `menu/` con su página de muestra interna~~                           | **Hecho.** Diez componentes y el muestrario en /dev/componentes          |
 | ~~**3 · Carta**~~   | ~~`/carta` en los dos idiomas, con las 13 categorías~~                         | **Hecho.** 88 platos y 88 fotos en los dos idiomas, 11,3 KB comprimido   |
 | ~~**4 · Home**~~    | ~~Las nueve secciones, con las seis animaciones~~                              | **Hecho.** Nueve bloques, menú animado y 203 bytes de JavaScript         |
-| **5 · Resto**       | `/nuestra-experiencia`, `/visitanos`, legales, 404                             | Todas las páginas con su schema y su hreflang                            |
+| ~~**5 · Resto**~~   | ~~`/nuestra-experiencia`, `/visitanos`, legales, 404~~                         | **Hecho.** Once páginas, todas con schema y hreflang                     |
 | **6 · Producción**  | Caddy, DNS, 301, `noindex` del subdominio, analítica                           | El sitio viejo redirige y el nuevo mide                                  |
 
 La fase 1 va antes que la 2 a propósito: con los datos reales tipados, los componentes se

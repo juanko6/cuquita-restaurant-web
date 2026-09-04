@@ -9,18 +9,36 @@ interface Props {
   variant?: 'solid' | 'outline' | 'ghost';
   size?: 'sm' | 'md';
   href?: string;
-  /** Solo tiene sentido con href; se ignora en un <button>. */
+  /** Solo tienen sentido con href; se ignoran en un <button>. */
   rel?: string;
+  hreflang?: string;
+  lang?: string;
   type?: 'button' | 'submit';
   class?: string;
 }
 
-const { variant = 'solid', size = 'md', href, rel, type = 'button', class: extra } = Astro.props;
+const {
+  variant = 'solid',
+  size = 'md',
+  href,
+  rel,
+  hreflang,
+  lang,
+  type = 'button',
+  class: extra,
+} = Astro.props;
 const Etiqueta = href ? 'a' : 'button';
 const clases = ['boton', `boton--${variant}`, `boton--${size}`, extra].filter(Boolean).join(' ');
 ---
 
-<Etiqueta class={clases} href={href} rel={href ? rel : undefined} type={href ? undefined : type}>
+<Etiqueta
+  class={clases}
+  href={href}
+  rel={href ? rel : undefined}
+  hreflang={href ? hreflang : undefined}
+  lang={lang}
+  type={href ? undefined : type}
+>
   <slot />
 </Etiqueta>
 
