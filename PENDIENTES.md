@@ -30,6 +30,18 @@ de Google Business.
 - **Hay que hacerlo ANTES de mover los DNS a Oracle.**
 - **Bloquea:** migración
 
+### #8 · El carrusel de redes se queda esperando fotos
+
+La portada enlaza a Instagram, pero el carrusel de fotos no se puede montar: haría falta
+una selección de imágenes descargadas y aprobadas. No se incrusta el feed en vivo (cookies
+de terceros y banner de consentimiento). Ver también #6.
+
+### #9 · La historia del chef todavía no se puede escribir
+
+La portada no lleva bloque de historia a propósito: sin los datos de
+`docs/historia-cuquita.md` habría que inventarlos. Es lo que bloquea también
+`/nuestra-experiencia`. Ver #1.
+
 ### #3 · Fotos del local, del equipo y del carbón
 
 Media jornada en servicio. Es lo único que le falta al proyecto.

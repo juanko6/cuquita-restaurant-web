@@ -1,0 +1,92 @@
+---
+/**
+ * Reseñas de Google, citadas y atribuidas tal cual.
+ *
+ * No se reescriben ni se inventan. La lista está curada a mano y pendiente de que
+ * el restaurante la apruebe: son palabras de clientes reales con su nombre.
+ */
+import Card from '../ui/Card.astro';
+import { copy } from '../../lib/i18n.ts';
+import { PERFIL_GOOGLE, rating, reviews } from '../../lib/reviews.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const opiniones = reviews();
+const nota = rating();
+---
+
+<ul class="resenas" role="list">
+  {
+    opiniones.map((opinion) => (
+      <Card as="li" tone="raised" class="resena">
+        <blockquote class="resena__texto">{opinion.texto}</blockquote>
+        <figcaption class="resena__pie">
+          <span class="resena__estrellas" aria-label={`${opinion.estrellas} / 5`}>
+            {'★'.repeat(opinion.estrellas)}
+          </span>
+          <span>{opinion.autor}</span>
+        </figcaption>
+      </Card>
+    ))
+  }
+</ul>
+
+<p class="resenas__enlace">
+  <a href={PERFIL_GOOGLE} rel="noopener">{t.inicio.resenasEnlace}</a>
+  <span class="resenas__nota">{nota.toLocaleString(locale)} / 5</span>
+</p>
+
+<style>
+  .resenas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--space-s);
+    margin: var(--space-l) 0 0;
+    padding: 0;
+  }
+
+  .resena {
+    gap: var(--space-s);
+    padding: var(--space-m);
+  }
+
+  .resena__texto {
+    margin: 0;
+    font-size: var(--step-0);
+    line-height: 1.5;
+  }
+
+  .resena__pie {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-block-start: auto;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .resena__estrellas {
+    color: var(--color-accent);
+    letter-spacing: 0.1em;
+  }
+
+  .resenas__enlace {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .resenas__nota {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+</style>
