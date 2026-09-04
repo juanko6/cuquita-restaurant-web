@@ -91,3 +91,12 @@ describe('imageFileName', () => {
     expect(imageFileName('abc-123', null)).toBeNull();
   });
 });
+
+describe('coherencia de la caché', () => {
+  it('cada archivo declara el idioma que le corresponde', () => {
+    // Su API devuelve siempre language: "es", también con ?lang=en. writeCache lo
+    // normaliza para que en.json no se contradiga a sí mismo.
+    expect(readCache('es').menu.language).toBe('es');
+    expect(readCache('en').menu.language).toBe('en');
+  });
+});

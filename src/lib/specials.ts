@@ -2,10 +2,12 @@
  * Especiales del día.
  *
  * MenuUnfolded guarda cada especial con un array `recurrence_days` de enteros 0-6.
- * El índice 0 es lunes: "Jueves de Lentejas" viene con [3], y el martes —el único día
- * que el restaurante cierra— es el único índice sin ningún especial asignado.
- * Queda una comprobación pendiente contra el panel de MenuUnfolded antes de publicar
- * (ver PENDIENTES.md).
+ * El índice 0 es lunes: "Jueves de Lentejas" viene con [3], el martes —el único día que
+ * el restaurante cierra— es el único índice sin especial propio, y construido un viernes
+ * la home saca el sancocho. El mapeo es correcto.
+ *
+ * Lo que sigue abierto no es técnico: confirmar con el restaurante que esos son de
+ * verdad los días de cada plato (ver PENDIENTES.md).
  */
 
 import type { Special } from './menu/types.ts';

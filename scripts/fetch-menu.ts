@@ -92,9 +92,9 @@ async function main(): Promise<void> {
     );
   }
 
-  // Solo se escribe cuando las dos versiones han llegado bien: media carta es peor que ninguna.
-  for (const [locale, menu] of menus) writeCache(locale, menu);
-
+  // Las fotos van antes que el JSON a propósito: si una descarga falla, la caché
+  // sigue siendo la anterior y nunca queda un JSON nuevo apuntando a un .webp que
+  // no existe. Al revés sí dejaría el repositorio incoherente.
   const images = [...menus.values()].flatMap(imagesOf);
   const unique = new Map(images.map((image) => [image.file, image]));
   let nuevas = 0;
@@ -105,10 +105,18 @@ async function main(): Promise<void> {
 
   const enDisco = readdirSync(IMAGE_DIR).filter((name) => !name.startsWith('.')).length;
   console.log(`Fotos: ${nuevas} descargadas, ${enDisco} en src/assets/menu`);
+
+  // Y solo cuando las dos versiones han llegado bien: media carta es peor que ninguna.
+  for (const [locale, menu] of menus) writeCache(locale, menu);
+  console.log('Caché actualizada en src/data/menu');
 }
 
 main().catch((error: unknown) => {
-  console.error('\nNo se pudo refrescar la carta. No se ha tocado nada en disco.\n');
+  console.error('\nNo se pudo refrescar la carta.');
+  console.error('La caché de src/data/menu sigue intacta: se escribe al final y solo');
+  console.error('cuando todo lo anterior ha ido bien. Puede que sí se hayan descargado');
+  console.error('algunas fotos nuevas en src/assets/menu; son inofensivas y la siguiente');
+  console.error('ejecución las reutiliza.\n');
   console.error(error instanceof Error ? error.message : error);
   process.exit(1);
 });

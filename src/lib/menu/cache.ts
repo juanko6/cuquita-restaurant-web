@@ -24,7 +24,11 @@ export function cachePath(locale: Locale): string {
 }
 
 export function writeCache(locale: Locale, response: MenuResponse): void {
-  writeFileSync(cachePath(locale), `${JSON.stringify(response, null, 2)}\n`, 'utf8');
+  // Su API devuelve siempre `menu.language: "es"`, también cuando se pide `?lang=en`.
+  // Guardarlo tal cual dejaría un en.json que se contradice a sí mismo, así que se
+  // normaliza al idioma que se pidió de verdad.
+  const coherente: MenuResponse = { ...response, menu: { ...response.menu, language: locale } };
+  writeFileSync(cachePath(locale), `${JSON.stringify(coherente, null, 2)}\n`, 'utf8');
 }
 
 /**
@@ -43,7 +47,17 @@ export function readCache(locale: Locale): MenuResponse {
     );
   }
 
-  const parsed = menuResponseSchema.safeParse(JSON.parse(contents));
+  let json: unknown;
+  try {
+    json = JSON.parse(contents);
+  } catch (error) {
+    throw new MenuCacheError(
+      `La carta en caché para "${locale}" no es JSON válido (${path}): ` +
+        `${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+
+  const parsed = menuResponseSchema.safeParse(json);
   if (!parsed.success) {
     throw new MenuCacheError(
       `La carta en caché para "${locale}" está corrupta:\n${parsed.error.issues
