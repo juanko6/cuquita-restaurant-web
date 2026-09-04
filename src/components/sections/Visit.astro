@@ -1,0 +1,97 @@
+---
+import Button from '../ui/Button.astro';
+import { copy } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const MAPA =
+  'https://www.google.com/maps/dir/?api=1&destination=Cuquita+Restaurant,960+Broadway,Fountain+Hill,PA+18015';
+const MARTES = 1;
+---
+
+<div class="visita">
+  <div>
+    <p class="visita__texto">{t.inicio.visitaTexto}</p>
+    <div class="visita__acciones">
+      <Button variant="solid" href={MAPA}>{t.nav.comoLlegar}</Button>
+      <Button variant="outline" href="tel:+16108685252">610-868-5252</Button>
+    </div>
+    <p class="visita__byob">{t.inicio.byob}</p>
+  </div>
+
+  <div>
+    <h3 class="visita__subtitulo">{t.inicio.horarioTitulo}</h3>
+    <dl class="horario">
+      {
+        t.inicio.horario.map(([dia, horas], indice) => (
+          <div class:list={['horario__fila', { 'horario__fila--cerrado': indice === MARTES }]}>
+            <dt>{dia}</dt>
+            <dd>{horas}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</div>
+
+<style>
+  .visita {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+    gap: var(--space-xl);
+    margin-block-start: var(--space-l);
+  }
+
+  .visita__texto {
+    max-inline-size: var(--measure);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .visita__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .visita__byob {
+    margin-block-start: var(--space-m);
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .visita__subtitulo {
+    font-size: var(--step-1);
+  }
+
+  .horario {
+    margin: var(--space-s) 0 0;
+  }
+
+  .horario__fila {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-3xs);
+    border-block-end: 1px solid var(--color-rule);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .horario__fila--cerrado {
+    color: var(--color-text-muted);
+  }
+
+  .horario dt,
+  .horario dd {
+    margin: 0;
+  }
+</style>

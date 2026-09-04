@@ -1,0 +1,30 @@
+{
+  "fuente": "Google",
+  "nota": 4.4,
+  "opiniones": [
+    {
+      "id": "irychio",
+      "texto": "The food is always good, top quality the people here are so kind and professional.",
+      "autor": "Irychio Pérez",
+      "estrellas": 5
+    },
+    {
+      "id": "jay",
+      "texto": "Very great honest people, great food and great service. I've been there more than a few times and they never fail.",
+      "autor": "Jay S.",
+      "estrellas": 5
+    },
+    {
+      "id": "sazon",
+      "texto": "Esta no es uno de los mejores, éste es el mejor sazón que he probado.",
+      "autor": "Reseña en Google",
+      "estrellas": 5
+    },
+    {
+      "id": "damarys",
+      "texto": "I went with a group and we were all happy with the waitress and the food. I recommend it.",
+      "autor": "Damarys Vazquez",
+      "estrellas": 5
+    }
+  ]
+}

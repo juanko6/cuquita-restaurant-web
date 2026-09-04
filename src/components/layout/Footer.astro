@@ -1,0 +1,86 @@
+---
+import { copy, ruta } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="wrap pie__fila">
+    <div>
+      <p class="pie__marca">{t.sitio.nombre}</p>
+      <p class="pie__dato">960 Broadway, Fountain Hill, PA 18015</p>
+      <p class="pie__dato">
+        <a href="tel:+16108685252">610-868-5252</a>
+      </p>
+      <p class="pie__dato pie__byob">{t.inicio.byob}</p>
+    </div>
+
+    <nav class="pie__enlaces" aria-label={t.nav.carta}>
+      <a href={ruta('inicio', locale)}>{t.nav.inicio}</a>
+      <a href={ruta('carta', locale)}>{t.nav.carta}</a>
+      <a href="https://www.instagram.com/cuquitarestaurant/" rel="noopener">Instagram</a>
+    </nav>
+  </div>
+
+  <p class="wrap pie__copyright">© {anio} {t.sitio.nombre}</p>
+</footer>
+
+<style>
+  .pie {
+    padding-block: var(--space-xl) var(--space-l);
+    border-block-start: 1px solid var(--color-rule);
+    background: var(--color-bg-alt);
+  }
+
+  .pie__fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-l);
+  }
+
+  .pie__marca {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .pie__dato {
+    margin-block-start: var(--space-3xs);
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  .pie__byob {
+    color: var(--color-accent-text);
+  }
+
+  .pie__enlaces {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  .pie__enlaces a {
+    min-block-size: 2.25rem;
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .pie__copyright {
+    margin-block-start: var(--space-l);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+</style>

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  daySpecial,
+  everydaySpecials,
   headlineSpecial,
   specialsForDay,
   toMenuDayIndex,
@@ -84,5 +86,25 @@ describe('headlineSpecial', () => {
 
   it('devuelve null cuando no hay nada activo', () => {
     expect(headlineSpecial([], 2)).toBeNull();
+  });
+});
+
+describe('especiales de todos los días', () => {
+  it('los patacones y el brazo de reina no son "el plato del miércoles"', () => {
+    // Están los seis o siete días, así que son oferta fija. Ponerlos bajo un día
+    // concreto en la tira semanal haría creer que son cosa de ese día.
+    expect(everydaySpecials(specials).map((s) => s.title)).toEqual([
+      'Patacones, chicharrón y guacamole',
+      'Brazo de reina frío',
+    ]);
+  });
+
+  it('el miércoles no tiene plato propio y el jueves sí', () => {
+    expect(daySpecial(specials, 2)).toBeNull();
+    expect(daySpecial(specials, 3)?.title).toBe('Jueves de Lentejas');
+  });
+
+  it('el martes tampoco, que está cerrado', () => {
+    expect(daySpecial(specials, 1)).toBeNull();
   });
 });

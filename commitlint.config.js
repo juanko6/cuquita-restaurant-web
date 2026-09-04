@@ -6,7 +6,7 @@ export default {
       'always',
       [
         'carta',
-        'home',
+        'inicio',
         'experiencia',
         'visita',
         'menu',

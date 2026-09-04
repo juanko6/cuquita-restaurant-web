@@ -59,3 +59,26 @@ export function headlineSpecial(specials: readonly Special[], dayIndex: number):
     candidate.recurrenceDays.length < most.recurrenceDays.length ? candidate : most,
   );
 }
+
+/** Días que el restaurante abre: todos menos el martes. */
+export const DIAS_ABIERTOS = 6;
+
+/**
+ * Un especial que está todos los días abiertos no es "el plato del jueves": es parte
+ * de la oferta fija. Distinguirlos importa en la tira semanal, donde poner los
+ * patacones de todos los días bajo el miércoles hace creer que son cosa del miércoles.
+ */
+export function isEveryday(special: Special): boolean {
+  return special.recurrenceDays.length >= DIAS_ABIERTOS;
+}
+
+/** El plato propio de un día, ignorando los que están siempre. */
+export function daySpecial(specials: readonly Special[], dayIndex: number): Special | null {
+  const propios = specialsForDay(specials, dayIndex).filter((special) => !isEveryday(special));
+  return propios[0] ?? null;
+}
+
+/** Los que están todos los días abiertos, para contarlos aparte. */
+export function everydaySpecials(specials: readonly Special[]): Special[] {
+  return specials.filter((special) => special.isActive && isEveryday(special));
+}

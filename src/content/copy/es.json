@@ -13,7 +13,9 @@
     "llamar": "Llamar",
     "comoLlegar": "Cómo llegar",
     "otroIdioma": "English",
-    "irAOtroIdioma": "Ver esta página en inglés"
+    "irAOtroIdioma": "Ver esta página en inglés",
+    "abrir": "Menú",
+    "cerrar": "Cerrar"
   },
   "carta": {
     "titulo": "Carta",
@@ -29,5 +31,41 @@
     "etiqueta": "Hoy en Cuquita",
     "tambien": "También hoy:",
     "cerrado": "Hoy descansamos. Nos vemos mañana desde las 11."
+  },
+  "inicio": {
+    "tituloPagina": "Cocina colombiana en Fountain Hill",
+    "heroLineas": ["A qué sabe", "Colombia"],
+    "heroAcento": 1,
+    "heroEntradilla": "Cocina casera de todas las regiones, en el corazón de Fountain Hill. Tú traes la botella, nosotros prendemos el carbón.",
+    "bandaPiezas": ["A qué sabe Colombia", "Cuquita", "Fountain Hill", "Desde Colombia"],
+    "conceptoLineas": ["Un país entero", "en una carta"],
+    "conceptoTexto": "Colombia no cocina igual en la costa que en la montaña. Por eso aquí conviven la bandeja paisa, el pargo rojo frito, la papa rellena y el calentado de las siete de la mañana. Setenta y cuatro platos de comida, hechos el mismo día, como en casa.",
+    "destacadosLineas": ["Si es tu primera vez,", "empieza por aquí"],
+    "destacadosTexto": "Seis platos que resumen la casa. Con hambre de verdad, la bandeja paisa. Si vienen varios, la parrillada. Y si solo pasabas por ahí, unas empanadas y un pandebono recién hecho.",
+    "semanaLineas": ["Cada día", "tiene su plato"],
+    "semanaTexto": "Los martes descansamos. El resto de la semana, además de la carta completa, hay algo distinto esperando.",
+    "semanaSinEspecial": "Solo carta",
+    "semanaCerrado": "Cerrado",
+    "experienciaLineas": ["Se entra con hambre", "y sales parte de la familia"],
+    "experienciaTexto": "Las paredes las decoraron artesanos colombianos. Las mesas suenan. Vienen familias enteras y les armamos la mesa larga. Nadie te va a apurar, y si no sabes qué pedir, te lo explicamos plato por plato. Somos BYOB: trae tu vino o tu cerveza, aquí no se cobra descorche.",
+    "resenasLineas": ["4,4 sobre 700", "personas que volvieron"],
+    "resenasTexto": "No lo decimos nosotros. Lo dicen los que ya se sentaron.",
+    "resenasEnlace": "Leer en Google",
+    "redesLineas": ["Síguenos", "en Instagram"],
+    "redesTexto": "Las fotos de los platos, los especiales y lo que se cocina cada día.",
+    "visitaLineas": ["960 Broadway,", "Fountain Hill"],
+    "visitaTexto": "A dos cuadras de St. Luke’s, con parqueadero amplio a la puerta. Pedidos y preguntas: 610-868-5252.",
+    "horarioTitulo": "Horario",
+    "horario": [
+      ["Lunes", "11:00 – 18:00"],
+      ["Martes", "Cerrado"],
+      ["Miércoles", "11:00 – 18:00"],
+      ["Jueves", "11:00 – 18:00"],
+      ["Viernes", "11:00 – 20:00"],
+      ["Sábado", "11:00 – 20:00"],
+      ["Domingo", "11:00 – 18:00"]
+    ],
+    "byob": "BYOB · Trae tu vino o tu cerveza, no cobramos descorche",
+    "semanaSiempre": "Todos los días abiertos, además:"
   }
 }

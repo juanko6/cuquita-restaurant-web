@@ -1,0 +1,86 @@
+---
+/**
+ * "Hoy en Cuquita": el especial que toca según el día.
+ *
+ * Es el único bloque del sitio que se renueva solo. Los martes, que el restaurante
+ * cierra, no queda ningún especial propio y el bloque lo dice en vez de desaparecer
+ * sin explicación.
+ */
+import PriceTag from '../menu/PriceTag.astro';
+import { copy } from '../../lib/i18n.ts';
+import { headlineSpecial, specialsForDay, toMenuDayIndex } from '../../lib/specials.ts';
+import type { Locale, Special } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+  specials: readonly Special[];
+}
+
+const { locale, specials } = Astro.props;
+const t = copy(locale);
+
+const hoy = toMenuDayIndex(new Date());
+const principal = headlineSpecial(specials, hoy);
+const tambien = specialsForDay(specials, hoy).filter((s) => s.id !== principal?.id);
+const MARTES = 1;
+---
+
+<div class="hoy">
+  <p class="hoy__etiqueta">{t.hoy.etiqueta}</p>
+
+  {
+    principal ? (
+      <>
+        <p class="hoy__plato">{principal.title}</p>
+        <PriceTag amount={principal.price} class="hoy__precio" />
+        {tambien.length > 0 && (
+          <p class="hoy__tambien">
+            {t.hoy.tambien} {tambien.map((s) => s.title).join(' · ')}
+          </p>
+        )}
+      </>
+    ) : (
+      <p class="hoy__plato hoy__plato--sin">{hoy === MARTES ? t.hoy.cerrado : t.carta.titulo}</p>
+    )
+  }
+</div>
+
+<style>
+  .hoy {
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .hoy__etiqueta {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .hoy__plato {
+    margin-block-start: var(--space-2xs);
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    text-transform: uppercase;
+  }
+
+  .hoy__plato--sin {
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .hoy__precio {
+    display: block;
+    margin-block-start: var(--space-3xs);
+  }
+
+  .hoy__tambien {
+    margin-block-start: var(--space-xs);
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+</style>

@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /** Las rutas que ya existen. Crece con cada fase. */
-const PAGINAS = ['/', '/carta', '/en/menu'];
+const PAGINAS = ['/', '/en/', '/carta', '/en/menu'];
 
 /**
  * Un píxel de margen. Los anchos se calculan en subpíxeles y un 0,4 de redondeo no
@@ -144,5 +144,48 @@ test.describe('/carta', () => {
 
     await expect(page).toHaveURL(/\/en\/menu/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+});
+
+test.describe('portada', () => {
+  test('el menú abre, se cierra con Escape y funciona con teclado', async ({ page }) => {
+    await page.goto('/');
+    const caja = page.locator('.nav__caja');
+    const panel = page.locator('.nav__panel');
+
+    await expect(panel).toBeHidden();
+    await page.locator('.nav__boton').click();
+    await expect(panel).toBeVisible();
+    await expect(caja).toHaveAttribute('open');
+
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+  });
+
+  test('la semana tiene los siete días y el martes cerrado', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('.semana__dia')).toHaveCount(7);
+    await expect(page.locator('.semana__dia--cerrado')).toHaveCount(1);
+
+    // Los platos que están todos los días van aparte, no bajo un día concreto:
+    // si no, parecen cosa del miércoles.
+    await expect(page.locator('.semana__siempre')).toContainText('Patacones');
+    await expect(page.locator('.semana__dia').nth(2)).not.toContainText('Patacones');
+  });
+
+  test('el bloque del día y los seis destacados están', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('.hoy__etiqueta')).toBeVisible();
+    await expect(page.locator('.destacados .plato')).toHaveCount(6);
+  });
+
+  test('las reseñas se muestran citadas y con su autor', async ({ page }) => {
+    await page.goto('/');
+
+    const resenas = page.locator('.resena');
+    await expect(resenas).toHaveCount(4);
+    await expect(resenas.first().locator('.resena__pie')).not.toBeEmpty();
   });
 });
