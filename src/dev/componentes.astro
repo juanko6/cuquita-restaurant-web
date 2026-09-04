@@ -1,0 +1,166 @@
+---
+/**
+ * Muestrario del sistema de componentes.
+ *
+ * Existe para verlos todos juntos, con datos reales de la carta, y detectar a ojo
+ * lo que una prueba no ve: que dos tarjetas no midan igual, que un botón desentone,
+ * que un titular corte mal.
+ *
+ * No se publica: vive fuera de src/pages y la ruta solo se inyecta en desarrollo,
+ * así que en un build de producción esta página no llega ni a existir.
+ */
+import Base from '../layouts/Base.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Carousel from '../components/ui/Carousel.astro';
+import Marquee from '../components/ui/Marquee.astro';
+import Section from '../components/ui/Section.astro';
+import SplitHeading from '../components/ui/SplitHeading.astro';
+import CategoryCarousel from '../components/menu/CategoryCarousel.astro';
+import DishCard from '../components/menu/DishCard.astro';
+import PriceTag from '../components/menu/PriceTag.astro';
+import { getMenu } from '../lib/menu/index.ts';
+import { imageCount } from '../lib/menu/images.ts';
+
+const menu = getMenu('es');
+const especialidades = menu.categories.find((c) => c.name.startsWith('Especialidades'))!;
+const antojitos = menu.categories.find((c) => c.name.startsWith('Antojitos'))!;
+const conTexto = antojitos.dishes.find((d) => d.description)!;
+const sinTexto = antojitos.dishes.find((d) => !d.description)!;
+const agotado = menu.categories.flatMap((c) => c.dishes).find((d) => !d.isAvailable);
+
+const platos = menu.categories.reduce((total, c) => total + c.dishes.length, 0);
+---
+
+<Base
+  title="Componentes · Cuquita"
+  description="Muestrario interno del sistema de componentes. No se publica."
+>
+  <Section tone="deep">
+    <p class="etiqueta">Muestrario interno · no se publica</p>
+    <SplitHeading as="h1" lines={['Sistema de', 'componentes']} accent={1} />
+    <p class="dato">
+      {menu.categories.length} categorías · {platos} platos · {imageCount()} fotos
+    </p>
+  </Section>
+
+  <Section>
+    <h2 class="titulo">Botones</h2>
+    <div class="fila">
+      <Button variant="solid">Pedir y recoger</Button>
+      <Button variant="outline">Ver la carta</Button>
+      <Button variant="ghost" href="tel:+16108685252">610-868-5252</Button>
+      <Button variant="solid" size="sm">Pequeño</Button>
+      <Button variant="outline" size="sm">Pequeño</Button>
+    </div>
+    <p class="nota">
+      Con <code>href</code> sale un enlace y sin él un botón. Nunca un <code>div</code> con un click.
+    </p>
+  </Section>
+
+  <Section tone="deep">
+    <h2 class="titulo">Titulares</h2>
+    <SplitHeading lines={['A qué sabe', 'Colombia']} accent={1} />
+    <SplitHeading as="h3" lines={['Se entra con hambre', 'y sales parte de la familia']} />
+    <p class="nota">
+      Las líneas se pasan a mano, no las parte JavaScript. Cada una entra desde detrás de su máscara
+      con 60 ms de diferencia.
+    </p>
+  </Section>
+
+  <Section glyph>
+    <h2 class="titulo">La C de fondo</h2>
+    <p class="nota">
+      Esta banda lleva el glifo del logotipo al 7 %, moviéndose más despacio que el texto. Es lo que
+      hace que el contenido parezca flotar por delante de algo.
+    </p>
+  </Section>
+
+  <Section tone="deep">
+    <h2 class="titulo">Banda horizontal</h2>
+  </Section>
+  <Marquee items={['A qué sabe Colombia', '✳', 'Cuquita', '✳', 'Fountain Hill', '✳']} />
+
+  <Section>
+    <h2 class="titulo">Ficha de plato</h2>
+    <p class="nota">
+      La prueba de fuego: con descripción, sin ella y agotado. Las tres tienen que medir igual y el
+      precio queda anclado abajo.
+    </p>
+    <Carousel label="Fichas de ejemplo">
+      <DishCard dish={conTexto} loading="eager" />
+      <DishCard dish={sinTexto} loading="eager" />
+      {agotado && <DishCard dish={agotado} loading="eager" />}
+    </Carousel>
+  </Section>
+
+  <Section tone="deep">
+    <h2 class="titulo">Categoría completa</h2>
+    <CategoryCarousel category={especialidades} />
+  </Section>
+
+  <Section>
+    <h2 class="titulo">Piezas sueltas</h2>
+    <div class="fila">
+      <PriceTag amount={23.99} />
+      <PriceTag amount={2.5} />
+      <PriceTag amount={34.99} />
+    </div>
+    <div class="rejilla">
+      <Card tone="raised"><p class="relleno">Tarjeta con fondo</p></Card>
+      <Card><p class="relleno">Tarjeta sin fondo</p></Card>
+    </div>
+  </Section>
+</Base>
+
+<style>
+  .etiqueta {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .dato {
+    margin-block-start: var(--space-s);
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+
+  .titulo {
+    margin-block-end: var(--space-m);
+    font-size: var(--step-2);
+  }
+
+  .fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .rejilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-s);
+    margin-block-start: var(--space-m);
+  }
+
+  .relleno {
+    padding: var(--space-m);
+  }
+
+  .nota {
+    max-inline-size: var(--measure);
+    margin-block: var(--space-s);
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+</style>

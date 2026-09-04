@@ -1,0 +1,62 @@
+---
+/**
+ * Una banda de la página: aplica el fondo y el ritmo vertical, y coloca —si se
+ * pide— el glifo de marca que hace flotar el contenido.
+ */
+import glifo from '../../assets/brand/glifo-c.svg';
+
+interface Props {
+  tone?: 'wine' | 'deep';
+  glyph?: boolean;
+  id?: string;
+  labelledby?: string;
+}
+
+const { tone = 'wine', glyph = false, id, labelledby } = Astro.props;
+---
+
+<section class:list={['banda', `banda--${tone}`]} id={id} aria-labelledby={labelledby}>
+  {
+    glyph && (
+      <img class="banda__glifo flota" src={glifo.src} alt="" aria-hidden="true" loading="lazy" />
+    )
+  }
+  <div class="wrap banda__contenido">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .banda {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-2xl);
+  }
+
+  .banda--wine {
+    background: var(--color-bg);
+  }
+
+  .banda--deep {
+    background: var(--color-bg-alt);
+  }
+
+  /* Movimiento 03 del sistema: la C del logotipo, gigante y al 7 %, con el doble
+     de deriva que una foto normal. Es el equivalente del aspa de Sibuya y lo que
+     hace que el contenido parezca flotar por delante de algo. */
+  .banda__glifo {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: -6%;
+    z-index: 0;
+    inline-size: min(60vw, 34rem);
+    opacity: 0.07;
+    translate: 0 -50%;
+    --deriva: 12%;
+  }
+
+  .banda__contenido {
+    position: relative;
+    z-index: 1;
+  }
+</style>

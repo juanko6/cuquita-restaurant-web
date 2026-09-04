@@ -1,0 +1,44 @@
+---
+/**
+ * La banda de texto que cruza la pantalla. Sibuya tiene cinco así en su portada.
+ *
+ * La pista se repite dos veces para que el bucle no tenga costura. Es decorativa,
+ * así que va oculta a los lectores de pantalla: el mismo texto repetido seis veces
+ * no aporta nada a quien lo escucha.
+ */
+interface Props {
+  items: readonly string[];
+  seconds?: number;
+}
+
+const { items, seconds = 40 } = Astro.props;
+---
+
+<div class="marquesina" aria-hidden="true" style={`--marquesina-duracion:${seconds}s`}>
+  {
+    [0, 1].map(() => (
+      <div class="marquesina__pista">
+        {items.map((item) => (
+          <span class="marquesina__pieza">{item}</span>
+        ))}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .marquesina {
+    border-block: 1px solid var(--color-rule);
+    padding-block: var(--space-xs);
+  }
+
+  .marquesina__pieza {
+    color: var(--color-accent);
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+</style>

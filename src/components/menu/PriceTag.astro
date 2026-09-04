@@ -1,0 +1,26 @@
+---
+/**
+ * Un precio. Cifras tabulares para que las columnas cuadren y un único sitio donde
+ * se decide el formato.
+ */
+import { money } from '../../lib/format.ts';
+
+interface Props {
+  amount: number;
+  class?: string;
+}
+
+const { amount, class: extra } = Astro.props;
+---
+
+<span class:list={['precio', extra]}>{money(amount)}</span>
+
+<style>
+  .precio {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+</style>

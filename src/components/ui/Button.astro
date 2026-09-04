@@ -1,0 +1,84 @@
+---
+/**
+ * Botón o enlace, según haga falta.
+ *
+ * Si lleva `href` sale un <a> y si no un <button>. Nunca un <div> con un click:
+ * eso no se enfoca con el teclado ni lo anuncia un lector de pantalla.
+ */
+interface Props {
+  variant?: 'solid' | 'outline' | 'ghost';
+  size?: 'sm' | 'md';
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { variant = 'solid', size = 'md', href, type = 'button', class: extra } = Astro.props;
+const Etiqueta = href ? 'a' : 'button';
+const clases = ['boton', `boton--${variant}`, `boton--${size}`, extra].filter(Boolean).join(' ');
+---
+
+<Etiqueta class={clases} href={href} type={href ? undefined : type}>
+  <slot />
+</Etiqueta>
+
+<style>
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2xs);
+    border: 1px solid currentcolor;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out);
+  }
+
+  /* 44 px de alto mínimo: es lo que pide un dedo, y la mitad del tráfico es móvil. */
+  .boton--md {
+    min-block-size: 2.75rem;
+    padding-inline: var(--space-m);
+    font-size: var(--step-0);
+  }
+
+  .boton--sm {
+    min-block-size: 2.25rem;
+    padding-inline: var(--space-s);
+    font-size: var(--step--1);
+  }
+
+  .boton--solid {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .boton--solid:hover {
+    background: var(--c-sand);
+    border-color: var(--c-sand);
+  }
+
+  .boton--outline {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .boton--outline:hover {
+    background: color-mix(in srgb, var(--color-text) 12%, transparent);
+  }
+
+  .boton--ghost {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-accent-text);
+    padding-inline: var(--space-2xs);
+  }
+
+  .boton--ghost:hover {
+    text-decoration: underline;
+  }
+</style>

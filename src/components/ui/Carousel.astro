@@ -1,0 +1,38 @@
+---
+/**
+ * Carrusel arrastrable, sin librería. Movimiento 06 del sistema.
+ *
+ * Con scroll-snap del navegador ya se arrastra con el dedo, se recorre con el
+ * teclado y lo lee un lector de pantalla. Sibuya carga una librería entera para
+ * esto; aquí son veinte líneas de CSS y cero JavaScript.
+ */
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: extra } = Astro.props;
+---
+
+<ul class:list={['carrusel', extra]} role="list" aria-label={label} tabindex="0">
+  <slot />
+</ul>
+
+<style>
+  .carrusel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(13rem, 17rem);
+    gap: var(--space-s);
+    overflow-x: auto;
+    margin: 0;
+    padding: 0 0 var(--space-2xs);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    overscroll-behavior-x: contain;
+  }
+
+  .carrusel > :global(*) {
+    scroll-snap-align: start;
+  }
+</style>

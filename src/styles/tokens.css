@@ -1,3 +1,8 @@
+/* El orden de las capas se declara una vez y aquí, que es el primer archivo que se
+   carga. Sin esto el orden lo decide el azar del import y los componentes pierden
+   contra la base. */
+@layer reset, tokens, base, components, utilities;
+
 /**
  * Fuente única de verdad del diseño.
  *

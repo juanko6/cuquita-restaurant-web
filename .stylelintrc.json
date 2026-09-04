@@ -4,7 +4,9 @@
   "rules": {
     "color-no-hex": [
       true,
-      { "message": "Usa un token de src/styles/tokens.css, no un hex suelto." }
+      {
+        "message": "Usa un token de src/styles/tokens.css, no un hex suelto."
+      }
     ],
     "custom-property-pattern": null,
     "order/properties-order": [
@@ -44,12 +46,20 @@
       "transform",
       "transition",
       "animation"
+    ],
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z][a-z0-9]*(-[a-z0-9]+)*)?(--[a-z][a-z0-9]*(-[a-z0-9]+)*)?$",
+      {
+        "message": "Usa BEM en minúsculas: bloque, bloque__elemento, bloque--variante."
+      }
     ]
   },
   "overrides": [
     {
       "files": ["src/styles/tokens.css"],
-      "rules": { "color-no-hex": null }
+      "rules": {
+        "color-no-hex": null
+      }
     }
   ]
 }

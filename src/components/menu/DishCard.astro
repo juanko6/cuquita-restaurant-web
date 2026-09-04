@@ -1,0 +1,79 @@
+---
+/**
+ * La ficha de un plato.
+ *
+ * Aguanta con y sin descripción: 41 de los 88 platos no la tienen en español y el
+ * cliente decidió dejar la carta como está. Por eso el nombre y el precio van
+ * anclados abajo y la descripción rellena el hueco de en medio, así que la tarjeta
+ * mide lo mismo la tenga o no y la fila no baila.
+ */
+import Card from '../ui/Card.astro';
+import Picture from '../ui/Picture.astro';
+import PriceTag from './PriceTag.astro';
+import { dishImage } from '../../lib/menu/images.ts';
+import type { Dish } from '../../lib/menu/types.ts';
+
+interface Props {
+  dish: Dish;
+  loading?: 'lazy' | 'eager';
+}
+
+const { dish, loading = 'lazy' } = Astro.props;
+const foto = dishImage(dish.image);
+---
+
+<Card as="li" tone="raised" class="plato">
+  {foto && <Picture src={foto} alt={dish.name} loading={loading} />}
+  <div class="plato__texto">
+    <h3 class="plato__nombre">{dish.name}</h3>
+    {dish.description && <p class="plato__descripcion">{dish.description}</p>}
+    <p class="plato__pie">
+      <PriceTag amount={dish.price} />
+      {!dish.isAvailable && <span class="plato__agotado">Hoy se acabó</span>}
+    </p>
+  </div>
+</Card>
+
+<style>
+  .plato {
+    overflow: hidden;
+  }
+
+  .plato__texto {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-3xs);
+    padding: var(--space-s);
+  }
+
+  .plato__nombre {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .plato__descripcion {
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+
+  /* margin-block-start:auto empuja el precio al fondo tenga o no descripción. */
+  .plato__pie {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+    margin-block-start: auto;
+    padding-block-start: var(--space-2xs);
+  }
+
+  .plato__agotado {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+  }
+</style>
