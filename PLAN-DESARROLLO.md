@@ -3,6 +3,8 @@
 Documento técnico. El de contenido y dirección de arte está aparte:
 https://claude.ai/code/artifact/56576e41-37aa-47a4-a296-c12218bcea65
 
+Repositorio: https://github.com/juanko6/cuquita-restaurant-web
+
 ---
 
 ## 1. Stack
@@ -29,7 +31,7 @@ Splitting.js (lo que usa Sibuya: más de 150 KB para hacer lo que aquí hacemos 
 ## 2. Estructura del proyecto
 
 ```
-cuquita-web/
+cuquita-restaurant-web/
 ├── src/
 │   ├── components/
 │   │   ├── ui/              # piezas reutilizables, sin saber de negocio
