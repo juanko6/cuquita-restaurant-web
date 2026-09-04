@@ -1,0 +1,161 @@
+---
+/**
+ * "Nuestra experiencia": la misma estructura que la página de Sibuya, con el
+ * contenido de Cuquita. Manifiesto, los detalles, la casa, la semana, la frase,
+ * la familia y redes.
+ *
+ * Todo lo que hay aquí sale del cuestionario que rellenó la familia. Lo que no
+ * está confirmado —qué había en el local antes de 2015— no se escribe.
+ */
+import Base from '../../layouts/Base.astro';
+import Nav from '../layout/Nav.astro';
+import Footer from '../layout/Footer.astro';
+import Button from '../ui/Button.astro';
+import Section from '../ui/Section.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import Week from './Week.astro';
+import { copy, ruta } from '../../lib/i18n.ts';
+import { getMenu } from '../../lib/menu/index.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const menu = getMenu(locale);
+const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
+
+const detalles = [
+  { titulo: t.experiencia.secretoTitulo, texto: t.experiencia.secretoTexto },
+  { titulo: t.experiencia.orgulloTitulo, texto: t.experiencia.orgulloTexto },
+  { titulo: t.experiencia.regionesTitulo, texto: t.experiencia.regionesTexto },
+];
+
+const familia = [
+  { titulo: t.experiencia.origenTitulo, texto: t.experiencia.origenTexto },
+  { titulo: t.experiencia.porQueAquiTitulo, texto: t.experiencia.porQueAquiTexto },
+];
+---
+
+<Base
+  title={`${t.experiencia.tituloPagina} · ${t.sitio.nombre}`}
+  description={t.experiencia.descripcion}
+  lang={locale}
+  alternate="experiencia"
+>
+  <Nav slot="header" locale={locale} here="experiencia" />
+
+  <Section tone="deep" glyph>
+    <SplitHeading as="h1" lines={t.experiencia.manifiestoLineas} accent={2} />
+    <p class="lede">{t.experiencia.manifiestoTexto}</p>
+  </Section>
+
+  <Section>
+    <SplitHeading lines={t.experiencia.detallesLineas} accent={1} />
+    <p class="lede">{t.experiencia.detallesTexto}</p>
+
+    <div class="detalles">
+      {
+        detalles.map(({ titulo, texto }) => (
+          <div class="detalle">
+            <h3 class="detalle__titulo">{titulo}</h3>
+            <p class="detalle__texto">{texto}</p>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="acciones">
+      <Button variant="outline" href={ruta('carta', locale)}>{t.nav.carta}</Button>
+    </p>
+  </Section>
+
+  <Section tone="deep">
+    <SplitHeading lines={t.experiencia.casaLineas} accent={1} />
+    <p class="lede">{t.experiencia.casaTexto}</p>
+    <p class="lede">{t.experiencia.casaMesa}</p>
+    <p class="acciones">
+      <Button variant="outline" href={ruta('visita', locale)}>{t.nav.comoLlegar}</Button>
+    </p>
+  </Section>
+
+  <Section>
+    <SplitHeading lines={t.inicio.semanaLineas} accent={1} />
+    <p class="lede">{t.inicio.semanaTexto}</p>
+    <Week locale={locale} specials={menu.specials} />
+  </Section>
+
+  <Section tone="deep" glyph>
+    <SplitHeading lines={t.experiencia.fraseLineas} accent={1} class="frase" />
+  </Section>
+
+  <Section>
+    <SplitHeading lines={t.experiencia.familiaLineas} accent={1} />
+    <p class="lede">{t.experiencia.familiaTexto}</p>
+
+    <div class="detalles">
+      {
+        familia.map(({ titulo, texto }) => (
+          <div class="detalle">
+            <h3 class="detalle__titulo">{titulo}</h3>
+            <p class="detalle__texto">{texto}</p>
+          </div>
+        ))
+      }
+    </div>
+  </Section>
+
+  <Section tone="deep">
+    <SplitHeading lines={t.inicio.redesLineas} accent={1} />
+    <p class="lede">{t.inicio.redesTexto}</p>
+    <p class="acciones">
+      <Button variant="solid" href={INSTAGRAM} rel="noopener">@cuquitarestaurant</Button>
+    </p>
+  </Section>
+
+  <Footer slot="footer" locale={locale} />
+</Base>
+
+<style>
+  .lede {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-block-start: var(--space-l);
+  }
+
+  .detalles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+    gap: var(--space-l);
+    margin-block-start: var(--space-xl);
+  }
+
+  .detalle {
+    padding-block-start: var(--space-s);
+    border-block-start: 1px solid var(--color-rule);
+  }
+
+  .detalle__titulo {
+    font-size: var(--step-0);
+    letter-spacing: var(--tracking-caps);
+  }
+
+  .detalle__texto {
+    margin-block-start: var(--space-2xs);
+    color: var(--color-text-muted);
+  }
+
+  .frase {
+    font-size: var(--step-5);
+  }
+</style>

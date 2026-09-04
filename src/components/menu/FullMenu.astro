@@ -4,7 +4,8 @@
  * idioma cambiado, así que el cuerpo vive aquí y ellas solo lo invocan.
  */
 import Base from '../../layouts/Base.astro';
-import Header from '../layout/Header.astro';
+import Nav from '../layout/Nav.astro';
+import Footer from '../layout/Footer.astro';
 import Section from '../ui/Section.astro';
 import SplitHeading from '../ui/SplitHeading.astro';
 import CategoryGrid from './CategoryGrid.astro';
@@ -32,7 +33,7 @@ const FOTOS_INMEDIATAS = 4;
   lang={locale}
   alternate="carta"
 >
-  <Header slot="header" locale={locale} here="carta" />
+  <Nav slot="header" locale={locale} here="carta" />
 
   <Section tone="deep" glyph>
     <SplitHeading as="h1" lines={t.carta.tituloLineas} accent={2} />
@@ -67,6 +68,8 @@ const FOTOS_INMEDIATAS = 4;
       <p>{t.carta.precios}</p>
     </footer>
   </Section>
+
+  <Footer slot="footer" locale={locale} />
 </Base>
 
 <style>

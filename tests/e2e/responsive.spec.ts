@@ -2,7 +2,18 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /** Las rutas que ya existen. Crece con cada fase. */
-const PAGINAS = ['/', '/en/', '/carta', '/en/menu'];
+const PAGINAS = [
+  '/',
+  '/en/',
+  '/carta',
+  '/en/menu',
+  '/nuestra-experiencia',
+  '/en/our-experience',
+  '/visitanos',
+  '/en/find-us',
+  '/legal',
+  '/en/legal',
+];
 
 /**
  * Un píxel de margen. Los anchos se calculan en subpíxeles y un 0,4 de redondeo no
@@ -140,6 +151,8 @@ test.describe('/carta', () => {
 
   test('el cambio de idioma lleva a la misma página en el otro idioma', async ({ page }) => {
     await page.goto('/carta');
+    // El cambio de idioma vive dentro del menú, así que primero hay que abrirlo.
+    await page.locator('.nav__boton').click();
     await page.getByRole('link', { name: 'English' }).click();
 
     await expect(page).toHaveURL(/\/en\/menu/);
@@ -187,5 +200,44 @@ test.describe('portada', () => {
     const resenas = page.locator('.resena');
     await expect(resenas).toHaveCount(4);
     await expect(resenas.first().locator('.resena__pie')).not.toBeEmpty();
+  });
+});
+
+test.describe('el resto de páginas', () => {
+  test('la de experiencia cuenta la historia con los datos reales', async ({ page }) => {
+    await page.goto('/nuestra-experiencia');
+
+    await expect(page.locator('h1')).toContainText('familia');
+    await expect(page.locator('main')).toContainText('La Paila');
+    await expect(page.locator('main')).toContainText('2015');
+    // La parrilla es de gas: la web no puede prometer carbón en ninguna parte.
+    await expect(page.locator('main')).not.toContainText(/carbón|charcoal/i);
+  });
+
+  test('la de visita da horario, parqueadero y teléfono', async ({ page }) => {
+    await page.goto('/visitanos');
+
+    await expect(page.locator('.horario__fila')).toHaveCount(7);
+    await expect(page.locator('main')).toContainText('960 Broadway');
+    await expect(page.getByRole('link', { name: /610-868-5252/ }).first()).toBeVisible();
+  });
+
+  test('la 404 tiene salidas en los dos idiomas', async ({ page }) => {
+    const respuesta = await page.goto('/no-existe-esta-pagina');
+
+    expect(respuesta?.status()).toBe(404);
+    await expect(page.getByRole('link', { name: 'English' })).toBeVisible();
+  });
+
+  test('todas las páginas llevan los datos del restaurante para Google', async ({ page }) => {
+    await page.goto('/');
+
+    const schema = await page.locator('script[type="application/ld+json"]').textContent();
+    const datos = JSON.parse(schema ?? '{}');
+
+    expect(datos['@type']).toBe('Restaurant');
+    expect(datos.acceptsReservations).toBe(false);
+    // Seis días: cierra los martes.
+    expect(datos.openingHoursSpecification).toHaveLength(6);
   });
 });

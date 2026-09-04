@@ -23,6 +23,8 @@ const otro = otroIdioma(locale);
 const entradas = [
   { texto: t.nav.inicio, href: ruta('inicio', locale) },
   { texto: t.nav.carta, href: ruta('carta', locale) },
+  { texto: t.nav.experiencia, href: ruta('experiencia', locale) },
+  { texto: t.nav.visita, href: ruta('visita', locale) },
 ];
 ---
 
@@ -32,36 +34,40 @@ const entradas = [
       <img src={logo.src} alt={t.sitio.nombre} width="180" height="78" />
     </a>
 
-    <details class="nav__caja" name="menu-principal">
-      <summary class="nav__boton">
-        <span class="nav__boton-texto" data-abrir>{t.nav.abrir}</span>
-        <span class="nav__boton-texto" data-cerrar>{t.nav.cerrar}</span>
-      </summary>
+    <div class="nav__derecha">
+      <a class="nav__telefono" href="tel:+16108685252">610-868-5252</a>
 
-      <div class="nav__panel">
-        <ul class="nav__acciones" role="list">
-          <li class="entra" style="--indice:0">
-            <a href="https://cuquita.hrpos.heartland.us/" rel="noopener">{t.nav.pedir}</a>
-          </li>
-          <li class="entra" style="--indice:1">
-            <a href="tel:+16108685252">{t.nav.llamar} · 610-868-5252</a>
-          </li>
-        </ul>
+      <details class="nav__caja" name="menu-principal">
+        <summary class="nav__boton">
+          <span class="nav__boton-texto" data-abrir>{t.nav.abrir}</span>
+          <span class="nav__boton-texto" data-cerrar>{t.nav.cerrar}</span>
+        </summary>
 
-        <ul class="nav__entradas" role="list">
-          {
-            entradas.map((entrada, index) => (
-              <li class="entra" style={`--indice:${index + 2}`}>
-                <a href={entrada.href}>{entrada.texto}</a>
-              </li>
-            ))
-          }
-          <li class="entra" style={`--indice:${entradas.length + 2}`}>
-            <a href={ruta(here, otro)} lang={otro} hreflang={otro}>{t.nav.otroIdioma}</a>
-          </li>
-        </ul>
-      </div>
-    </details>
+        <div class="nav__panel">
+          <ul class="nav__acciones" role="list">
+            <li class="entra" style="--indice:0">
+              <a href="https://cuquita.hrpos.heartland.us/" rel="noopener">{t.nav.pedir}</a>
+            </li>
+            <li class="entra" style="--indice:1">
+              <a href="tel:+16108685252">{t.nav.llamar} · 610-868-5252</a>
+            </li>
+          </ul>
+
+          <ul class="nav__entradas" role="list">
+            {
+              entradas.map((entrada, index) => (
+                <li class="entra" style={`--indice:${index + 2}`}>
+                  <a href={entrada.href}>{entrada.texto}</a>
+                </li>
+              ))
+            }
+            <li class="entra" style={`--indice:${entradas.length + 2}`}>
+              <a href={ruta(here, otro)} lang={otro} hreflang={otro}>{t.nav.otroIdioma}</a>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
 
@@ -101,6 +107,29 @@ const entradas = [
   .nav__marca img {
     inline-size: clamp(7rem, 20vw, 10rem);
     block-size: auto;
+  }
+
+  .nav__derecha {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  /* El teléfono se queda fuera del menú: en un restaurante llamar no puede costar
+     dos toques, y la mitad del tráfico llega desde un móvil. */
+  .nav__telefono {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .nav__telefono:hover {
+    text-decoration: underline;
   }
 
   .nav__boton {
