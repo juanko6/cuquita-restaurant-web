@@ -6,13 +6,14 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../layout/Nav.astro';
 import Footer from '../layout/Footer.astro';
 import Button from '../ui/Button.astro';
+import Hero from './Hero.astro';
+import Today from './Today.astro';
 import Carousel from '../ui/Carousel.astro';
 import Marquee from '../ui/Marquee.astro';
 import Section from '../ui/Section.astro';
 import SplitHeading from '../ui/SplitHeading.astro';
 import DishCard from '../menu/DishCard.astro';
 import Reviews from './Reviews.astro';
-import Today from './Today.astro';
 import Visit from './Visit.astro';
 import Week from './Week.astro';
 import { copy, ruta } from '../../lib/i18n.ts';
@@ -37,20 +38,11 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
   lang={locale}
   alternate="inicio"
 >
-  <Nav slot="header" locale={locale} here="inicio" />
+  <Nav slot="header" locale={locale} here="inicio" variante="sobre-video" />
 
-  <Section tone="deep" glyph>
-    <p class="eyebrow">960 Broadway · Fountain Hill, PA</p>
-    <SplitHeading as="h1" lines={t.inicio.heroLineas} accent={t.inicio.heroAcento} />
-    <p class="lede">{t.inicio.heroEntradilla}</p>
+  <Hero locale={locale} />
 
-    <div class="acciones">
-      <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
-      <Button variant="outline" href="https://cuquita.hrpos.heartland.us/" rel="noopener">
-        {t.nav.pedir}
-      </Button>
-    </div>
-
+  <Section tone="wine">
     <Today locale={locale} specials={menu.specials} />
   </Section>
 
@@ -108,14 +100,6 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
 </Base>
 
 <style>
-  .eyebrow {
-    color: var(--color-accent-text);
-    font-family: var(--font-mono);
-    font-size: var(--step--1);
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-  }
-
   .lede {
     max-inline-size: var(--measure);
     margin-block-start: var(--space-m);

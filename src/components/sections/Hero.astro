@@ -1,0 +1,228 @@
+---
+/**
+ * La primera pantalla.
+ *
+ * El guion, en orden:
+ *   1. el vídeo abre ocupando la ventana entera, por encima de la barra — solo el
+ *      logotipo y el botón del menú quedan por delante de él
+ *   2. baja el botón del menú desde arriba (eso vive en Nav.astro)
+ *   3. el vídeo se reduce hasta su marco, sobrepasando y volviendo
+ *   4. la dirección y el titular entran de izquierda a derecha
+ *   5. el párrafo entra de derecha a izquierda
+ *   6. y los dos botones suben desde abajo, uno detrás de otro
+ *
+ * El vídeo va a color vivo: ni filtro ni velo encima. Se probó con un degradado de
+ * vino para asegurar el contraste y lo dejaba casi plano; el texto no se le monta
+ * encima, así que no hace falta.
+ *
+ * Todo dentro de `prefers-reduced-motion: no-preference`. Fuera de ahí el vídeo ya
+ * está en su marco y los textos en su sitio desde el primer fotograma.
+ */
+import Button from '../ui/Button.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import { copy, ruta } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
+---
+
+<section class="hero">
+  {/* Marca lo alto de la página para que la barra sepa cuándo posarse. Ver Nav.astro. */}
+  <div class="hero__centinela" aria-hidden="true"></div>
+
+  <div class="hero__marco">
+    <video
+      class="hero__video"
+      src="/video/parrilla.mp4"
+      poster="/video/parrilla.webp"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-hidden="true"
+      tabindex="-1"></video>
+  </div>
+
+  <div class="hero__texto">
+    <p class="hero__lugar">960 Broadway · Fountain Hill, PA</p>
+    <SplitHeading
+      as="h1"
+      lines={t.inicio.heroLineas}
+      accent={t.inicio.heroAcento}
+      class="hero__titular"
+    />
+  </div>
+
+  <div class="hero__pie">
+    <p class="hero__entradilla">{t.inicio.heroEntradilla}</p>
+    <div class="hero__acciones">
+      <span class="hero__cta" style="--indice:0">
+        <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
+      </span>
+      <span class="hero__cta" style="--indice:1">
+        <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    /* Empieza en lo alto de la página, debajo de la barra flotante: por eso el
+       vídeo puede taparla. El hueco de la barra lo pone este padding. */
+    min-block-size: 100svh;
+    padding: calc(var(--alto-nav) + var(--space-s)) var(--gutter) var(--space-l);
+    overflow: hidden;
+    background: var(--color-bg-alt);
+  }
+
+  .hero__centinela {
+    position: absolute;
+    inset: 0 0 auto;
+    block-size: var(--alto-nav);
+    pointer-events: none;
+  }
+
+  /* El marco arranca cubriendo la ventana entera —barra incluida— y se reduce
+     hasta esta caja, centrada en la fila de en medio. */
+  .hero__marco {
+    grid-row: 2;
+    place-self: center;
+    /* En unidades de ventana y sin tope en rem, a propósito: así la escala que hace
+       falta para cubrir la pantalla es siempre la misma —100/58 de ancho y 100/40 de
+       alto— y no depende del tamaño del monitor. Con un tope en rem, en una tableta
+       alta el marco se quedaba corto y el vídeo no llegaba a tapar la barra. */
+    inline-size: 58vw;
+    block-size: 40svh;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  /* A color vivo: ni filtro ni velo. */
+  .hero__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .hero__texto {
+    grid-row: 1;
+    z-index: 1;
+  }
+
+  .hero__lugar {
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .hero__titular {
+    margin-block-start: var(--space-2xs);
+    font-size: clamp(2.6rem, 9vw, 6.5rem);
+  }
+
+  .hero__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    grid-row: 3;
+    z-index: 1;
+  }
+
+  .hero__entradilla {
+    max-inline-size: 38ch;
+    color: var(--color-text);
+    font-size: var(--step-0);
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  @media (width < 48rem) {
+    .hero__marco {
+      inline-size: 88vw;
+      block-size: 32svh;
+      --marco-escala: 3.4;
+    }
+
+    .hero__pie {
+      align-items: start;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* 3 · La reducción. Con `scale` y no animando el ancho: el marco está en el
+       flujo, así que crecer de verdad hasta 100vw empujaba el pie de la portada
+       350 px hacia abajo y la página entera saltaba durante la entrada. */
+    .hero__marco {
+      z-index: 2;
+      transform-origin: center;
+      animation: reducir 900ms var(--ease-rebote) var(--intro-encoge) both;
+    }
+
+    @keyframes reducir {
+      from {
+        scale: var(--marco-escala, 3);
+      }
+    }
+
+    /* Mientras el vídeo está grande tapa el texto; los textos entran después, así
+       que basta con que aparezcan cuando ya se ha reducido. */
+    .hero__lugar {
+      animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-lugar) both;
+    }
+
+    .hero__titular {
+      animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-titular) both;
+    }
+
+    .hero__entradilla {
+      animation: desde-la-derecha 700ms var(--ease-out) var(--intro-entradilla) both;
+    }
+
+    /* Uno detrás de otro, de abajo arriba. */
+    .hero__cta {
+      display: inline-flex;
+      animation: desde-abajo 600ms var(--ease-out) both;
+      animation-delay: calc(var(--intro-acciones) + var(--indice, 0) * 140ms);
+    }
+
+    @keyframes desde-la-izquierda {
+      from {
+        translate: -3rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-la-derecha {
+      from {
+        translate: 3rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-abajo {
+      from {
+        translate: 0 2.5rem;
+        opacity: 0;
+      }
+    }
+  }
+</style>

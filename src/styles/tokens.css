@@ -74,21 +74,50 @@
 
     /* --- layout --- */
     --width-max: 78rem;
+
+    /* Alto de la barra. Está aquí y no en el componente porque la portada lo
+       necesita para calcular su propia altura: la primera pantalla es la ventana
+       menos la barra, no la ventana entera. */
+    --alto-nav: 4.5rem;
     --gutter: clamp(1.25rem, 5vw, 2.75rem);
 
     /* --- movimiento (ver dirección de arte §15) --- */
+
+    /* La coreografía de entrada de la portada. Los retrasos van aquí y no en el
+       componente para que se lea el guion completo de un vistazo. */
+    --intro-boton: 150ms;
+    --intro-encoge: 400ms;
+
+    /* Los textos entran cuando el vídeo ya está en su marco, no mientras encoge:
+       la reducción arranca a los 400 ms y dura 900, así que nada de texto antes
+       de 1300. */
+    --intro-lugar: 1350ms;
+    --intro-titular: 1450ms;
+    --intro-entradilla: 1700ms;
+    --intro-acciones: 1950ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
     --stagger-line: 60ms;
     --stagger-item: 40ms;
     --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Sobrepasa el destino y vuelve. Medido en Sibuya: su vídeo pasa de 824 a 744,
+       se va hasta 703 y se asienta en 720. Es lo que hace que la reducción se sienta
+       como un gesto y no como un redimensionado. */
+    --ease-rebote: cubic-bezier(0.34, 1.4, 0.64, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   }
 
   /* Quien pide no moverse, no se mueve. */
   @media (prefers-reduced-motion: reduce) {
     :root {
+      --intro-boton: 0ms;
+      --intro-encoge: 0ms;
+      --intro-lugar: 0ms;
+      --intro-titular: 0ms;
+      --intro-entradilla: 0ms;
+      --intro-acciones: 0ms;
       --dur-fast: 1ms;
       --dur-base: 1ms;
       --dur-slow: 1ms;

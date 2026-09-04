@@ -20,7 +20,7 @@ cuenta de Gmail solo como respaldo y recuperación del perfil de Google.
 **Hay que hacerlo ANTES de mover los DNS.** Es el único pendiente que puede romper algo
 que hoy funciona.
 
-### #2 · Fotos del local, de la sala y del equipo
+### #2 · Fotos y vídeo del local, de la sala y del equipo
 
 Media jornada en servicio. Ahora hay tres cosas concretas que fotografiar, que salieron
 del cuestionario: los cuadros del Eje Cafetero, las lámparas de guadua del Valle del
@@ -29,6 +29,10 @@ y un retrato de Don Andy y Andrés.
 
 Sin ellas el sitio funciona —lo sostienen los 88 platos—, pero pierde justo lo que las
 reseñas más elogian: la gente.
+
+**Y hace falta vídeo.** La portada abre con uno de banco de imágenes mientras llega el
+propio: diez segundos de la parrilla del restaurante bastan. Está documentado en
+`public/video/LICENCIA.md`; se sustituyen los dos archivos con el mismo nombre y ya.
 
 ### #3 · Aprobar las reseñas que se publican
 
