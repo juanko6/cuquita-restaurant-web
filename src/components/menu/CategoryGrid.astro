@@ -1,0 +1,52 @@
+---
+/**
+ * Una categoría de la carta en rejilla.
+ *
+ * En la portada las categorías van en carrusel, porque son un aperitivo. Aquí no:
+ * quien abre la carta quiere verla entera y comparar precios, y para eso una
+ * rejilla que se puede recorrer de un vistazo gana a trece carruseles.
+ */
+import DishCard from './DishCard.astro';
+import type { Category } from '../../lib/menu/types.ts';
+
+interface Props {
+  category: Category;
+  /** Cuántas fotos de esta categoría cargan de inmediato. El resto, al acercarse. */
+  eager?: number;
+}
+
+const { category, eager = 0 } = Astro.props;
+const id = `c-${category.id}`;
+---
+
+<section class="grupo" aria-labelledby={id}>
+  <h2 class="grupo__nombre" id={id}>{category.name}</h2>
+  <ul class="grupo__rejilla" role="list">
+    {
+      category.dishes.map((dish, index) => (
+        <DishCard dish={dish} loading={index < eager ? 'eager' : 'lazy'} />
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .grupo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    scroll-margin-block-start: var(--space-l);
+  }
+
+  .grupo__nombre {
+    font-size: var(--step-2);
+  }
+
+  .grupo__rejilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr));
+    gap: var(--space-s);
+    margin: 0;
+    padding: 0;
+  }
+</style>

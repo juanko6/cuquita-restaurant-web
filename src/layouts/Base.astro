@@ -3,15 +3,20 @@ import '../styles/tokens.css';
 import '../styles/reset.css';
 import '../styles/base.css';
 import '../styles/motion.css';
+import { copy, ruta, type Ruta } from '../lib/i18n.ts';
+import type { Locale } from '../lib/menu/types.ts';
 
 interface Props {
   title: string;
   description: string;
-  lang?: 'es' | 'en';
+  lang?: Locale;
+  /** La misma página en el otro idioma, para el hreflang. */
+  alternate?: Ruta;
 }
 
-const { title, description, lang = 'es' } = Astro.props;
+const { title, description, lang = 'es', alternate } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const t = copy(lang);
 ---
 
 <!doctype html>
@@ -22,6 +27,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      alternate && (
+        <>
+          <link rel="alternate" hreflang="es" href={new URL(ruta(alternate, 'es'), Astro.site)} />
+          <link rel="alternate" hreflang="en" href={new URL(ruta(alternate, 'en'), Astro.site)} />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={new URL(ruta(alternate, 'es'), Astro.site)}
+          />
+        </>
+      )
+    }
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Único color escrito a mano del proyecto: un meta no puede leer una custom
          property. Mantener en sincronía con --c-wine de src/styles/tokens.css. -->
@@ -34,7 +52,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     />
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <a class="skip-link" href="#contenido">{t.sitio.irAlContenido}</a>
     <slot name="header" />
     <main id="contenido">
       <slot />

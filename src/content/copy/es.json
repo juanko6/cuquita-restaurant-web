@@ -1,0 +1,33 @@
+{
+  "sitio": {
+    "nombre": "Cuquita Restaurant",
+    "descripcionInicio": "Cocina casera de todas las regiones de Colombia en el corazón de Fountain Hill, Pensilvania. Trae tu botella: nosotros ponemos el carbón.",
+    "irAlContenido": "Saltar al contenido"
+  },
+  "nav": {
+    "inicio": "Inicio",
+    "carta": "Carta",
+    "experiencia": "Nuestra experiencia",
+    "visita": "Visítanos",
+    "pedir": "Pedir online",
+    "llamar": "Llamar",
+    "comoLlegar": "Cómo llegar",
+    "otroIdioma": "English",
+    "irAOtroIdioma": "Ver esta página en inglés"
+  },
+  "carta": {
+    "titulo": "Carta",
+    "tituloLineas": ["Todo lo que", "Colombia pone", "en la mesa"],
+    "descripcion": "La carta completa de Cuquita Restaurant: 88 platos de todas las regiones de Colombia, con precios y fotos.",
+    "entradilla": "Setenta y cuatro platos de comida y catorce bebidas, de la costa a la montaña. Si es tu primera vez, empieza por la bandeja paisa.",
+    "irACategoria": "Saltar a una categoría",
+    "agotado": "Hoy se acabó",
+    "alergenos": "¿Alergias o intolerancias? Dínoslo al pedir y te decimos qué lleva cada plato.",
+    "precios": "Precios en dólares. Pueden cambiar sin aviso."
+  },
+  "hoy": {
+    "etiqueta": "Hoy en Cuquita",
+    "tambien": "También hoy:",
+    "cerrado": "Hoy descansamos. Nos vemos mañana desde las 11."
+  }
+}
