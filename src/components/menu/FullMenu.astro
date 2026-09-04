@@ -1,0 +1,127 @@
+---
+/**
+ * La carta completa. Las dos rutas —/carta y /en/menu— son la misma página con el
+ * idioma cambiado, así que el cuerpo vive aquí y ellas solo lo invocan.
+ */
+import Base from '../../layouts/Base.astro';
+import Header from '../layout/Header.astro';
+import Section from '../ui/Section.astro';
+import SplitHeading from '../ui/SplitHeading.astro';
+import CategoryGrid from './CategoryGrid.astro';
+import { copy } from '../../lib/i18n.ts';
+import { getMenu } from '../../lib/menu/index.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const menu = getMenu(locale);
+
+// Solo la primera fila carga de inmediato: es lo único que se ve al abrir. Todo lo
+// demás espera a acercarse. Con 88 fotos, pedirlas todas de golpe no adelanta nada
+// y en el servidor de desarrollo llega a tumbar la conversión de imágenes.
+const FOTOS_INMEDIATAS = 4;
+---
+
+<Base
+  title={`${t.carta.titulo} · ${t.sitio.nombre}`}
+  description={t.carta.descripcion}
+  lang={locale}
+  alternate="carta"
+>
+  <Header slot="header" locale={locale} here="carta" />
+
+  <Section tone="deep" glyph>
+    <SplitHeading as="h1" lines={t.carta.tituloLineas} accent={2} />
+    <p class="entradilla">{t.carta.entradilla}</p>
+
+    <nav class="indice" aria-label={t.carta.irACategoria}>
+      <ul class="indice__lista" role="list">
+        {
+          menu.categories.map((category) => (
+            <li>
+              <a class="indice__enlace" href={`#c-${category.id}`}>
+                {category.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </Section>
+
+  <Section>
+    <div class="carta">
+      {
+        menu.categories.map((category, index) => (
+          <CategoryGrid category={category} eager={index === 0 ? FOTOS_INMEDIATAS : 0} />
+        ))
+      }
+    </div>
+
+    <footer class="avisos">
+      <p>{t.carta.alergenos}</p>
+      <p>{t.carta.precios}</p>
+    </footer>
+  </Section>
+</Base>
+
+<style>
+  .entradilla {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  .indice {
+    margin-block-start: var(--space-l);
+  }
+
+  .indice__lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin: 0;
+    padding: 0;
+  }
+
+  .indice__enlace {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.25rem;
+    padding-inline: var(--space-s);
+    border: 1px solid var(--color-rule);
+    color: var(--color-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    text-decoration: none;
+  }
+
+  .indice__enlace:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent-text);
+  }
+
+  .carta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+  }
+
+  .avisos {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-2xl);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid var(--color-rule);
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  .avisos p + p {
+    margin-block-start: var(--space-2xs);
+  }
+</style>

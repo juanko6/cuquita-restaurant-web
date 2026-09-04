@@ -1,0 +1,33 @@
+{
+  "sitio": {
+    "nombre": "Cuquita Restaurant",
+    "descripcionInicio": "Home cooking from every region of Colombia, right on Broadway in Fountain Hill, PA. Bring your own bottle — we'll handle the charcoal.",
+    "irAlContenido": "Skip to content"
+  },
+  "nav": {
+    "inicio": "Home",
+    "carta": "Menu",
+    "experiencia": "Our experience",
+    "visita": "Find us",
+    "pedir": "Order online",
+    "llamar": "Call us",
+    "comoLlegar": "Get directions",
+    "otroIdioma": "Español",
+    "irAOtroIdioma": "Ver esta página en español"
+  },
+  "carta": {
+    "titulo": "Menu",
+    "tituloLineas": ["Everything", "Colombia puts", "on the table"],
+    "descripcion": "The full menu at Cuquita Restaurant: 88 dishes from every region of Colombia, with prices and photos.",
+    "entradilla": "Seventy-four dishes and fourteen drinks, from the coast to the mountains. First time here? Start with the bandeja paisa.",
+    "irACategoria": "Jump to a section",
+    "agotado": "Sold out today",
+    "alergenos": "Food allergies? Tell us when you order and we'll walk you through the dish.",
+    "precios": "Prices in US dollars. Subject to change."
+  },
+  "hoy": {
+    "etiqueta": "Today at Cuquita",
+    "tambien": "Also today:",
+    "cerrado": "We're closed today. Back tomorrow at 11."
+  }
+}

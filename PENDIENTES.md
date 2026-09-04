@@ -113,6 +113,12 @@ de trabajo local.
       la fuente del build y `pnpm fetch:menu` la refresca, así que el build nunca toca
       la red y un fallo de MenuUnfolded no puede publicar una carta vacía.
 - [ ] Redirecciones 301 desde `/menus/*` y `/contact-us/`.
+- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de peso
+      se mide comprimido porque es lo que viaja; sin compresión en el servidor la carta
+      pasa de 11 KB a 87 KB y el número deja de significar nada.
+- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de
+      peso se mide comprimido porque es lo que viaja; sin compresión en el servidor,
+      la carta pasa de 11 KB a 87 KB y el número deja de significar nada.
 - [ ] Revisar dónde sale hoy el correo del dominio antes de tocar los DNS.
 - [ ] Partir los titulares en líneas durante el build, no con Splitting.js en el navegador.
 - [ ] Carruseles con `scroll-snap` nativo, sin librería.

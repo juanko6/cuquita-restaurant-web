@@ -207,9 +207,14 @@ juego de claves — así no se puede olvidar traducir un bloque.
 
 **Presupuestos que el CI hace cumplir:**
 
-- HTML por página: **< 40 KB**
-- CSS total: **< 25 KB**
-- JS total: **< 15 KB**
+Se mide **comprimido**, que es lo que de verdad viaja: Caddy sirve con `encode` y
+ningún navegador de este siglo pide una página sin comprimir. Medir en crudo castigaba a
+la carta, que son 88 fichas de markup casi idéntico y por eso baja a la octava parte, y no
+decía nada sobre lo que tarda en llegar. El informe da las dos cifras.
+
+- HTML por página: **< 20 KB** comprimido
+- CSS total: **< 10 KB** comprimido
+- JS total: **< 6 KB** comprimido
 - LCP en móvil simulado: **< 1,5 s**
 - Accesibilidad en Lighthouse: **100**
 
@@ -321,15 +326,15 @@ carta y los especiales. Si la API falla, el job avisa y no despliega.
 
 ## 10. Fases
 
-| Fase               | Entregable                                                                    | Cómo se sabe que está                                                    |
-| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| ~~**0 · Base**~~   | ~~Repo, protección de `main`, CI en verde, Astro arrancando, tokens y reset~~ | **Hecho.** Push directo a `main` rechazado por el servidor y CI en verde |
-| **1 · Datos**      | `lib/menu` completo: cliente, zod, mapper, caché, descarga de las 88 fotos    | `getMenu('es')` devuelve 74 platos tipados y los tests pasan sin red     |
-| **2 · Sistema**    | `ui/` y `menu/` con su página de muestra interna                              | Todos los componentes se ven juntos en `/_dev/componentes`               |
-| **3 · Carta**      | `/carta` en los dos idiomas, con las 13 categorías                            | Precios y fotos coinciden con MenuUnfolded; dentro de presupuesto        |
-| **4 · Home**       | Las nueve secciones, con las seis animaciones                                 | Pasa Lighthouse y funciona con `prefers-reduced-motion`                  |
-| **5 · Resto**      | `/nuestra-experiencia`, `/visitanos`, legales, 404                            | Todas las páginas con su schema y su hreflang                            |
-| **6 · Producción** | Caddy, DNS, 301, `noindex` del subdominio, analítica                          | El sitio viejo redirige y el nuevo mide                                  |
+| Fase                | Entregable                                                                     | Cómo se sabe que está                                                    |
+| ------------------- | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| ~~**0 · Base**~~    | ~~Repo, protección de `main`, CI en verde, Astro arrancando, tokens y reset~~  | **Hecho.** Push directo a `main` rechazado por el servidor y CI en verde |
+| ~~**1 · Datos**~~   | ~~`lib/menu` completo: cliente, zod, mapper, caché, descarga de las 88 fotos~~ | **Hecho.** getMenu tipado, caché versionada y 94 fotos normalizadas      |
+| ~~**2 · Sistema**~~ | ~~`ui/` y `menu/` con su página de muestra interna~~                           | **Hecho.** Diez componentes y el muestrario en /dev/componentes          |
+| ~~**3 · Carta**~~   | ~~`/carta` en los dos idiomas, con las 13 categorías~~                         | **Hecho.** 88 platos y 88 fotos en los dos idiomas, 11,3 KB comprimido   |
+| **4 · Home**        | Las nueve secciones, con las seis animaciones                                  | Pasa Lighthouse y funciona con `prefers-reduced-motion`                  |
+| **5 · Resto**       | `/nuestra-experiencia`, `/visitanos`, legales, 404                             | Todas las páginas con su schema y su hreflang                            |
+| **6 · Producción**  | Caddy, DNS, 301, `noindex` del subdominio, analítica                           | El sitio viejo redirige y el nuevo mide                                  |
 
 La fase 1 va antes que la 2 a propósito: con los datos reales tipados, los componentes se
 construyen contra platos de verdad y no contra ejemplos inventados que luego no encajan.

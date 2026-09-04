@@ -1,0 +1,87 @@
+---
+/**
+ * Cabecera provisional: logotipo, vuelta al inicio y cambio de idioma.
+ *
+ * El menú completo con su animación de entrada llega con la portada; esto es lo
+ * mínimo para que la carta no sea una página sin salida.
+ */
+import logo from '../../assets/brand/logotipo-oro.svg';
+import { copy, otroIdioma, ruta, type Ruta } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+  /** La página actual, para que el cambio de idioma lleve a su equivalente. */
+  here: Ruta;
+}
+
+const { locale, here } = Astro.props;
+const t = copy(locale);
+const otro = otroIdioma(locale);
+---
+
+<header class="cabecera">
+  <div class="wrap cabecera__fila">
+    <a class="cabecera__marca" href={ruta('inicio', locale)}>
+      <img src={logo.src} alt={t.sitio.nombre} width="180" height="78" />
+    </a>
+
+    <nav class="cabecera__acciones" aria-label={t.nav.carta}>
+      <a class="cabecera__enlace" href={ruta(here, otro)} lang={otro} hreflang={otro}>
+        {t.nav.otroIdioma}
+      </a>
+      <a class="cabecera__enlace cabecera__enlace--fuerte" href="tel:+16108685252">
+        610-868-5252
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .cabecera {
+    position: relative;
+    z-index: 2;
+    border-block-end: 1px solid var(--color-rule);
+    background: var(--color-bg-alt);
+  }
+
+  .cabecera__fila {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-s);
+  }
+
+  .cabecera__marca img {
+    inline-size: clamp(8rem, 22vw, 11rem);
+    block-size: auto;
+  }
+
+  .cabecera__acciones {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+  }
+
+  .cabecera__enlace {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: 2.75rem;
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+
+  .cabecera__enlace:hover {
+    text-decoration: underline;
+  }
+
+  .cabecera__enlace--fuerte {
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+</style>

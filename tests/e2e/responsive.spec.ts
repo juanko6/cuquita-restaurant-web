@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
 /** Las rutas que ya existen. Crece con cada fase. */
-const PAGINAS = ['/'];
+const PAGINAS = ['/', '/carta', '/en/menu'];
 
 /**
  * Un píxel de margen. Los anchos se calculan en subpíxeles y un 0,4 de redondeo no
@@ -77,3 +77,72 @@ for (const ruta of PAGINAS) {
     });
   });
 }
+
+test.describe('/carta', () => {
+  test('las fichas de una misma fila miden lo mismo', async ({ page }) => {
+    await page.goto('/carta');
+
+    // 41 de los 88 platos no tienen descripción en español (decisión P-15). Lo que
+    // no puede pasar es que dentro de una fila unas fichas queden más altas que
+    // otras y el borde inferior salga en zigzag. Entre filas sí puede variar: cada
+    // fila se ajusta a su contenido y eso está bien.
+    const filas = await page.evaluate(() => {
+      const rejilla = document.querySelector('.grupo__rejilla');
+      if (!rejilla) return [];
+
+      const porFila = new Map<number, number[]>();
+      for (const hijo of rejilla.children) {
+        const caja = hijo.getBoundingClientRect();
+        const arriba = Math.round(caja.top);
+        porFila.set(arriba, [...(porFila.get(arriba) ?? []), Math.round(caja.height)]);
+      }
+      return [...porFila.values()];
+    });
+
+    expect(filas.length).toBeGreaterThan(0);
+    for (const alturas of filas) {
+      expect(new Set(alturas).size, `en una fila hay alturas ${alturas.join(', ')}`).toBe(1);
+    }
+  });
+
+  test('las ochenta y ocho fotos cargan', async ({ page }) => {
+    const fallidas: string[] = [];
+    page.on('response', (r) => {
+      if (r.status() >= 400) fallidas.push(`${r.status()} ${r.url()}`);
+    });
+
+    await page.goto('/carta');
+    // Baja del todo para que se disparen las que cargan al acercarse.
+    await page.evaluate(async () => {
+      for (let y = 0; y < document.body.scrollHeight; y += 600) {
+        window.scrollTo(0, y);
+        await new Promise((listo) => setTimeout(listo, 30));
+      }
+    });
+    await page.waitForLoadState('networkidle');
+
+    const rotas = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLImageElement>('.plato img')]
+        .filter((img) => img.complete && img.naturalWidth === 0)
+        .map((img) => img.alt),
+    );
+
+    expect(rotas, 'fotos que no cargan').toEqual([]);
+    expect(fallidas, 'peticiones fallidas').toEqual([]);
+  });
+
+  test('están las trece categorías y los ochenta y ocho platos', async ({ page }) => {
+    await page.goto('/carta');
+
+    await expect(page.locator('.grupo')).toHaveCount(13);
+    await expect(page.locator('.plato')).toHaveCount(88);
+  });
+
+  test('el cambio de idioma lleva a la misma página en el otro idioma', async ({ page }) => {
+    await page.goto('/carta');
+    await page.getByRole('link', { name: 'English' }).click();
+
+    await expect(page).toHaveURL(/\/en\/menu/);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+  });
+});
