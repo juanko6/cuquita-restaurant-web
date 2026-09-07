@@ -1458,37 +1458,37 @@
       ]
     },
     {
-      "id": "95326ecc-765f-4f78-b96b-9ec881900385",
-      "title": "Especial del día: Sopa de pollo",
+      "id": "d9d85ddc-0565-4e4d-b5e5-ee7e86787c71",
+      "title": "Viernes de Sancocho de cola",
       "description": "Servido con arroz blanco, ensalada, pechuga de pollo o carne de res asada, tajadas de plátano maduro, patacón o yuca frita.",
       "details": null,
-      "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/featured_20260828230207.jpg",
-      "price": 14.99,
-      "promo_price": null,
-      "promo_start": null,
-      "promo_end": null,
-      "featured_size": 2,
-      "sort_order": 5,
-      "is_active": true,
-      "recurrence_days": [
-        0
-      ]
-    },
-    {
-      "id": "2df4d82a-5ed7-411c-9a24-275e05c4a951",
-      "title": "Sancocho costilla de res",
-      "description": null,
-      "details": null,
-      "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/featured_20260828220628.jpg",
+      "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/featured_20260508203545.jpg",
       "price": 16.99,
       "promo_price": null,
       "promo_start": null,
       "promo_end": null,
-      "featured_size": 2,
-      "sort_order": 7,
+      "featured_size": 3,
+      "sort_order": 2,
       "is_active": true,
       "recurrence_days": [
         4
+      ]
+    },
+    {
+      "id": "5dd5efc5-9281-40be-9666-7b373af66244",
+      "title": "Sopita carne de res",
+      "description": null,
+      "details": null,
+      "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/featured_20260828204211.jpg",
+      "price": 14.99,
+      "promo_price": null,
+      "promo_start": null,
+      "promo_end": null,
+      "featured_size": 3,
+      "sort_order": 6,
+      "is_active": true,
+      "recurrence_days": [
+        2
       ]
     },
     {
@@ -1546,6 +1546,28 @@
       "recurrence_days": [
         0,
         1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "191206da-fdd0-48f3-bb0a-204afc29bf9c",
+      "title": "Costilla ahumada",
+      "description": null,
+      "details": "Acompañada con yuca frita y miel picante",
+      "image_url": "https://menuunfolded.com/uploads/user_af4f0964-5e0a-4237-a6eb-2a47012a19ba_juanko-dev/cuquita-restaurant_20260406/featured_20260906171503.jpg",
+      "price": 14.99,
+      "promo_price": null,
+      "promo_start": null,
+      "promo_end": null,
+      "featured_size": 2,
+      "sort_order": 13,
+      "is_active": true,
+      "recurrence_days": [
+        0,
         2,
         3,
         4,
