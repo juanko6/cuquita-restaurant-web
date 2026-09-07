@@ -164,10 +164,12 @@ const entradas = [
     padding-block: var(--space-2xs);
   }
 
+  /* El tope de 3,2rem no es arbitrario: la barra mide --alto-nav y descuenta su
+     padding, así que por encima de eso el logotipo empieza a estirarla. */
   .nav__marca img {
     display: block;
     inline-size: auto;
-    block-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    block-size: clamp(2.3rem, 5.5vw, 3.2rem);
   }
 
   .nav__derecha {
