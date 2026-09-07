@@ -112,7 +112,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      como tres cosas apiladas; con él, como una sola. */
   .hero__encabezado {
     z-index: 1;
-    margin-block-end: -0.34em;
+    margin-block-end: -0.5em;
     font-size: var(--paso-titular);
   }
 
@@ -141,7 +141,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
 
   .hero__remate {
     z-index: 1;
-    margin-block-start: -0.34em;
+    margin-block-start: -0.5em;
     color: var(--color-accent);
   }
 
@@ -153,7 +153,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
   .hero__marco {
     z-index: 0;
     inline-size: min(78vw, 58rem);
-    block-size: 46svh;
+    block-size: 50svh;
     overflow: hidden;
     background: var(--color-bg);
   }
@@ -204,11 +204,11 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     }
 
     .hero__marco {
-      block-size: 34svh;
+      block-size: 38svh;
       /* Con el marco a 34svh hace falta 100/34 para cubrir el alto de la ventana.
          Con la escala de siempre, 2,8, el vídeo se quedaba corto y no llegaba a
          tapar la barra en portátiles de 800 px. */
-      --marco-escala: 3.2;
+      --marco-escala: 3;
     }
   }
 
@@ -229,9 +229,9 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     .hero__marco {
       /* Casi a todo el ancho y bastante más alto, como la referencia. */
       inline-size: 92vw;
-      block-size: 50svh;
-      /* 100/50 de alto y 100/92 de ancho: con 2,6 cubre de sobra. */
-      --marco-escala: 2.6;
+      block-size: 54svh;
+      /* 100/54 de alto y 100/92 de ancho: con 2,4 cubre de sobra. */
+      --marco-escala: 2.4;
     }
 
     .hero__pie {
@@ -244,8 +244,8 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      fuera de pantalla. Aquí se recupera algo de alto sin tocar la tipografía. */
   @media (width < 48rem) and (height < 50rem) {
     .hero__marco {
-      block-size: 42svh;
-      --marco-escala: 3;
+      block-size: 46svh;
+      --marco-escala: 2.8;
     }
   }
 
@@ -253,8 +253,8 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      seguía saliendo 32 px. Un escalón más y entra. */
   @media (width < 48rem) and (height < 42rem) {
     .hero__marco {
-      block-size: 34svh;
-      --marco-escala: 3.2;
+      block-size: 38svh;
+      --marco-escala: 3;
     }
   }
 
