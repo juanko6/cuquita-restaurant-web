@@ -91,10 +91,10 @@
     /* Los textos entran cuando el vídeo ya está en su marco, no mientras encoge:
        la reducción arranca a los 400 ms y dura 900, así que nada de texto antes
        de 1300. */
-    --intro-lugar: 1350ms;
-    --intro-titular: 1450ms;
-    --intro-entradilla: 1700ms;
-    --intro-acciones: 1950ms;
+    --intro-titular: 1400ms;
+    --intro-remate: 1600ms;
+    --intro-entradilla: 1850ms;
+    --intro-acciones: 2100ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
@@ -114,8 +114,8 @@
     :root {
       --intro-boton: 0ms;
       --intro-encoge: 0ms;
-      --intro-lugar: 0ms;
       --intro-titular: 0ms;
+      --intro-remate: 0ms;
       --intro-entradilla: 0ms;
       --intro-acciones: 0ms;
       --dur-fast: 1ms;

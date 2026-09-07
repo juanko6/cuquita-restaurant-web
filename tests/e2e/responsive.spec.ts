@@ -260,6 +260,38 @@ test.describe('portada', () => {
     expect(abajo).not.toBe(arriba);
   });
 
+  test('los tres bloques de texto montan el vídeo', async ({ page }) => {
+    await page.goto('/');
+    await asentarse(page);
+
+    // La composición de la referencia: la dirección y el titular pegados al vídeo
+    // por arriba, el remate pegado por abajo. Si dejan de solaparse, se lee como
+    // tres cosas apiladas en vez de como una.
+    const solape = await page.evaluate(() => {
+      const enc = document.querySelector('.hero__encabezado')!.getBoundingClientRect();
+      const marco = document.querySelector('.hero__marco')!.getBoundingClientRect();
+      const remate = document.querySelector('.hero__remate')!.getBoundingClientRect();
+      return { arriba: enc.bottom - marco.top, abajo: marco.bottom - remate.top };
+    });
+
+    expect(solape.arriba).toBeGreaterThan(0);
+    expect(solape.abajo).toBeGreaterThan(0);
+  });
+
+  test('el remate se lee con el mismo peso que el titular', async ({ page }) => {
+    await page.goto('/');
+
+    const [titular, remate] = await page.evaluate(() => {
+      const f = (s: string) => {
+        const c = getComputedStyle(document.querySelector(s)!);
+        return `${c.fontFamily.split(',')[0]}|${c.fontSize}|${c.fontWeight}`;
+      };
+      return [f('.hero__titular'), f('.hero__remate')];
+    });
+
+    expect(remate).toBe(titular);
+  });
+
   test('la primera pantalla cabe en la pantalla', async ({ page }) => {
     await page.goto('/');
     await asentarse(page);
