@@ -83,7 +83,12 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
   .hero {
     position: relative;
     display: grid;
-    grid-template-rows: 1fr auto;
+    /* Las dos filas van juntas y el sobrante se reparte arriba y abajo del grupo.
+       Antes la escena se llevaba una fila de 1fr y se centraba dentro, así que el
+       hueco entre el remate y el pie salía de ese sobrante y no del margen: en un
+       1280x800 eran 93 px que no se podían tocar desde aquí. */
+    grid-template-rows: auto auto;
+    align-content: center;
     /* Empieza en lo alto de la página, debajo de la barra flotante: por eso el
        vídeo puede taparla. El hueco de la barra lo pone este padding. */
     min-block-size: 100svh;
@@ -101,7 +106,6 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
 
   .hero__escena {
     display: grid;
-    align-content: center;
     justify-items: start;
     inline-size: 100%;
     max-inline-size: var(--width-max);
