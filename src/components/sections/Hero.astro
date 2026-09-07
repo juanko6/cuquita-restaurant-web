@@ -1,0 +1,323 @@
+---
+/**
+ * La primera pantalla.
+ *
+ * La composición sale de la referencia de Sibuya en móvil: la dirección y el titular
+ * pegados al vídeo por arriba, el vídeo, y un remate pegado por abajo. Los tres
+ * bloques de texto montan el marco, que es lo que cose el conjunto.
+ *
+ * El guion, en orden:
+ *   1. el vídeo abre ocupando la ventana entera, por encima de la barra — solo el
+ *      logotipo y el botón del menú quedan por delante de él
+ *   2. baja el botón del menú (eso vive en Nav.astro)
+ *   3. el vídeo se reduce hasta su marco, sobrepasando y volviendo
+ *   4. la dirección y el titular entran juntos, de izquierda a derecha: son un solo
+ *      bloque y se mueven como uno
+ *   5. el remate entra detrás, también desde la izquierda
+ *   6. el párrafo entra de derecha a izquierda
+ *   7. y los dos botones suben desde abajo, uno detrás de otro
+ *
+ * El vídeo va a color vivo: ni filtro ni velo encima. Se probó con un degradado de
+ * vino y lo dejaba casi plano; el texto no se le monta por dentro, así que no hace
+ * falta.
+ *
+ * Todo dentro de `prefers-reduced-motion: no-preference`. Fuera de ahí el vídeo ya
+ * está en su marco y los textos en su sitio desde el primer fotograma.
+ */
+import Button from '../ui/Button.astro';
+import { copy, ruta } from '../../lib/i18n.ts';
+import type { Locale } from '../../lib/menu/types.ts';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = copy(locale);
+const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
+---
+
+<section class="hero">
+  {/* Marca lo alto de la página para que la barra sepa cuándo posarse. Ver Nav.astro. */}
+  <div class="hero__centinela" aria-hidden="true"></div>
+
+  <div class="hero__escena">
+    <div class="hero__encabezado">
+      <p class="hero__lugar">960 Broadway · Fountain Hill, PA</p>
+      <h1 class="hero__titular">
+        {t.inicio.heroLineas.map((linea) => <span class="hero__linea">{linea}</span>)}
+      </h1>
+    </div>
+
+    <div class="hero__marco">
+      <video
+        class="hero__video"
+        src="/video/parrilla.mp4"
+        poster="/video/parrilla.webp"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-hidden="true"
+        tabindex="-1"></video>
+    </div>
+
+    <p class="hero__remate">{t.inicio.heroRemate}</p>
+  </div>
+
+  <div class="hero__pie">
+    <p class="hero__entradilla">{t.inicio.heroEntradilla}</p>
+    <div class="hero__acciones">
+      <span class="hero__cta" style="--indice:0">
+        <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
+      </span>
+      <span class="hero__cta" style="--indice:1">
+        <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+      </span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    /* Las dos filas van juntas y el sobrante se reparte arriba y abajo del grupo.
+       Antes la escena se llevaba una fila de 1fr y se centraba dentro, así que el
+       hueco entre el remate y el pie salía de ese sobrante y no del margen: en un
+       1280x800 eran 93 px que no se podían tocar desde aquí. */
+    grid-template-rows: auto auto;
+    align-content: center;
+    /* Empieza en lo alto de la página, debajo de la barra flotante: por eso el
+       vídeo puede taparla. El hueco de la barra lo pone este padding. */
+    min-block-size: 100svh;
+    padding: calc(var(--alto-nav) + var(--space-s)) var(--gutter) var(--space-l);
+    overflow: hidden;
+    background: var(--color-bg-alt);
+  }
+
+  .hero__centinela {
+    position: absolute;
+    inset: 0 0 auto;
+    block-size: var(--alto-nav);
+    pointer-events: none;
+  }
+
+  .hero__escena {
+    display: grid;
+    justify-items: start;
+    inline-size: 100%;
+    max-inline-size: var(--width-max);
+    margin-inline: auto;
+  }
+
+  /* Los tres bloques de texto montan el marco. Sin este solape el conjunto se lee
+     como tres cosas apiladas; con él, como una sola. */
+  .hero__encabezado {
+    z-index: 1;
+    margin-block-end: -0.5em;
+    font-size: var(--paso-titular);
+  }
+
+  .hero__lugar {
+    margin-block-end: var(--space-2xs);
+    color: var(--color-accent-text);
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+
+  .hero__titular,
+  .hero__remate {
+    font-family: var(--font-display);
+    font-size: var(--paso-titular);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .hero__linea {
+    display: block;
+  }
+
+  .hero__remate {
+    z-index: 1;
+    margin-block-start: -0.5em;
+    color: var(--color-accent);
+  }
+
+  /* Alineado a la izquierda y algo más estrecho que el texto, para que los
+     titulares lo desborden por la derecha como en la referencia. */
+  /* Por detrás del texto: los bordes del marco se tocan con las letras, no las
+     cortan. Con el vídeo por delante, "Colombia" y "Sazón perfecta" salían
+     rebanadas por la mitad. */
+  .hero__marco {
+    z-index: 0;
+    inline-size: min(78vw, 58rem);
+    block-size: 50svh;
+    overflow: hidden;
+    background: var(--color-bg);
+  }
+
+  /* A color vivo: ni filtro ni velo. */
+  .hero__video {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .hero__pie {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-m);
+    inline-size: 100%;
+    max-inline-size: var(--width-max);
+    margin-block-start: var(--space-m);
+    margin-inline: auto;
+  }
+
+  .hero__entradilla {
+    max-inline-size: 38ch;
+    color: var(--color-text);
+    font-size: var(--step-0);
+  }
+
+  .hero__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  .hero {
+    --paso-titular: clamp(2.4rem, 7.5vw, 5.5rem);
+  }
+
+  /* Con tres bloques de texto y un vídeo más alto, en una ventana baja la primera
+     pantalla se desborda. En vez de recortar la composición, se encoge: la escala
+     tipográfica y el vídeo responden también al alto, no solo al ancho. */
+  /* 52rem y no 46: a 800 px de alto —un portátil cualquiera— la escala grande ya
+     no cabe, y ese hueco entre 736 y 832 se colaba entre las dos reglas. */
+  @media (height < 52rem) {
+    .hero {
+      --paso-titular: clamp(2rem, 5.5vw, 3.4rem);
+    }
+
+    .hero__marco {
+      block-size: 38svh;
+      /* Con el marco a 34svh hace falta 100/34 para cubrir el alto de la ventana.
+         Con la escala de siempre, 2,8, el vídeo se quedaba corto y no llegaba a
+         tapar la barra en portátiles de 800 px. */
+      --marco-escala: 3;
+    }
+  }
+
+  @media (width < 48rem) {
+    .hero {
+      /* Más grande que en escritorio en proporción, para que el titular se acerque
+         al ancho del vídeo como en la referencia en móvil. */
+      --paso-titular: clamp(2.6rem, 12vw, 4rem);
+    }
+
+    /* Y con el interlineado algo más suelto: a 0,92 las dos líneas se pegaban
+       demasiado en pantalla pequeña. */
+    .hero__titular,
+    .hero__remate {
+      line-height: 1;
+    }
+
+    .hero__marco {
+      /* Casi a todo el ancho y bastante más alto, como la referencia. */
+      inline-size: 92vw;
+      /* 45svh es lo que mide el suyo: a 390x844 su marco es 350x380, el 45 % del
+         alto de la ventana. El nuestro iba al 54 % y se veía demasiado alto. */
+      block-size: 45svh;
+      /* 100/45 de alto y 100/92 de ancho: con 2,6 cubre de sobra. */
+      --marco-escala: 2.6;
+    }
+
+    .hero__pie {
+      align-items: start;
+    }
+  }
+
+  /* Un móvil pequeño es estrecho **y** bajo: la regla de ancho gana a la de alto por
+     ir después, así que en un 360x780 se quedaba con el vídeo grande y el pie caía
+     fuera de pantalla. Aquí se recupera algo de alto sin tocar la tipografía. */
+  @media (width < 48rem) and (height < 50rem) {
+    .hero__marco {
+      block-size: 40svh;
+      --marco-escala: 2.8;
+    }
+  }
+
+  /* Y en un móvil de verdad pequeño —360x640, un iPhone SE— con 42svh el pie se
+     seguía saliendo 32 px. Un escalón más y entra. */
+  @media (width < 48rem) and (height < 42rem) {
+    .hero__marco {
+      block-size: 34svh;
+      --marco-escala: 3.2;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* 3 · La reducción. Con `scale` y no animando el ancho: el marco está en el
+       flujo, así que crecer de verdad hasta 100vw empujaba el pie de la portada
+       350 px hacia abajo y la página entera saltaba durante la entrada. */
+    .hero__marco {
+      transform-origin: center;
+      animation: reducir 900ms var(--ease-rebote) var(--intro-encoge) both;
+    }
+
+    @keyframes reducir {
+      from {
+        scale: var(--marco-escala, 2.8);
+      }
+    }
+
+    /* 4 · La dirección y el titular son un bloque y entran como uno. */
+    .hero__encabezado {
+      animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-titular) both;
+    }
+
+    .hero__remate {
+      animation: desde-la-izquierda 700ms var(--ease-out) var(--intro-remate) both;
+    }
+
+    .hero__entradilla {
+      animation: desde-la-derecha 700ms var(--ease-out) var(--intro-entradilla) both;
+    }
+
+    /* Uno detrás de otro, de abajo arriba. */
+    .hero__cta {
+      display: inline-flex;
+      animation: desde-abajo 600ms var(--ease-out) both;
+      animation-delay: calc(var(--intro-acciones) + var(--indice, 0) * 140ms);
+    }
+
+    @keyframes desde-la-izquierda {
+      from {
+        translate: -3rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-la-derecha {
+      from {
+        translate: 3rem 0;
+        opacity: 0;
+      }
+    }
+
+    @keyframes desde-abajo {
+      from {
+        translate: 0 2.5rem;
+        opacity: 0;
+      }
+    }
+  }
+</style>

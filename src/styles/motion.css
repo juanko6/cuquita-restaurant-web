@@ -1,7 +1,7 @@
 /**
  * El sistema de movimiento.
  *
- * Son seis piezas y aquí están cuatro: las que se comparten. Las otras dos viven
+ * Son ocho piezas y aquí están cuatro: las que se comparten. Las otras cuatro viven
  * pegadas al componente que las usa, porque fuera de él no significan nada.
  *
  *   01 · Titulares que entran por líneas ......... aquí
@@ -10,6 +10,8 @@
  *   04 · Bandas horizontales ..................... aquí
  *   05 · Entradas escalonadas .................... aquí
  *   06 · Carruseles arrastrables ................. Carousel.astro (scroll-snap, sin animación)
+ *   07 · La entrada de la portada ................ Hero.astro (tiempos en tokens.css)
+ *   08 · El menú, al abrir y al cerrar ........... Nav.astro (::details-content)
  *
  * Sibuya consigue todo esto con GSAP, ScrollTrigger, Locomotive y Splitting: más de
  * 150 KB de JavaScript. Aquí el presupuesto entero son 15 KB y vamos a cero.
