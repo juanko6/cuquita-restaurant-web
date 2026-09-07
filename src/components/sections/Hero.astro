@@ -205,6 +205,10 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
 
     .hero__marco {
       block-size: 34svh;
+      /* Con el marco a 34svh hace falta 100/34 para cubrir el alto de la ventana.
+         Con la escala de siempre, 2,8, el vídeo se quedaba corto y no llegaba a
+         tapar la barra en portátiles de 800 px. */
+      --marco-escala: 3.2;
     }
   }
 
