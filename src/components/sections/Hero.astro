@@ -229,9 +229,11 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     .hero__marco {
       /* Casi a todo el ancho y bastante más alto, como la referencia. */
       inline-size: 92vw;
-      block-size: 54svh;
-      /* 100/54 de alto y 100/92 de ancho: con 2,4 cubre de sobra. */
-      --marco-escala: 2.4;
+      /* 45svh es lo que mide el suyo: a 390x844 su marco es 350x380, el 45 % del
+         alto de la ventana. El nuestro iba al 54 % y se veía demasiado alto. */
+      block-size: 45svh;
+      /* 100/45 de alto y 100/92 de ancho: con 2,6 cubre de sobra. */
+      --marco-escala: 2.6;
     }
 
     .hero__pie {
@@ -244,7 +246,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      fuera de pantalla. Aquí se recupera algo de alto sin tocar la tipografía. */
   @media (width < 48rem) and (height < 50rem) {
     .hero__marco {
-      block-size: 46svh;
+      block-size: 40svh;
       --marco-escala: 2.8;
     }
   }
@@ -253,8 +255,8 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      seguía saliendo 32 px. Un escalón más y entra. */
   @media (width < 48rem) and (height < 42rem) {
     .hero__marco {
-      block-size: 38svh;
-      --marco-escala: 3;
+      block-size: 34svh;
+      --marco-escala: 3.2;
     }
   }
 
