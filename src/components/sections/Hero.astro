@@ -112,7 +112,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      como tres cosas apiladas; con él, como una sola. */
   .hero__encabezado {
     z-index: 1;
-    margin-block-end: -0.22em;
+    margin-block-end: -0.34em;
     font-size: var(--paso-titular);
   }
 
@@ -141,7 +141,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
 
   .hero__remate {
     z-index: 1;
-    margin-block-start: -0.22em;
+    margin-block-start: -0.34em;
     color: var(--color-accent);
   }
 
@@ -152,7 +152,7 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      rebanadas por la mitad. */
   .hero__marco {
     z-index: 0;
-    inline-size: min(64vw, 46rem);
+    inline-size: min(78vw, 58rem);
     block-size: 46svh;
     overflow: hidden;
     background: var(--color-bg);
@@ -190,15 +190,17 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
   }
 
   .hero {
-    --paso-titular: clamp(2.4rem, 7.5vw, 5.5rem);
+    --paso-titular: clamp(2.8rem, 8.6vw, 6.5rem);
   }
 
   /* Con tres bloques de texto y un vídeo más alto, en una ventana baja la primera
      pantalla se desborda. En vez de recortar la composición, se encoge: la escala
      tipográfica y el vídeo responden también al alto, no solo al ancho. */
-  @media (height < 46rem) {
+  /* 52rem y no 46: a 800 px de alto —un portátil cualquiera— la escala grande ya
+     no cabe, y ese hueco entre 736 y 832 se colaba entre las dos reglas. */
+  @media (height < 52rem) {
     .hero {
-      --paso-titular: clamp(2rem, 5.5vw, 3.4rem);
+      --paso-titular: clamp(2.2rem, 6vw, 3.8rem);
     }
 
     .hero__marco {
