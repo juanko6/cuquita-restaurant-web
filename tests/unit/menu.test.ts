@@ -26,12 +26,40 @@ describe('getMenu', () => {
     expect(menu.restaurantName).toBe('Cuquita Restaurant');
   });
 
-  it('trae los seis especiales con sus días', () => {
+  it('trae los especiales con días válidos', () => {
     const menu = getMenu('es');
-    const lentejas = menu.specials.find((special) => /lentejas/i.test(special.title));
 
-    expect(menu.specials).toHaveLength(6);
-    expect(lentejas?.recurrenceDays).toEqual([3]);
+    // Sin número fijo a propósito: los especiales los edita el restaurante y ya
+    // cambiaron una vez —quitaron la sopa de pollo del lunes, añadieron la sopita
+    // del miércoles y la costilla ahumada—, lo que rompía el test sin que nada
+    // estuviera mal. Lo que sí tiene que cumplirse es la forma.
+    expect(menu.specials.length).toBeGreaterThan(0);
+
+    for (const special of menu.specials) {
+      expect(special.title.length).toBeGreaterThan(0);
+      expect(special.price).toBeGreaterThan(0);
+      expect(special.recurrenceDays.length).toBeGreaterThan(0);
+      for (const dia of special.recurrenceDays) {
+        expect(dia).toBeGreaterThanOrEqual(0);
+        expect(dia).toBeLessThanOrEqual(6);
+      }
+    }
+  });
+
+  it('algún día de la semana tiene plato propio', () => {
+    const menu = getMenu('es');
+
+    // Si esto falla, la tira semanal de la portada se queda vacía: o el
+    // restaurante quitó todos los especiales de día, o algo se rompió al leerlos.
+    const conPlatoPropio = [0, 1, 2, 3, 4, 5, 6].filter((dia) =>
+      menu.specials.some(
+        (s) => s.isActive && s.recurrenceDays.includes(dia) && s.recurrenceDays.length < 6,
+      ),
+    );
+
+    expect(conPlatoPropio.length).toBeGreaterThan(0);
+    // El martes cierra: no debería tener plato propio nunca.
+    expect(conPlatoPropio).not.toContain(1);
   });
 
   it('deja los platos sin descripción como null y no como cadena vacía', () => {

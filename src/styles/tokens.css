@@ -86,15 +86,18 @@
     /* La coreografía de entrada de la portada. Los retrasos van aquí y no en el
        componente para que se lea el guion completo de un vistazo. */
     --intro-boton: 150ms;
-    --intro-encoge: 400ms;
+
+    /* El vídeo se queda a pantalla completa un segundo y medio antes de empezar a
+       encoger. Es una pausa a propósito: da tiempo a mirarlo. */
+    --intro-encoge: 1500ms;
 
     /* Los textos entran cuando el vídeo ya está en su marco, no mientras encoge:
-       la reducción arranca a los 400 ms y dura 900, así que nada de texto antes
-       de 1300. */
-    --intro-titular: 1400ms;
-    --intro-remate: 1600ms;
-    --intro-entradilla: 1850ms;
-    --intro-acciones: 2100ms;
+       la reducción arranca a los 1500 ms y dura 900, así que nada de texto antes
+       de 2400. */
+    --intro-titular: 2450ms;
+    --intro-remate: 2600ms;
+    --intro-entradilla: 2800ms;
+    --intro-acciones: 3000ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
