@@ -31,6 +31,7 @@
   "hoy": {
     "etiqueta": "Hoy en Cuquita",
     "tambien": "También hoy:",
+    "sinEspecial": "Hoy no hay plato del día, pero la carta entera está puesta desde las 11.",
     "cerrado": "Hoy descansamos. Nos vemos mañana desde las 11."
   },
   "inicio": {

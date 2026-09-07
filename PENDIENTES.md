@@ -52,7 +52,28 @@ El carrusel de fotos de Instagram no se puede montar sin una selección de imág
 descargadas y aprobadas. No se incrusta el feed en vivo: mete cookies de terceros y
 obligaría a poner banner de consentimiento. De momento la web enlaza al perfil.
 
-### #6 · Empezar a responder reseñas de Google
+### #6 · Confirmar con el restaurante los días de cada especial
+
+`lib/specials.ts` se fía de los `recurrence_days` de MenuUnfolded y hay dos cosas que
+no cuadran con la carta real:
+
+- El **martes**, día de cierre, tiene marcado el _Brazo de reina frio_. Como hay un
+  plato, el bloque «Hoy en Cuquita» nunca llega a decir que se descansa: el texto de
+  cierre está escrito y no sale nunca.
+- El **lunes** no tiene plato propio, así que el bloque encabeza con los _Patacones,
+  chicharrón y guacamole_, que están todos los días. Anuncia como novedad algo que no
+  lo es.
+
+La web ya no los enseña: `Today.astro` fuerza el cierre del martes y titula solo con
+platos propios del día, así que el lunes y el domingo dicen que no hay plato del día en
+vez de inventárselo. Pero eso es una venda, y los lunes y domingos la tarjeta grande de
+la portada se queda sin plato ni foto.
+
+**El arreglo de verdad es en MenuUnfolded**: quitar el martes de los días del postre y
+decidir qué plato quiere el restaurante para el lunes y el domingo. Hay que preguntárselo
+a ellos, que es lo que ya pedía `lib/specials.ts`.
+
+### #7 · Empezar a responder reseñas de Google
 
 No depende del sitio y se puede empezar hoy. Guion: agradecer las buenas en el idioma en
 que estén escritas; en las malas reconocer, no discutir y ofrecer volver. Arrancar por los

@@ -31,6 +31,7 @@
   "hoy": {
     "etiqueta": "Today at Cuquita",
     "tambien": "Also today:",
+    "sinEspecial": "No dish of the day today, but the full menu is on from 11.",
     "cerrado": "We're closed today. Back tomorrow at 11."
   },
   "inicio": {

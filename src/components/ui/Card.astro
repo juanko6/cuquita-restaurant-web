@@ -5,7 +5,7 @@
  */
 interface Props {
   as?: 'article' | 'div' | 'li';
-  tone?: 'plain' | 'raised';
+  tone?: 'plain' | 'raised' | 'cream';
   class?: string;
 }
 
@@ -26,5 +26,25 @@ const { as: Etiqueta = 'div', tone = 'plain', class: extra } = Astro.props;
   .tarjeta--raised {
     background: var(--color-bg-alt);
     border: 1px solid var(--color-rule);
+  }
+
+  /* La superficie clara. El truco es que no pinta el texto de sus hijos: reasigna
+     los roles de color en su propio ámbito, y cualquier cosa que caiga dentro —un
+     precio, un botón— se adapta sola sin saber que está sobre crema.
+
+     El oro sobre crema da 1,88:1, así que aquí el acento es el vino (7,86:1) y el
+     oro solo vale de relleno con tinta encima. */
+  .tarjeta--cream {
+    --color-text: var(--color-on-surface);
+    --color-text-muted: color-mix(in srgb, var(--color-on-surface) 70%, var(--color-surface));
+    --color-accent-text: var(--c-wine);
+    --color-rule: color-mix(in srgb, var(--c-wine) 20%, transparent);
+    --color-focus: var(--c-wine);
+
+    position: relative;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    color: var(--color-text);
   }
 </style>

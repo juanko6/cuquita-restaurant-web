@@ -41,6 +41,12 @@
     --color-rule: color-mix(in srgb, var(--c-cream) 18%, transparent);
     --color-focus: var(--c-sand);
 
+    /* La superficie clara: crema sobre vino, como el panel del menú. Es la
+       excepción al fondo oscuro y por eso lo que caiga encima manda. Quién
+       reasigna los roles de color dentro de ella es Card. */
+    --color-surface: var(--c-cream);
+    --color-on-surface: var(--c-ink);
+
     /* --- tipografía --- */
 
     /* Condensada de cartel: da el golpe de Sibuya y su geometría seca contrasta
@@ -74,6 +80,10 @@
 
     /* --- layout --- */
     --width-max: 78rem;
+
+    /* El único redondeo del sitio. Todo lo demás va a escuadra: la esquina blanda
+       es lo que separa una tarjeta que flota del bloque que la sostiene. */
+    --radius-card: 1.5rem;
 
     /* Alto de la barra. Está aquí y no en el componente porque la portada lo
        necesita para calcular su propia altura: la primera pantalla es la ventana
