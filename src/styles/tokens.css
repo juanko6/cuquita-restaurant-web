@@ -87,17 +87,17 @@
        componente para que se lea el guion completo de un vistazo. */
     --intro-boton: 150ms;
 
-    /* El vídeo se queda a pantalla completa un segundo y medio antes de empezar a
-       encoger. Es una pausa a propósito: da tiempo a mirarlo. */
-    --intro-encoge: 1500ms;
+    /* El vídeo se queda a pantalla completa un segundo antes de empezar a encoger.
+       Es una pausa a propósito: da tiempo a mirarlo. */
+    --intro-encoge: 1000ms;
 
     /* Los textos entran cuando el vídeo ya está en su marco, no mientras encoge:
-       la reducción arranca a los 1500 ms y dura 900, así que nada de texto antes
-       de 2400. */
-    --intro-titular: 2450ms;
-    --intro-remate: 2600ms;
-    --intro-entradilla: 2800ms;
-    --intro-acciones: 3000ms;
+       la reducción arranca a los 1000 ms y dura 900, así que nada de texto antes
+       de 1900. */
+    --intro-titular: 1950ms;
+    --intro-remate: 2100ms;
+    --intro-entradilla: 2300ms;
+    --intro-acciones: 2500ms;
     --dur-fast: 180ms;
     --dur-base: 400ms;
     --dur-slow: 700ms;
