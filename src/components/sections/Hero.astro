@@ -213,15 +213,48 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
   }
 
   @media (width < 48rem) {
+    .hero {
+      /* Más grande que en escritorio en proporción, para que el titular se acerque
+         al ancho del vídeo como en la referencia en móvil. */
+      --paso-titular: clamp(3rem, 14vw, 4.5rem);
+    }
+
+    /* Y con el interlineado algo más suelto: a 0,92 las dos líneas se pegaban
+       demasiado en pantalla pequeña. */
+    .hero__titular,
+    .hero__remate {
+      line-height: 1;
+    }
+
     .hero__marco {
-      /* En móvil el vídeo va casi a todo el ancho y más alto, como la referencia. */
+      /* Casi a todo el ancho y bastante más alto, como la referencia. */
       inline-size: 92vw;
-      block-size: 42svh;
-      --marco-escala: 3.4;
+      block-size: 50svh;
+      /* 100/50 de alto y 100/92 de ancho: con 2,6 cubre de sobra. */
+      --marco-escala: 2.6;
     }
 
     .hero__pie {
       align-items: start;
+    }
+  }
+
+  /* Un móvil pequeño es estrecho **y** bajo: la regla de ancho gana a la de alto por
+     ir después, así que en un 360x780 se quedaba con el vídeo grande y el pie caía
+     fuera de pantalla. Aquí se recupera algo de alto sin tocar la tipografía. */
+  @media (width < 48rem) and (height < 50rem) {
+    .hero__marco {
+      block-size: 42svh;
+      --marco-escala: 3;
+    }
+  }
+
+  /* Y en un móvil de verdad pequeño —360x640, un iPhone SE— con 42svh el pie se
+     seguía saliendo 32 px. Un escalón más y entra. */
+  @media (width < 48rem) and (height < 42rem) {
+    .hero__marco {
+      block-size: 34svh;
+      --marco-escala: 3.2;
     }
   }
 
