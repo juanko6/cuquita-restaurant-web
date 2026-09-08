@@ -19,6 +19,14 @@
  * Dos reglas que no se rompen: nada nace invisible esperando a un observador, y
  * quien pide no moverse no se mueve. Los tokens de duración ya valen 1 ms con
  * `prefers-reduced-motion`, así que basta con no dar por hecho el movimiento.
+ *
+ * Y una trampa: el minificador pliega `animation-timeline` dentro del atajo
+ * `animation`, y `animation: ... view()` no lo entiende ningún navegador, así que
+ * se cae la declaración entera y la animación no llega ni a existir. Ya mordió una
+ * vez con `scroll()` en la barra, y estaba mordiendo a la 02 sin que se notara.
+ * Por eso el valor va detrás de `--al-pasar`: lo que no puede resolver, no lo
+ * pliega. Cualquier animación nueva ligada al scroll tiene que hacer lo mismo, y
+ * hay una prueba en el sitio construido que lo vigila.
  */
 @layer components {
   /* --- 01 · Titulares que entran por líneas --- */
@@ -46,8 +54,10 @@
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .flota {
+        --al-pasar: view();
+
         animation: deriva linear both;
-        animation-timeline: view();
+        animation-timeline: var(--al-pasar);
         animation-range: cover 0% cover 100%;
       }
 

@@ -9,6 +9,8 @@ import Button from '../ui/Button.astro';
 import Hero from './Hero.astro';
 import Today from './Today.astro';
 import Carousel from '../ui/Carousel.astro';
+import Frame from '../ui/Frame.astro';
+import Lede from '../ui/Lede.astro';
 import Marquee from '../ui/Marquee.astro';
 import Section from '../ui/Section.astro';
 import SplitHeading from '../ui/SplitHeading.astro';
@@ -19,6 +21,8 @@ import Week from './Week.astro';
 import { copy, ruta } from '../../lib/i18n.ts';
 import { getMenu } from '../../lib/menu/index.ts';
 import { featuredDishes } from '../../lib/menu/featured.ts';
+import mesaServida from '../../assets/local/mesa-servida.webp';
+import clientes from '../../assets/local/clientes.webp';
 import type { Locale } from '../../lib/menu/types.ts';
 
 interface Props {
@@ -37,25 +41,27 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
   description={t.sitio.descripcionInicio}
   lang={locale}
   alternate="inicio"
+  watermark
 >
   <Nav slot="header" locale={locale} here="inicio" variante="sobre-video" />
 
   <Hero locale={locale} />
 
-  <Section tone="deep" labelledby="hoy">
+  <Section tone="none" labelledby="hoy">
     <Today locale={locale} specials={menu.specials} />
   </Section>
 
   <Marquee items={t.inicio.bandaPiezas} />
 
-  <Section>
+  <Section tone="none">
     <SplitHeading lines={t.inicio.conceptoLineas} accent={1} />
-    <p class="lede">{t.inicio.conceptoTexto}</p>
+    <Lede text={t.inicio.conceptoTexto} />
+    <Frame src={mesaServida} alt={t.inicio.conceptoFoto} zoom={1.35} />
   </Section>
 
-  <Section tone="deep">
+  <Section tone="none">
     <SplitHeading lines={t.inicio.destacadosLineas} />
-    <p class="lede">{t.inicio.destacadosTexto}</p>
+    <Lede text={t.inicio.destacadosTexto} />
     <div class="destacados">
       <Carousel label={t.carta.titulo}>
         {destacados.map((dish) => <DishCard dish={dish} />)}
@@ -66,32 +72,33 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
     </p>
   </Section>
 
-  <Section>
+  <Section tone="none">
     <SplitHeading lines={t.inicio.semanaLineas} accent={1} />
-    <p class="lede">{t.inicio.semanaTexto}</p>
+    <Lede text={t.inicio.semanaTexto} />
     <Week locale={locale} specials={menu.specials} />
   </Section>
 
-  <Section tone="deep" glyph>
+  <Section tone="none">
     <SplitHeading lines={t.inicio.experienciaLineas} />
-    <p class="lede">{t.inicio.experienciaTexto}</p>
+    <Lede text={t.inicio.experienciaTexto} />
+    <Frame src={clientes} alt={t.inicio.experienciaFoto} />
   </Section>
 
-  <Section>
+  <Section tone="none">
     <SplitHeading lines={t.inicio.resenasLineas} accent={0} />
-    <p class="lede">{t.inicio.resenasTexto}</p>
+    <Lede text={t.inicio.resenasTexto} />
     <Reviews locale={locale} />
   </Section>
 
-  <Section tone="deep">
+  <Section tone="none">
     <SplitHeading lines={t.inicio.redesLineas} accent={1} />
-    <p class="lede">{t.inicio.redesTexto}</p>
+    <Lede text={t.inicio.redesTexto} />
     <p class="acciones">
       <Button variant="solid" href={INSTAGRAM} rel="noopener">@cuquitarestaurant</Button>
     </p>
   </Section>
 
-  <Section glyph>
+  <Section tone="none">
     <SplitHeading lines={t.inicio.visitaLineas} accent={1} />
     <Visit locale={locale} />
   </Section>
@@ -100,13 +107,6 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
 </Base>
 
 <style>
-  .lede {
-    max-inline-size: var(--measure);
-    margin-block-start: var(--space-m);
-    color: var(--color-text-muted);
-    font-size: var(--step-1);
-  }
-
   .acciones {
     display: flex;
     flex-wrap: wrap;

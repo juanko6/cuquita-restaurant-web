@@ -41,6 +41,12 @@
     --color-rule: color-mix(in srgb, var(--c-cream) 18%, transparent);
     --color-focus: var(--c-sand);
 
+    /* El suelo de la portada: vino oscuro, con la C de marca quieta encima y el
+       contenido pasando por delante. No es lo mismo que `--color-bg-alt` aunque
+       hoy valgan igual: aquella es el fondo de una banda, esta es el fondo de
+       todo, y lo que se apoya encima decide si la tapa o la deja ver. */
+    --color-ground: var(--c-wine-deep);
+
     /* La superficie clara: crema sobre vino, como el panel del menú. Es la
        excepción al fondo oscuro y por eso lo que caiga encima manda. Quién
        reasigna los roles de color dentro de ella es Card. */
@@ -91,6 +97,13 @@
     --alto-nav: 4.5rem;
     --gutter: clamp(1.25rem, 5vw, 2.75rem);
 
+    /* El marco del vídeo de la portada. Vive aquí y no en Hero porque la sección
+       de la carta enseña su foto por la misma ventana: si una cambia de medida y
+       la otra no, dejan de rimar y nadie sabe por qué. Los alto van en `svh` para
+       que la barra del navegador en móvil no los mueva al aparecer. */
+    --marco-ancho: min(78vw, 58rem);
+    --marco-alto: 50svh;
+
     /* --- movimiento (ver dirección de arte §15) --- */
 
     /* La coreografía de entrada de la portada. Los retrasos van aquí y no en el
@@ -120,6 +133,34 @@
        como un gesto y no como un redimensionado. */
     --ease-rebote: cubic-bezier(0.34, 1.4, 0.64, 1);
     --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  /* Los escalones del marco, en el orden en que estaban en Hero: el ancho manda
+     sobre el alto por ir después, y los dos últimos recuperan alto en móviles
+     bajos, donde con el marco grande el pie de la portada se salía de pantalla. */
+  @media (height < 52rem) {
+    :root {
+      --marco-alto: 38svh;
+    }
+  }
+
+  @media (width < 48rem) {
+    :root {
+      --marco-ancho: 92vw;
+      --marco-alto: 45svh;
+    }
+  }
+
+  @media (width < 48rem) and (height < 50rem) {
+    :root {
+      --marco-alto: 40svh;
+    }
+  }
+
+  @media (width < 48rem) and (height < 42rem) {
+    :root {
+      --marco-alto: 34svh;
+    }
   }
 
   /* Quien pide no moverse, no se mueve. */

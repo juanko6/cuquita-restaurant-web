@@ -2,24 +2,49 @@
 /**
  * La banda de texto que cruza la pantalla. Sibuya tiene cinco así en su portada.
  *
- * La pista se repite dos veces para que el bucle no tenga costura. Es decorativa,
- * así que va oculta a los lectores de pantalla: el mismo texto repetido seis veces
- * no aporta nada a quien lo escucha.
+ * La pista se repite dos veces para que el bucle no tenga costura, y eso solo
+ * funciona si una pista sola ya es más ancha que la ventana: si no, entre la
+ * primera y la segunda se abre un hueco a la mitad del ciclo. Por eso las piezas
+ * se repiten en ciclo hasta llenar la pista, y no se confía en que el texto que
+ * llegue por props sea largo.
+ *
+ * La C de marca separa una pieza de la siguiente. Es decorativa, como toda la
+ * banda: va oculta a los lectores de pantalla, que el mismo texto repetido ocho
+ * veces no aporta nada a quien lo escucha.
  */
 interface Props {
   items: readonly string[];
   seconds?: number;
 }
 
-const { items, seconds = 40 } = Astro.props;
+/**
+ * La duración es de la pista entera, así que la velocidad depende de lo larga que
+ * salga: en escritorio mide unos 3.800 px, y 125 s la dejan en los 30 px/s de
+ * siempre. Si se cambia el texto y la pista crece, esto sube con ella.
+ */
+const { items, seconds = 125 } = Astro.props;
+
+/** Con menos de esto una pista no cubre una pantalla ancha y el bucle enseña la costura. */
+const PIEZAS_MINIMAS = 8;
+
+const piezas =
+  items.length === 0
+    ? []
+    : Array.from(
+        { length: Math.max(PIEZAS_MINIMAS, items.length) },
+        (_, i) => items[i % items.length]!,
+      );
 ---
 
 <div class="marquesina" aria-hidden="true" style={`--marquesina-duracion:${seconds}s`}>
   {
     [0, 1].map(() => (
       <div class="marquesina__pista">
-        {items.map((item) => (
-          <span class="marquesina__pieza">{item}</span>
+        {piezas.map((pieza) => (
+          <>
+            <span class="marquesina__pieza">{pieza}</span>
+            <span class="marquesina__c" />
+          </>
         ))}
       </div>
     ))
@@ -27,18 +52,39 @@ const { items, seconds = 40 } = Astro.props;
 </div>
 
 <style>
+  /* El tamaño vive aquí y no en la pieza para que la C pueda medirse en `em` y
+     seguir al texto. Dos puntos por encima del escalón 3: el siguiente escalón de
+     la escala salta un 20 % y esto pedía dos puntos, no un tamaño nuevo. */
   .marquesina {
+    /* El vino claro, y declarado: la banda va entre dos secciones oscuras y si se
+       queda transparente hereda el fondo de la página, que puede no serlo. */
+    background: var(--color-bg);
     border-block: 1px solid var(--color-rule);
     padding-block: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: calc(var(--step-3) + 0.125rem);
   }
 
   .marquesina__pieza {
     color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: var(--step-3);
     font-weight: 700;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  /* La C del logotipo de separador, del mismo oro que el texto. Va de máscara
+     porque el vectorial trae su propio rectángulo vino detrás y aquí el color lo
+     pone el CSS. */
+  .marquesina__c {
+    flex-shrink: 0;
+    align-self: center;
+    block-size: 1.5em;
+    aspect-ratio: 178.3 / 396.1;
+    background: var(--color-accent);
+    mask-image: url('../../assets/brand/glifo-c-silueta.svg');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
   }
 </style>

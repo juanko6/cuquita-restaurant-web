@@ -13,9 +13,14 @@ interface Props {
   lang?: Locale;
   /** La misma página en el otro idioma, para el hreflang. */
   alternate?: Ruta;
+  /**
+   * La C de marca, quieta detrás de toda la página. Solo tiene sentido donde las
+   * bandas dejan ver el suelo; en una página de bandas opacas no se vería nunca.
+   */
+  watermark?: boolean;
 }
 
-const { title, description, lang = 'es', alternate } = Astro.props;
+const { title, description, lang = 'es', alternate, watermark = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const t = copy(lang);
 const schema = restaurantSchema(lang, Astro.site);
@@ -56,10 +61,48 @@ const schema = restaurantSchema(lang, Astro.site);
   </head>
   <body>
     <a class="skip-link" href="#contenido">{t.sitio.irAlContenido}</a>
+    {watermark && <div class="suelo" aria-hidden="true" />}
     <slot name="header" />
     <main id="contenido">
       <slot />
     </main>
     <slot name="footer" />
+
+    <style>
+      /* La C de marca, del tamaño de la ventana y sin moverse. No es la 03: aquella
+         va por banda y deriva con el scroll, y esta se queda clavada mientras el
+         contenido le pasa por delante. Eso es lo que la vuelve fondo y no adorno,
+         y lo que borra las fronteras entre bandas: ya no hay dos colores que
+         alternan, hay un suelo.
+
+         La caja va fija y recortada porque la C sale por la derecha: si desbordara
+         de verdad, la página se desplazaría de lado en móvil. */
+      .suelo {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      /* De máscara y no de <img> porque el vectorial trae su propio rectángulo
+         vino detrás, y sobre el suelo oscuro cantaría. Aquí el color lo pone el
+         CSS y sigue al oro de marca. */
+      .suelo::before {
+        content: '';
+        position: absolute;
+        inset-block-start: 50%;
+        inset-inline-end: -8%;
+        block-size: 92vh;
+        aspect-ratio: 178.3 / 396.1;
+        background: var(--color-accent);
+        opacity: 0.08;
+        translate: 0 -50%;
+        mask-image: url('../assets/brand/glifo-c-silueta.svg');
+        mask-position: center;
+        mask-repeat: no-repeat;
+        mask-size: contain;
+      }
+    </style>
   </body>
 </html>
