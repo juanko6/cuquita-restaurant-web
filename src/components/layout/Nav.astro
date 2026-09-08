@@ -67,7 +67,11 @@ const entradas = [
               {
                 acciones.map((accion, index) => (
                   <li style={`--indice:${index}`}>
-                    <a href={accion.href} rel={accion.externo ? 'noopener' : undefined}>
+                    <a
+                      href={accion.href}
+                      target={accion.externo ? '_blank' : undefined}
+                      rel={accion.externo ? 'noopener' : undefined}
+                    >
                       {accion.texto}
                     </a>
                   </li>

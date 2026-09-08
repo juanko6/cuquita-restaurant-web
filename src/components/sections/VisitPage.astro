@@ -61,7 +61,9 @@ const bloques = [
         <p class="bloque__texto">{t.visita.pedidoTexto}</p>
         <p class="bloque__aviso">{t.visita.avisoPedido}</p>
         <p class="acciones">
-          <Button variant="solid" size="sm" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+          <Button variant="solid" size="sm" href={PEDIDOS} target="_blank" rel="noopener"
+            >{t.nav.pedir}</Button
+          >
         </p>
       </div>
 
@@ -69,7 +71,7 @@ const bloques = [
         <h2 class="bloque__titulo">{t.visita.comoLlegarTitulo}</h2>
         <p class="bloque__texto">960 Broadway, Fountain Hill, PA 18015</p>
         <p class="acciones">
-          <Button variant="outline" size="sm" href={MAPA} rel="noopener">
+          <Button variant="outline" size="sm" href={MAPA} target="_blank" rel="noopener">
             {t.visita.mapaTexto}
           </Button>
         </p>

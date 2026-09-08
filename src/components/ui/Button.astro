@@ -11,6 +11,7 @@ interface Props {
   href?: string;
   /** Solo tienen sentido con href; se ignoran en un <button>. */
   rel?: string;
+  target?: string;
   hreflang?: string;
   lang?: string;
   type?: 'button' | 'submit';
@@ -22,6 +23,7 @@ const {
   size = 'md',
   href,
   rel,
+  target,
   hreflang,
   lang,
   type = 'button',
@@ -35,6 +37,7 @@ const clases = ['boton', `boton--${variant}`, `boton--${size}`, extra].filter(Bo
   class={clases}
   href={href}
   rel={href ? rel : undefined}
+  target={href ? target : undefined}
   hreflang={href ? hreflang : undefined}
   lang={lang}
   type={href ? undefined : type}

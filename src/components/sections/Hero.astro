@@ -73,7 +73,9 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
         <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
       </span>
       <span class="hero__cta" style="--indice:1">
-        <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+        <Button variant="outline" href={PEDIDOS} target="_blank" rel="noopener"
+          >{t.nav.pedir}</Button
+        >
       </span>
     </div>
   </div>

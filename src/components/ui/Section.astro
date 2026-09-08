@@ -37,6 +37,14 @@ const { tone = 'wine', glyph = false, id, labelledby } = Astro.props;
     padding-block: var(--space-2xl);
   }
 
+  /* Una banda que acaba en foto cierra más corta. Con las bandas de dos colores el
+     hueco de 176 px entre una y otra se leía como estructura; sobre un suelo
+     continuo se lee como vacío, y detrás de una imagen —que ya es un bloque con
+     borde duro— sobra el doble. Detrás de un párrafo no: ahí el aire hace falta. */
+  .banda:has(> .banda__contenido > .marco:last-child) {
+    padding-block-end: var(--space-l);
+  }
+
   .banda--wine {
     background: var(--color-bg);
   }
