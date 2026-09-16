@@ -19,6 +19,7 @@ import Reviews from './Reviews.astro';
 import Visit from './Visit.astro';
 import Week from './Week.astro';
 import { copy, ruta } from '../../lib/i18n.ts';
+import { REDES } from '../../lib/seo.ts';
 import { getMenu } from '../../lib/menu/index.ts';
 import { featuredDishes } from '../../lib/menu/featured.ts';
 import mesaServida from '../../assets/local/mesa-servida.webp';
@@ -33,7 +34,6 @@ const { locale } = Astro.props;
 const t = copy(locale);
 const menu = getMenu(locale);
 const destacados = featuredDishes(menu);
-const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
 ---
 
 <Base
@@ -94,9 +94,13 @@ const INSTAGRAM = 'https://www.instagram.com/cuquitarestaurant/';
     <SplitHeading lines={t.inicio.redesLineas} accent={1} />
     <Lede text={t.inicio.redesTexto} />
     <p class="acciones">
-      <Button variant="solid" href={INSTAGRAM} target="_blank" rel="noopener"
-        >@cuquitarestaurant</Button
-      >
+      {
+        REDES.map((red) => (
+          <Button variant="solid" href={red.url} target="_blank" rel="noopener">
+            {red.nombre}
+          </Button>
+        ))
+      }
     </p>
   </Section>
 
