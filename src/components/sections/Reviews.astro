@@ -4,8 +4,13 @@
  *
  * No se reescriben ni se inventan. La lista está curada a mano y pendiente de que
  * el restaurante la apruebe: son palabras de clientes reales con su nombre.
+ *
+ * Van sobre crema, como la tarjeta de «hoy en Cuquita»: es la misma idea —lo que
+ * la portada quiere que leas se levanta del suelo vino— y aquí además separa la
+ * voz del cliente de la voz de la casa, que es todo lo demás de la página.
  */
 import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
 import { copy } from '../../lib/i18n.ts';
 import { PERFIL_GOOGLE, rating, reviews } from '../../lib/reviews.ts';
 import type { Locale } from '../../lib/menu/types.ts';
@@ -23,22 +28,28 @@ const nota = rating();
 <ul class="resenas" role="list">
   {
     opiniones.map((opinion) => (
-      <Card as="li" tone="raised" class="resena">
+      <Card as="li" tone="cream" class="resena">
         <blockquote class="resena__texto">{opinion.texto}</blockquote>
-        <figcaption class="resena__pie">
+        {/* No es <figcaption>: eso solo vale dentro de un <figure>, y aquí el
+            contenedor es el <li> de la lista. */}
+        <footer class="resena__pie">
           <span class="resena__estrellas" aria-label={`${opinion.estrellas} / 5`}>
             {'★'.repeat(opinion.estrellas)}
           </span>
           <span>{opinion.autor}</span>
-        </figcaption>
+        </footer>
       </Card>
     ))
   }
 </ul>
 
 <p class="resenas__enlace">
-  <a href={PERFIL_GOOGLE} target="_blank" rel="noopener">{t.inicio.resenasEnlace}</a>
-  <span class="resenas__nota">{nota.toLocaleString(locale)} / 5</span>
+  <Button variant="outline" href={PERFIL_GOOGLE} target="_blank" rel="noopener">
+    {t.inicio.resenasEnlace}
+  </Button>
+  <span class="resenas__nota">
+    {nota.toLocaleString(locale)} / 5 {t.inicio.resenasFuente}
+  </span>
 </p>
 
 <style>
@@ -50,7 +61,11 @@ const nota = rating();
     padding: 0;
   }
 
-  .resena {
+  /* Card pone `.resena` en su propia raíz, fuera del ámbito de este archivo: por
+     eso se alcanza como descendiente global y no a secas. Escrito a secas el
+     relleno no aplicaba nunca, y con el borde plano de antes no se veía; sobre
+     crema el texto salía pegado al canto. */
+  .resenas :global(.resena) {
     gap: var(--space-s);
     padding: var(--space-m);
   }
@@ -71,15 +86,18 @@ const nota = rating();
     font-size: var(--step--1);
   }
 
+  /* El oro sobre crema da 1,88:1 y estas estrellas llevan nombre accesible, así
+     que no son adorno. Van en el acento que Card reasigna dentro de la crema,
+     que es el vino. */
   .resena__estrellas {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
     letter-spacing: 0.1em;
   }
 
   .resenas__enlace {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
+    align-items: center;
     gap: var(--space-s);
     margin-block-start: var(--space-m);
   }
