@@ -45,6 +45,13 @@ const { tone = 'wine', glyph = false, id, labelledby } = Astro.props;
     padding-block-end: var(--space-l);
   }
 
+  /* Y la que abre con foto abre corta, por lo mismo: el respiro de la banda está
+     para despegar el texto de lo de arriba, y una foto no lo necesita. En móvil
+     era el hueco más grande de la página y no decía nada. */
+  .banda:has(> .banda__contenido > .marco:first-child) {
+    padding-block-start: var(--space-l);
+  }
+
   .banda--wine {
     background: var(--color-bg);
   }

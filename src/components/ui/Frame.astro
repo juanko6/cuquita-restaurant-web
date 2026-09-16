@@ -54,10 +54,11 @@ const { src, alt, zoom = 1, foco = 'center', prioritaria = false, class: extra }
   }
 
   /* El hueco de arriba separa el marco del texto que viene antes. Cuando abre la
-     banda no hay texto del que separarse: lo de encima es el borde de la sección,
-     que ya trae su propio respiro. */
+     banda no hay texto del que separarse, y en cambio hace falta por debajo: lo
+     que viene después es el titular, y pegado al canto duro de la foto se lee
+     como un pie y no como la entrada de la página. */
   .marco:first-child {
-    margin-block-start: 0;
+    margin-block: 0 var(--space-l);
   }
 
   /* Picture pone su propia clase en la raíz, fuera del ámbito de este archivo: por
