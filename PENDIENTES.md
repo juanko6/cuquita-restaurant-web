@@ -4,8 +4,11 @@ Documento de análisis: https://claude.ai/code/artifact/56576e41-37aa-47a4-a296-
 Plan de desarrollo: [PLAN-DESARROLLO.md](PLAN-DESARROLLO.md)
 Repositorio: https://github.com/juanko6/cuquita-restaurant-web
 
-Estado a 4 de septiembre de 2026. El análisis está cerrado y la dirección de arte definida.
-Lo que queda son estas tareas.
+Estado a 16 de septiembre de 2026. El análisis está cerrado y la dirección de arte
+definida. Lo que queda son estas tareas.
+
+Los números son identificadores y no se reciclan: cuando una se cierra baja a «Cerradas»
+con el suyo, porque hay commits y comentarios en el código que la citan por número.
 
 ---
 
@@ -34,29 +37,63 @@ reseñas más elogian: la gente.
 propio: diez segundos de la parrilla del restaurante bastan. Está documentado en
 `public/video/LICENCIA.md`; se sustituyen los dos archivos con el mismo nombre y ya.
 
+**Y la fachada, en grande.** La que hay montada en la portada sale de `docs/img-ref` y
+tiene 661 px de ancho: en móvil va sobrada, pero el marco del escritorio mide unos 1.160,
+así que la estira un 75 % y se ablanda. Basta con la misma foto sin reducir. Le pasa lo
+mismo a `clientes.webp`, que tiene 515 px, así que no es un problema de esta foto sino de
+las dos que vinieron de referencia.
+
 ### #3 · Aprobar las reseñas que se publican
 
 En la portada salen cuatro, citadas y atribuidas tal cual las escribieron en Google. Son
 palabras de clientes reales con su nombre: el restaurante tiene que dar el visto bueno
 antes de publicar.
 
-### #4 · Confirmar la página de Facebook viva
-
-El sitio antiguo enlaza a `facebook.com/Cuquita-Restaurant-115248308497887/` y la
-referencia nueva es `facebook.com/cuquitarestaurant`. Hasta saber cuál es la buena, la web
-solo enlaza a Instagram, que sí está confirmado.
-
 ### #5 · Acordar con el cliente reactivar las redes
 
 El carrusel de fotos de Instagram no se puede montar sin una selección de imágenes
 descargadas y aprobadas. No se incrusta el feed en vivo: mete cookies de terceros y
-obligaría a poner banner de consentimiento. De momento la web enlaza al perfil.
+obligaría a poner banner de consentimiento. De momento la web enlaza a los dos perfiles.
 
-### #6 · Empezar a responder reseñas de Google
+### #6 · Confirmar con el restaurante los días de cada especial
+
+`lib/specials.ts` se fía de los `recurrence_days` de MenuUnfolded y hay dos cosas que
+no cuadran con la carta real:
+
+- El **martes**, día de cierre, tiene marcado el _Brazo de reina frio_. Como hay un
+  plato, el bloque «Hoy en Cuquita» nunca llega a decir que se descansa: el texto de
+  cierre está escrito y no sale nunca.
+- El **lunes** no tiene plato propio, así que el bloque encabeza con los _Patacones,
+  chicharrón y guacamole_, que están todos los días. Anuncia como novedad algo que no
+  lo es.
+
+La web ya no los enseña: `Today.astro` fuerza el cierre del martes y titula solo con
+platos propios del día, así que el lunes y el domingo dicen que no hay plato del día en
+vez de inventárselo. Pero eso es una venda, y los lunes y domingos la tarjeta grande de
+la portada se queda sin plato ni foto.
+
+**El arreglo de verdad es en MenuUnfolded**: quitar el martes de los días del postre y
+decidir qué plato quiere el restaurante para el lunes y el domingo. Hay que preguntárselo
+a ellos, que es lo que ya pedía `lib/specials.ts`.
+
+### #7 · Empezar a responder reseñas de Google
 
 No depende del sitio y se puede empezar hoy. Guion: agradecer las buenas en el idioma en
 que estén escritas; en las malas reconocer, no discutir y ofrecer volver. Arrancar por los
 últimos seis meses.
+
+---
+
+## Cerradas
+
+### #4 · Confirmar la página de Facebook viva
+
+**Cerrada el 16 de septiembre de 2026.** No había dos páginas. La
+`facebook.com/Cuquita-Restaurant-115248308497887/` del sitio viejo es el identificador
+numérico y redirige a `facebook.com/cuquitarestaurant`, que es la misma página con nombre
+de usuario: mismo canónico, 2.385 seguidores, Fountain Hill, PA. La web ya enlaza a las
+dos redes desde la portada, la experiencia y el pie, y las dos entran en el `sameAs` del
+schema.
 
 ---
 

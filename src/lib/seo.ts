@@ -20,7 +20,26 @@ export const NEGOCIO = {
   codigoPostal: '18015',
   pais: 'US',
   instagram: 'https://www.instagram.com/cuquitarestaurant/',
+  facebook: 'https://www.facebook.com/cuquitarestaurant',
 } as const;
+
+/**
+ * Las redes, en el orden en que se enseñan.
+ *
+ * Origen único: hasta ahora la dirección de Instagram estaba escrita a mano en la
+ * portada, en la experiencia, en el pie y aquí, y añadir Facebook habría hecho
+ * ocho copias de dos cadenas que tienen que coincidir.
+ *
+ * El nombre va aquí y no en los textos porque «Instagram» y «Facebook» se llaman
+ * igual en español y en inglés, y ya vivían sueltos dentro del pie.
+ *
+ * La antigua `facebook.com/Cuquita-Restaurant-115248308497887/` del sitio viejo no
+ * es otra página: redirige a esta, que es la misma con nombre de usuario.
+ */
+export const REDES = [
+  { nombre: 'Instagram', url: NEGOCIO.instagram },
+  { nombre: 'Facebook', url: NEGOCIO.facebook },
+] as const;
 
 /** Lunes es 0 en MenuUnfolded; schema.org los quiere por nombre en inglés. */
 const DIAS = [
@@ -55,7 +74,7 @@ export function restaurantSchema(locale: Locale, site: URL | undefined): string 
     currenciesAccepted: 'USD',
     acceptsReservations: false,
     hasMenu: `${base}${RUTAS.carta[locale]}`,
-    sameAs: [NEGOCIO.instagram],
+    sameAs: REDES.map((red) => red.url),
     address: {
       '@type': 'PostalAddress',
       streetAddress: NEGOCIO.calle,

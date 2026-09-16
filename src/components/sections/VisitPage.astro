@@ -9,10 +9,12 @@ import Base from '../../layouts/Base.astro';
 import Nav from '../layout/Nav.astro';
 import Footer from '../layout/Footer.astro';
 import Button from '../ui/Button.astro';
+import Frame from '../ui/Frame.astro';
 import Section from '../ui/Section.astro';
 import SplitHeading from '../ui/SplitHeading.astro';
 import Visit from './Visit.astro';
 import { copy } from '../../lib/i18n.ts';
+import { FACHADA } from '../../lib/fotos.ts';
 import type { Locale } from '../../lib/menu/types.ts';
 
 interface Props {
@@ -40,6 +42,7 @@ const bloques = [
   <Nav slot="header" locale={locale} here="visita" />
 
   <Section tone="deep" glyph>
+    <Frame src={FACHADA.src} alt={t.inicio.visitaFoto} foco={FACHADA.foco} prioritaria />
     <SplitHeading as="h1" lines={t.visita.tituloLineas} accent={1} />
     <p class="lede">{t.visita.entradilla}</p>
     <Visit locale={locale} />
@@ -61,7 +64,9 @@ const bloques = [
         <p class="bloque__texto">{t.visita.pedidoTexto}</p>
         <p class="bloque__aviso">{t.visita.avisoPedido}</p>
         <p class="acciones">
-          <Button variant="solid" size="sm" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+          <Button variant="solid" size="sm" href={PEDIDOS} target="_blank" rel="noopener"
+            >{t.nav.pedir}</Button
+          >
         </p>
       </div>
 
@@ -69,7 +74,7 @@ const bloques = [
         <h2 class="bloque__titulo">{t.visita.comoLlegarTitulo}</h2>
         <p class="bloque__texto">960 Broadway, Fountain Hill, PA 18015</p>
         <p class="acciones">
-          <Button variant="outline" size="sm" href={MAPA} rel="noopener">
+          <Button variant="outline" size="sm" href={MAPA} target="_blank" rel="noopener">
             {t.visita.mapaTexto}
           </Button>
         </p>

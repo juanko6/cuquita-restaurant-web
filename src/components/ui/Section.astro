@@ -6,7 +6,11 @@
 import glifo from '../../assets/brand/glifo-c.svg';
 
 interface Props {
-  tone?: 'wine' | 'deep';
+  /**
+   * `none` deja ver el suelo de la página y la C que hay detrás. Los otros dos lo
+   * tapan: son para las bandas que quieren su propio fondo.
+   */
+  tone?: 'wine' | 'deep' | 'none';
   glyph?: boolean;
   id?: string;
   labelledby?: string;
@@ -33,12 +37,32 @@ const { tone = 'wine', glyph = false, id, labelledby } = Astro.props;
     padding-block: var(--space-2xl);
   }
 
+  /* Una banda que acaba en foto cierra más corta. Con las bandas de dos colores el
+     hueco de 176 px entre una y otra se leía como estructura; sobre un suelo
+     continuo se lee como vacío, y detrás de una imagen —que ya es un bloque con
+     borde duro— sobra el doble. Detrás de un párrafo no: ahí el aire hace falta. */
+  .banda:has(> .banda__contenido > .marco:last-child) {
+    padding-block-end: var(--space-l);
+  }
+
+  /* Y la que abre con foto abre corta, por lo mismo: el respiro de la banda está
+     para despegar el texto de lo de arriba, y una foto no lo necesita. En móvil
+     era el hueco más grande de la página y no decía nada. */
+  .banda:has(> .banda__contenido > .marco:first-child) {
+    padding-block-start: var(--space-l);
+  }
+
   .banda--wine {
     background: var(--color-bg);
   }
 
   .banda--deep {
     background: var(--color-bg-alt);
+  }
+
+  /* Sin fondo: pasa el suelo de la página y la marca de agua con él. */
+  .banda--none {
+    background: none;
   }
 
   /* Movimiento 03 del sistema: la C del logotipo, gigante y al 7 %, con el doble

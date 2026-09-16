@@ -2,13 +2,30 @@
 /**
  * "Hoy en Cuquita": el especial que toca según el día.
  *
- * Es el único bloque del sitio que se renueva solo. Los martes, que el restaurante
- * cierra, no queda ningún especial propio y el bloque lo dice en vez de desaparecer
- * sin explicación.
+ * Es el único bloque del sitio que se renueva solo —el cron diario reconstruye y
+ * el día cambia con él—.
+ *
+ * Titula con `daySpecial` y no con `headlineSpecial`: un plato que está todos los
+ * días abiertos no es la novedad de hoy, y anunciarlo como tal es mentir en la
+ * pieza más visible de la portada. Con los datos de ahora eso deja sin plato
+ * propio el lunes y el domingo, que lo dicen en vez de inventárselo.
+ *
+ * El martes se fuerza el cierre aunque MenuUnfolded traiga algo marcado ese día:
+ * el restaurante no abre y el dato manda menos que el hecho. Los dos casos son
+ * datos que hay que arreglar en el proveedor (PENDIENTES.md #6); esto es la venda
+ * mientras tanto.
+ *
+ * Va sobre superficie clara y a esquina redonda: es la única tarjeta que se
+ * levanta del fondo, y se levanta porque es la única cosa de la portada que hoy
+ * es distinta de ayer.
  */
+import Card from '../ui/Card.astro';
+import Picture from '../ui/Picture.astro';
+import Button from '../ui/Button.astro';
 import PriceTag from '../menu/PriceTag.astro';
-import { copy } from '../../lib/i18n.ts';
-import { headlineSpecial, specialsForDay, toMenuDayIndex } from '../../lib/specials.ts';
+import { copy, ruta } from '../../lib/i18n.ts';
+import { dishImage } from '../../lib/menu/images.ts';
+import { daySpecial, specialsForDay, toMenuDayIndex } from '../../lib/specials.ts';
 import type { Locale, Special } from '../../lib/menu/types.ts';
 
 interface Props {
@@ -19,68 +36,211 @@ interface Props {
 const { locale, specials } = Astro.props;
 const t = copy(locale);
 
-const hoy = toMenuDayIndex(new Date());
-const principal = headlineSpecial(specials, hoy);
-const tambien = specialsForDay(specials, hoy).filter((s) => s.id !== principal?.id);
 const MARTES = 1;
+const hoy = toMenuDayIndex(new Date());
+const cerrado = hoy === MARTES;
+const principal = cerrado ? null : daySpecial(specials, hoy);
+
+// Con el local cerrado no se enumera nada: un «también hoy» un martes es una cita
+// a la que no puede venir nadie.
+const tambien = cerrado ? [] : specialsForDay(specials, hoy).filter((s) => s.id !== principal?.id);
+const foto = dishImage(principal?.image ?? null);
+const dia = t.inicio.horario[hoy]?.[0];
 ---
 
-<div class="hoy">
-  <p class="hoy__etiqueta">{t.hoy.etiqueta}</p>
+<div class:list={['hoy__marco', { 'hoy__marco--estrecho': !principal }]}>
+  <Card as="article" tone="cream" class="hoy">
+    <div class:list={['hoy__caja', { 'hoy__caja--con-foto': foto }]}>
+      {
+        foto && principal && (
+          <Picture
+            class="hoy__foto"
+            src={foto}
+            alt={principal.title}
+            ratio="3 / 2"
+            widths={[420, 640, 900]}
+            sizes="(max-width: 52rem) 92vw, 32rem"
+          />
+        )
+      }
 
-  {
-    principal ? (
-      <>
-        <p class="hoy__plato">{principal.title}</p>
-        <PriceTag amount={principal.price} class="hoy__precio" />
-        {tambien.length > 0 && (
-          <p class="hoy__tambien">
-            {t.hoy.tambien} {tambien.map((s) => s.title).join(' · ')}
-          </p>
-        )}
-      </>
-    ) : (
-      <p class="hoy__plato hoy__plato--sin">{hoy === MARTES ? t.hoy.cerrado : t.carta.titulo}</p>
-    )
-  }
+      <div class="hoy__texto">
+        <h2 class="hoy__etiqueta" id="hoy">
+          {t.hoy.etiqueta}
+          {dia && <span class="hoy__dia"> · {dia}</span>}
+        </h2>
+
+        {
+          principal ? (
+            <>
+              <p class="hoy__plato">{principal.title}</p>
+              <PriceTag amount={principal.price} class="hoy__precio" />
+              {principal.description && <p class="hoy__descripcion">{principal.description}</p>}
+            </>
+          ) : (
+            <p class="hoy__plato hoy__plato--sin">{cerrado ? t.hoy.cerrado : t.hoy.sinEspecial}</p>
+          )
+        }
+
+        {
+          tambien.length > 0 && (
+            <p class="hoy__tambien">
+              {t.hoy.tambien} {tambien.map((s) => s.title).join(' · ')}
+            </p>
+          )
+        }
+
+        <p class="hoy__accion">
+          <Button variant="outline" size="sm" href={ruta('carta', locale)}>
+            {t.nav.carta}
+          </Button>
+        </p>
+      </div>
+    </div>
+  </Card>
 </div>
 
 <style>
-  .hoy {
-    padding-block-start: var(--space-m);
-    border-block-start: 1px solid var(--color-rule);
+  /* Sin foto la tarjeta no tiene con qué llenar el ancho de la banda, y un cartel
+     de tres líneas sobre una losa de metro y medio se lee como un hueco. Los días
+     sin plato propio se estrecha. */
+  .hoy__marco--estrecho {
+    max-inline-size: 46rem;
+  }
+
+  .hoy__caja {
+    position: relative;
+    display: grid;
+    flex: 1;
+  }
+
+  /* La foto ocupa la columna entera y el texto respira al lado. Por debajo de
+     52rem se apilan: la foto arriba, con su relación de aspecto, y el texto
+     debajo, que es como se lee en un móvil. */
+  @media (min-width: 52rem) {
+    .hoy__caja--con-foto {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+  }
+
+  /* Picture pone su propia clase en la raíz, fuera del ámbito de este archivo:
+     por eso se alcanza como descendiente global y no a secas. */
+  .hoy__caja :global(.hoy__foto) {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* En dos columnas la foto llena la suya de arriba abajo y renuncia a su relación
+     de aspecto. Si la conserva, un plato con descripción larga estira la caja, la
+     foto se estira con ella y el ancho la sigue por la proporción hasta salirse de
+     su columna y comerse el texto. */
+  @media (min-width: 52rem) {
+    .hoy__caja--con-foto :global(.hoy__foto) {
+      block-size: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  .hoy__texto {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: var(--space-3xs);
+    padding: var(--space-l) var(--space-m);
+  }
+
+  @media (min-width: 52rem) {
+    .hoy__texto {
+      justify-content: center;
+      padding: var(--space-xl) var(--space-l);
+    }
+  }
+
+  /* La C del logotipo, gigante y al 7 %, recortada por la esquina de la tarjeta.
+     Es el mismo movimiento 03 que hace flotar las bandas, pero aquí en vino sobre
+     crema: lo que en el fondo es una marca de agua, dentro de la tarjeta es su
+     textura. Va de máscara y no de <img> porque el vectorial trae su propio
+     rectángulo vino detrás y aquí el color lo pone el CSS.
+
+     Cuelga del texto y no de la tarjeta por dos razones: el ámbito de este
+     componente no llega a la raíz de Card, y así la C cae siempre sobre crema y
+     nunca por detrás de la foto. El z-index negativo la deja bajo el texto sin
+     escaparse de la tarjeta, porque el propio bloque ya es contexto de apilado. */
+  .hoy__texto::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-end: -2%;
+    z-index: -1;
+    inline-size: min(34%, 11rem);
+    aspect-ratio: 178.3 / 396.1;
+    background: var(--c-wine);
+    opacity: 0.07;
+    translate: 0 -50%;
+    mask-image: url('../../assets/brand/glifo-c-silueta.svg');
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    pointer-events: none;
   }
 
   .hoy__etiqueta {
     color: var(--color-accent-text);
     font-family: var(--font-mono);
     font-size: var(--step--1);
+    font-weight: 500;
     letter-spacing: var(--tracking-caps);
     text-transform: uppercase;
+  }
+
+  .hoy__dia {
+    color: var(--color-text-muted);
   }
 
   .hoy__plato {
     margin-block-start: var(--space-2xs);
     font-family: var(--font-display);
-    font-size: var(--step-3);
+    font-size: var(--step-4);
     font-weight: 700;
     line-height: var(--leading-tight);
     text-transform: uppercase;
   }
 
+  /* El aviso no es el nombre de un plato sino una frase, y una frase en versal
+     condensada se lee a gritos y peor. Vuelve a la tipografía de texto y baja un
+     escalón: sigue siendo el titular de la tarjeta, pero hablando. */
   .hoy__plato--sin {
-    color: var(--color-text-muted);
-    font-size: var(--step-1);
+    max-inline-size: 30ch;
+    font-family: var(--font-body);
+    font-size: var(--step-2);
+    font-weight: 400;
+    line-height: 1.25;
+
+    /* Reparte las líneas para que no quede un «11.» solo al final. */
+    text-wrap: balance;
+    text-transform: none;
   }
 
-  .hoy__precio {
-    display: block;
-    margin-block-start: var(--space-3xs);
+  .hoy__texto :global(.hoy__precio) {
+    font-size: var(--step-0);
+  }
+
+  .hoy__descripcion {
+    max-inline-size: 44ch;
+    margin-block-start: var(--space-xs);
+    color: var(--color-text-muted);
+    line-height: 1.5;
   }
 
   .hoy__tambien {
     margin-block-start: var(--space-xs);
     color: var(--color-text-muted);
     font-size: var(--step--1);
+  }
+
+  .hoy__accion {
+    margin-block-start: var(--space-m);
   }
 </style>

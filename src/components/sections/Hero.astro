@@ -73,7 +73,9 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
         <Button variant="solid" href={ruta('carta', locale)}>{t.nav.carta}</Button>
       </span>
       <span class="hero__cta" style="--indice:1">
-        <Button variant="outline" href={PEDIDOS} rel="noopener">{t.nav.pedir}</Button>
+        <Button variant="outline" href={PEDIDOS} target="_blank" rel="noopener"
+          >{t.nav.pedir}</Button
+        >
       </span>
     </div>
   </div>
@@ -156,8 +158,8 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      rebanadas por la mitad. */
   .hero__marco {
     z-index: 0;
-    inline-size: min(78vw, 58rem);
-    block-size: 50svh;
+    inline-size: var(--marco-ancho);
+    block-size: var(--marco-alto);
     overflow: hidden;
     background: var(--color-bg);
   }
@@ -208,7 +210,6 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     }
 
     .hero__marco {
-      block-size: 38svh;
       /* Con el marco a 34svh hace falta 100/34 para cubrir el alto de la ventana.
          Con la escala de siempre, 2,8, el vídeo se quedaba corto y no llegaba a
          tapar la barra en portátiles de 800 px. */
@@ -231,11 +232,6 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
     }
 
     .hero__marco {
-      /* Casi a todo el ancho y bastante más alto, como la referencia. */
-      inline-size: 92vw;
-      /* 45svh es lo que mide el suyo: a 390x844 su marco es 350x380, el 45 % del
-         alto de la ventana. El nuestro iba al 54 % y se veía demasiado alto. */
-      block-size: 45svh;
       /* 100/45 de alto y 100/92 de ancho: con 2,6 cubre de sobra. */
       --marco-escala: 2.6;
     }
@@ -250,7 +246,6 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      fuera de pantalla. Aquí se recupera algo de alto sin tocar la tipografía. */
   @media (width < 48rem) and (height < 50rem) {
     .hero__marco {
-      block-size: 40svh;
       --marco-escala: 2.8;
     }
   }
@@ -259,7 +254,6 @@ const PEDIDOS = 'https://cuquita.hrpos.heartland.us/';
      seguía saliendo 32 px. Un escalón más y entra. */
   @media (width < 48rem) and (height < 42rem) {
     .hero__marco {
-      block-size: 34svh;
       --marco-escala: 3.2;
     }
   }

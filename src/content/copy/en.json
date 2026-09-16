@@ -31,6 +31,7 @@
   "hoy": {
     "etiqueta": "Today at Cuquita",
     "tambien": "Also today:",
+    "sinEspecial": "No dish of the day today, but the full menu is on from 11.",
     "cerrado": "We're closed today. Back tomorrow at 11."
   },
   "inicio": {
@@ -39,14 +40,10 @@
     "heroAcento": 1,
     "heroRemate": "Perfectly seasoned",
     "heroEntradilla": "Home cooking from every region of Colombia, right on Broadway. Bring your own bottle — we’ll set the table.",
-    "bandaPiezas": [
-      "This is what Colombia tastes like",
-      "Cuquita",
-      "Fountain Hill",
-      "From Colombia"
-    ],
+    "bandaPiezas": ["CQT is just like home"],
     "conceptoLineas": ["One country,", "one menu"],
-    "conceptoTexto": "Colombia doesn’t cook the same way on the coast as it does in the mountains. That’s why bandeja paisa, fried red snapper, stuffed potatoes and a 7 a.m. calentado all share this menu. Seventy-four dishes, cooked fresh, the way a family cooks.",
+    "conceptoTexto": "Colombia doesn’t cook the same way on the *coast* as it does in the *mountains*. That’s why bandeja paisa, fried red snapper, stuffed potatoes and a *7 a.m.* calentado all share this menu. Seventy-four *dishes*, *cooked fresh*, the way *a family cooks*.",
+    "conceptoFoto": "Overhead view of a table at Cuquita laid with fifteen dishes: bandeja paisa, arepa, empanadas, fried red snapper, sancocho, rice and beans.",
     "destacadosLineas": ["First time here?", "Start with these"],
     "destacadosTexto": "Six dishes that sum up the place. Really hungry: bandeja paisa. Coming with friends: the parrillada. Just passing by: empanadas and a fresh pandebono.",
     "semanaLineas": ["Every day", "has its dish"],
@@ -54,14 +51,17 @@
     "semanaSinEspecial": "Menu only",
     "semanaCerrado": "Closed",
     "experienciaLineas": ["You come in hungry,", "you leave part of the family"],
-    "experienciaTexto": "The walls were decorated by Colombian artisans. The tables are loud. Whole families come in and we pull the tables together. Nobody rushes you, and if you don’t know what to order, we’ll walk you through it. We’re BYOB — bring your wine or beer, no corkage fee.",
+    "experienciaTexto": "The walls were decorated by *Colombian artisans*. The tables are loud. *Whole families* come in and *we pull the tables together*. *Nobody rushes you*, and if you don’t know what to order, *we’ll walk you through it*. We’re *BYOB* — bring your wine or beer, no corkage fee.",
+    "experienciaFoto": "A family of eight eating at one of the long tables at Cuquita.",
     "resenasLineas": ["4.4 stars from", "700+ people who came back"],
     "resenasTexto": "Don’t take our word for it. Take theirs.",
-    "resenasEnlace": "Read on Google",
-    "redesLineas": ["Follow us", "on Instagram"],
+    "resenasEnlace": "See what they say about us",
+    "resenasFuente": "on Google",
+    "redesLineas": ["Follow us", "on social media"],
     "redesTexto": "Photos of the food, the daily specials and whatever is cooking today.",
     "visitaLineas": ["960 Broadway,", "Fountain Hill"],
     "visitaTexto": "Two blocks from St. Luke’s, with plenty of parking right outside. Orders and questions: 610-868-5252.",
+    "visitaFoto": "The Cuquita storefront at 960 Broadway: red awnings, the restaurant sign above the door and the parking lot right off the sidewalk.",
     "horarioTitulo": "Hours",
     "horario": [
       ["Monday", "11:00 – 18:00"],

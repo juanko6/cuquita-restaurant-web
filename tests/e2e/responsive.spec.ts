@@ -28,8 +28,12 @@ const TOLERANCIA = 1;
  * Sin esto, axe auditaba la portada con los elementos todavía a medio camino
  * —desplazados y translúcidos— y cantaba objetivos táctiles demasiado pequeños que
  * en reposo no lo son. Se espera a las animaciones reales, no a un número de
- * milisegundos a ojo; las infinitas, como la banda que cruza la pantalla, se dejan
- * fuera porque nunca terminan.
+ * milisegundos a ojo.
+ *
+ * Dos clases se quedan fuera porque nunca terminan: las infinitas, como la banda
+ * que cruza la pantalla, y las que cuelgan del scroll, cuyo reloj es la posición de
+ * la página y no el tiempo. Estas segundas tienen una sola iteración y parecen
+ * acabables, pero su `finished` no se resuelve mientras nadie mueva la página.
  */
 async function asentarse(page: Page) {
   await page.evaluate(async () => {
@@ -37,7 +41,7 @@ async function asentarse(page: Page) {
       .getAnimations()
       .filter((a) => {
         const iteraciones = (a.effect?.getTiming().iterations ?? 1) as number;
-        return Number.isFinite(iteraciones);
+        return a.timeline instanceof DocumentTimeline && Number.isFinite(iteraciones);
       })
       .map((a) => a.finished.catch(() => undefined));
     await Promise.all(acaban);
@@ -395,6 +399,37 @@ test.describe('el resto de páginas', () => {
 
     expect(respuesta?.status()).toBe(404);
     await expect(page.getByRole('link', { name: 'English' })).toBeVisible();
+  });
+
+  /**
+   * El minificador pliega `animation-timeline` dentro del atajo `animation`, y
+   * `animation: ... view()` no lo entiende ningún navegador: se cae la declaración
+   * entera y la animación no llega ni a existir. Falla en silencio y solo en el
+   * sitio construido, que es donde mira esta prueba. Ya mordió dos veces.
+   *
+   * Mira la de experiencia y no la portada: la portada dejó de tener glifo por
+   * banda cuando la C pasó a ser una marca de agua quieta detrás de todo.
+   */
+  test('las animaciones que cuelgan del scroll llegan vivas al sitio construido', async ({
+    page,
+  }) => {
+    await page.goto('/nuestra-experiencia');
+
+    const flota = await page.evaluate(() => {
+      const el = document.querySelector('.flota');
+      if (!el) return null;
+      const estilo = getComputedStyle(el);
+      return {
+        nombre: estilo.animationName,
+        // Por `getPropertyValue` y no por la propiedad: `animation-timeline` es
+        // demasiado nueva para estar en los tipos del DOM.
+        reloj: estilo.getPropertyValue('animation-timeline'),
+      };
+    });
+
+    expect(flota, 'no hay ningún .flota en la página de experiencia').not.toBeNull();
+    expect(flota!.nombre, '.flota se quedó sin animación').not.toBe('none');
+    expect(flota!.reloj, '.flota perdió su línea de tiempo').toContain('view()');
   });
 
   test('todas las páginas llevan los datos del restaurante para Google', async ({ page }) => {

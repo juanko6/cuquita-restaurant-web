@@ -1,6 +1,6 @@
 @layer base {
   body {
-    background: var(--color-bg);
+    background: var(--color-ground);
     color: var(--color-text);
     font-family: var(--font-body);
     font-size: var(--step-0);
@@ -53,5 +53,15 @@
     max-width: var(--width-max);
     margin-inline: auto;
     padding-inline: var(--gutter);
+  }
+
+  /* Por delante de la marca de agua. La barra ya se sube sola —va pegada y con su
+     propio z-index—, así que aquí solo hacen falta el cuerpo y el pie: sin esto
+     los pinta el navegador por debajo de un elemento posicionado, y la C les
+     saldría por encima. */
+  main,
+  body > footer {
+    position: relative;
+    z-index: 1;
   }
 }

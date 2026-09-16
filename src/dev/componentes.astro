@@ -16,6 +16,7 @@ import Carousel from '../components/ui/Carousel.astro';
 import Marquee from '../components/ui/Marquee.astro';
 import Section from '../components/ui/Section.astro';
 import SplitHeading from '../components/ui/SplitHeading.astro';
+import Today from '../components/sections/Today.astro';
 import CategoryCarousel from '../components/menu/CategoryCarousel.astro';
 import DishCard from '../components/menu/DishCard.astro';
 import PriceTag from '../components/menu/PriceTag.astro';
@@ -79,7 +80,7 @@ const platos = menu.categories.reduce((total, c) => total + c.dishes.length, 0);
   <Section tone="deep">
     <h2 class="titulo">Banda horizontal</h2>
   </Section>
-  <Marquee items={['A qué sabe Colombia', '✳', 'Cuquita', '✳', 'Fountain Hill', '✳']} />
+  <Marquee items={['CQT es como en mi casa']} />
 
   <Section>
     <h2 class="titulo">Ficha de plato</h2>
@@ -109,7 +110,27 @@ const platos = menu.categories.reduce((total, c) => total + c.dishes.length, 0);
     <div class="rejilla">
       <Card tone="raised"><p class="relleno">Tarjeta con fondo</p></Card>
       <Card><p class="relleno">Tarjeta sin fondo</p></Card>
+      <Card tone="cream">
+        <div class="relleno">
+          <p>Tarjeta crema</p>
+          <p><PriceTag amount={14.99} /></p>
+          <p><Button variant="outline" size="sm">Botón dentro</Button></p>
+        </div>
+      </Card>
     </div>
+    <p class="nota">
+      La crema no pinta a sus hijos: reasigna los roles de color, y el precio y el botón se adaptan
+      solos sin saber sobre qué fondo están.
+    </p>
+  </Section>
+
+  <Section tone="deep">
+    <h2 class="titulo">Hoy en Cuquita</h2>
+    <Today locale="es" specials={menu.specials} />
+    <p class="nota">
+      Es la tarjeta crema en su sitio: banda de vino oscuro y la tarjeta encima. Sale el especial
+      del día que toque el día de la construcción.
+    </p>
   </Section>
 </Base>
 

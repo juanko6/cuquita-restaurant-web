@@ -1,0 +1,41 @@
+---
+/**
+ * La entradilla de una banda.
+ *
+ * Pasa el texto por `tramos`, así que cualquier entradilla puede resaltar palabras
+ * marcándolas con asteriscos en el archivo de copy, sin tocar la plantilla. Un texto
+ * sin marcas sale igual que antes.
+ */
+import { tramos } from '../../lib/format.ts';
+
+interface Props {
+  text: string;
+  class?: string;
+}
+
+const { text, class: extra } = Astro.props;
+---
+
+<p class:list={['lede', extra]}>
+  {
+    tramos(text).map(({ texto, fuerte }) =>
+      fuerte ? <strong class="resalte">{texto}</strong> : texto,
+    )
+  }
+</p>
+
+<style>
+  .lede {
+    max-inline-size: var(--measure);
+    margin-block-start: var(--space-m);
+    color: var(--color-text-muted);
+    font-size: var(--step-1);
+  }
+
+  /* Las palabras que sostienen la frase, en arena y con más cuerpo. Arena y no oro
+     porque esto es texto corrido: el oro sobre vino se queda en 4,18:1. */
+  .resalte {
+    color: var(--color-accent-text);
+    font-weight: 600;
+  }
+</style>
