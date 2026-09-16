@@ -291,9 +291,15 @@ Al ser un repo público con un solo mantenedor, la aprobación obligatoria de ot
 se deja **desactivada** —te bloquearías a ti mismo— pero el PR y los checks siguen siendo
 obligatorios. Si más adelante entra alguien al proyecto, se activa.
 
-**Además:** `.gitignore` con `node_modules`, `dist`, `.env*`. Ningún secreto en el repo;
-la clave SSH del despliegue vive en los _secrets_ de Actions. Como el repo es público,
-esto se revisa antes del primer push.
+**Además:** `.gitignore` con `node_modules`, `dist`, `.env*`. Ningún secreto en el repo,
+comprobado sobre los archivos actuales y sobre todo el historial. Como es público, esto
+se revisa antes de cada push.
+
+El despliegue **no** pasa por Actions y no hay ningún secreto guardado ahí: `publish.sh`
+se lanza a mano desde local y la clave SSH es la del equipo de quien publica, en su
+`~/.ssh`. Nada de lo que hay en GitHub puede publicar en el servidor. Si algún día el
+despliegue se automatiza, la clave iría a los _secrets_ de Actions y habría que volver a
+mirar esto: un repo público con una clave de despliegue en Actions es otra conversación.
 
 ---
 

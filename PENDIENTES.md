@@ -147,9 +147,11 @@ Hechas en las fases 1 a 5:
 
 Pendientes, todas de la fase 6:
 
-- [ ] **Caddy tiene que servir comprimido** (`encode zstd gzip`). El presupuesto de peso se
-      mide comprimido porque es lo que viaja; sin compresión en el servidor la carta pasa
-      de 12 KB a 90 KB y el número deja de significar nada.
+- [x] **El servidor sirve comprimido.** El presupuesto de peso se mide comprimido porque
+      es lo que viaja; sin compresión la carta pasa de 12 KB a 90 KB y el número deja de
+      significar nada. Esto se escribió pensando en Caddy y su `encode zstd gzip`, pero
+      lo que hay montado es nginx (`deploy/nginx.conf`), que ya trae el bloque gzip.
+      `deploy/publish.sh` lo comprueba en cada publicación y da verde.
 - [ ] Redirecciones 301 desde `/menus/*` y `/contact-us/`.
 - [ ] `noindex` y `rel=canonical` en `menu.cuquitarestaurant.co`, que se queda como
       respaldo pero no debe competir en Google con `/carta`.
