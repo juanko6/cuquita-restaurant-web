@@ -47,7 +47,13 @@ const schema = restaurantSchema(lang, Astro.site);
         </>
       )
     }
+    <!-- La C de marca en su cuadrado, que es para lo que se extrajo el isotipo. El
+         vectorial manda donde se puede; el .ico va detrás para los navegadores que
+         no leen SVG, y el PNG para iOS, que tampoco. Los tres salen del mismo
+         archivo, así que no hay dos iconos que puedan desincronizarse. -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <!-- Único color escrito a mano del proyecto: un meta no puede leer una custom
          property. Mantener en sincronía con --c-wine de src/styles/tokens.css. -->
     <meta name="theme-color" content="#950526" />
