@@ -22,6 +22,7 @@ import { copy, ruta } from '../../lib/i18n.ts';
 import { REDES } from '../../lib/seo.ts';
 import { getMenu } from '../../lib/menu/index.ts';
 import { featuredDishes } from '../../lib/menu/featured.ts';
+import { FACHADA } from '../../lib/fotos.ts';
 import mesaServida from '../../assets/local/mesa-servida.webp';
 import clientes from '../../assets/local/clientes.webp';
 import type { Locale } from '../../lib/menu/types.ts';
@@ -107,6 +108,7 @@ const destacados = featuredDishes(menu);
   <Section tone="none">
     <SplitHeading lines={t.inicio.visitaLineas} accent={1} />
     <Visit locale={locale} />
+    <Frame src={FACHADA.src} alt={t.inicio.visitaFoto} foco={FACHADA.foco} />
   </Section>
 
   <Footer slot="footer" locale={locale} />

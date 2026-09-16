@@ -37,6 +37,12 @@ reseñas más elogian: la gente.
 propio: diez segundos de la parrilla del restaurante bastan. Está documentado en
 `public/video/LICENCIA.md`; se sustituyen los dos archivos con el mismo nombre y ya.
 
+**Y la fachada, en grande.** La que hay montada en la portada sale de `docs/img-ref` y
+tiene 661 px de ancho: en móvil va sobrada, pero el marco del escritorio mide unos 1.160,
+así que la estira un 75 % y se ablanda. Basta con la misma foto sin reducir. Le pasa lo
+mismo a `clientes.webp`, que tiene 515 px, así que no es un problema de esta foto sino de
+las dos que vinieron de referencia.
+
 ### #3 · Aprobar las reseñas que se publican
 
 En la portada salen cuatro, citadas y atribuidas tal cual las escribieron en Google. Son

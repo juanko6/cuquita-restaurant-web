@@ -10,6 +10,10 @@
  * `zoom` acerca por encima de ese recorte. Cuánto se puede subir lo dice la fuente:
  * pedirle a una foto pequeña que llene el marco y encima se acerque es pedirle
  * píxeles que no tiene.
+ *
+ * `foco` mueve ese recorte. Con una fuente apaisada da igual, porque el marco
+ * también lo es y sobra poco; con una vertical manda, porque el marco se queda con
+ * una franja estrecha y quién decide cuál es el encuadre, no el centro geométrico.
  */
 import Picture from './Picture.astro';
 import type { ImageMetadata } from 'astro';
@@ -19,25 +23,41 @@ interface Props {
   alt: string;
   /** 1 es el encuadre que ya da `cover`. Por encima, se acerca al centro. */
   zoom?: number;
+  /** El `object-position` del recorte. `center` es el centro de la fuente. */
+  foco?: string;
+  /**
+   * Para el marco que abre una página. Lo de más arriba del pliegue suele ser lo
+   * más grande que se pinta, y en diferido no empieza a bajar hasta que el
+   * navegador termina de maquetar: mide la espera dos veces.
+   */
+  prioritaria?: boolean;
   class?: string;
 }
 
-const { src, alt, zoom = 1, class: extra } = Astro.props;
+const { src, alt, zoom = 1, foco = 'center', prioritaria = false, class: extra } = Astro.props;
 ---
 
-<figure class:list={['marco', extra]} style={`--zoom:${zoom}`}>
+<figure class:list={['marco', extra]} style={`--zoom:${zoom};--foco:${foco}`}>
   <Picture
     class="marco__foto"
     src={src}
     alt={alt}
     widths={[640, 960, 1400]}
     sizes="(max-width: 48rem) 92vw, min(78vw, 58rem)"
+    loading={prioritaria ? 'eager' : 'lazy'}
   />
 </figure>
 
 <style>
   .marco {
     margin: var(--space-2xl) 0 0;
+  }
+
+  /* El hueco de arriba separa el marco del texto que viene antes. Cuando abre la
+     banda no hay texto del que separarse: lo de encima es el borde de la sección,
+     que ya trae su propio respiro. */
+  .marco:first-child {
+    margin-block-start: 0;
   }
 
   /* Picture pone su propia clase en la raíz, fuera del ámbito de este archivo: por
@@ -48,7 +68,7 @@ const { src, alt, zoom = 1, class: extra } = Astro.props;
   }
 
   .marco :global(.marco__foto img) {
-    object-position: center;
+    object-position: var(--foco);
     scale: var(--zoom);
   }
 </style>
